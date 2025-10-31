@@ -1,4 +1,4 @@
-package com.anhbhn.rentcar;
+package com.anhbhn.rentcar.ui.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,6 +6,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.anhbhn.rentcar.R;
+import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
+import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
+import com.anhbhn.rentcar.data.remote.ApiClient;
+import com.anhbhn.rentcar.data.remote.ApiService;
+import com.anhbhn.rentcar.data.repository.auth.AuthRepository;
 import com.anhbhn.rentcar.utils.TokenManager;
 
 import retrofit2.Call;
@@ -16,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText inputEmail, inputPassword;
     Button btnLogin;
-    ApiService apiService;
+    AuthRepository authRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.inputPassword);
         btnLogin = findViewById(R.id.btnLogin);
 
-        apiService = ApiClient.getClient().create(ApiService.class);
+        authRepository = new AuthRepository();
 
         btnLogin.setOnClickListener(v -> {
             String email = inputEmail.getText().toString().trim();
@@ -40,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
             LoginRequest request = new LoginRequest(email, password);
 
-            apiService.login(request).enqueue(new Callback<LoginResponse>() {
+            authRepository.login(request).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {

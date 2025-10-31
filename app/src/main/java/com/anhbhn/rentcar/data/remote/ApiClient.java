@@ -1,4 +1,4 @@
-package com.anhbhn.rentcar;
+package com.anhbhn.rentcar.data.remote;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

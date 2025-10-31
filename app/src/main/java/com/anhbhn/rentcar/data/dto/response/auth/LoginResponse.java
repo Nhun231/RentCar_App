@@ -1,4 +1,4 @@
-package com.anhbhn.rentcar;
+package com.anhbhn.rentcar.data.dto.response.auth;
 
 public class LoginResponse {
     public int code;

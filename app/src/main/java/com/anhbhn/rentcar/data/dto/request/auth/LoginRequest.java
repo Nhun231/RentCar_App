@@ -1,4 +1,4 @@
-package com.anhbhn.rentcar;
+package com.anhbhn.rentcar.data.dto.request.auth;
 
 public class LoginRequest {
     String email;

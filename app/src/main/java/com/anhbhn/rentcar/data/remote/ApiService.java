@@ -1,4 +1,7 @@
-package com.anhbhn.rentcar;
+package com.anhbhn.rentcar.data.remote;
+
+import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
+import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
