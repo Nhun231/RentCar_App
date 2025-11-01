@@ -2,6 +2,7 @@ package com.anhbhn.rentcar.ui.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -9,14 +10,14 @@ import android.widget.Toast;
 import com.anhbhn.rentcar.R;
 import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
 import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
-import com.anhbhn.rentcar.data.remote.ApiClient;
-import com.anhbhn.rentcar.data.remote.ApiService;
 import com.anhbhn.rentcar.data.repository.auth.AuthRepository;
 import com.anhbhn.rentcar.utils.TokenManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import es.dmoral.toasty.Toasty;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,14 +34,14 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.inputPassword);
         btnLogin = findViewById(R.id.btnLogin);
 
-        authRepository = new AuthRepository();
+        authRepository = new AuthRepository(this);
 
         btnLogin.setOnClickListener(v -> {
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show());
+                showToast("Please enter email and password", false);
                 return;
             }
 
@@ -56,29 +57,33 @@ public class LoginActivity extends AppCompatActivity {
                             String token = res.data.csrfToken;
                             String fullName = res.data.fullName;
 
-                            //  Save token to SharedPreferences
                             TokenManager.saveToken(LoginActivity.this, token);
 
-                            runOnUiThread(() -> Toast.makeText(LoginActivity.this,
-                                    "Welcome " + fullName,
-                                    Toast.LENGTH_SHORT).show());
+                            showToast("Welcome " + fullName, true);
 
-                            // TODO: Navigate to next screen
+                            // TODO: Navigate to Home
                             // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                             // finish();
                         } else {
-                            runOnUiThread(() -> Toast.makeText(LoginActivity.this, res.message, Toast.LENGTH_SHORT).show());
+                            showToast(res.message, false);
                         }
                     } else {
-                        runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Invalid response from server", Toast.LENGTH_SHORT).show());
+                        showToast("Invalid response from server", false);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show());
+                    showToast("Network error: " + t.getMessage(), false);
                 }
             });
         });
+    }
+    private void showToast(String message, boolean success) {
+        if (success) {
+            Toasty.success(this, message, Toast.LENGTH_SHORT, true).show();
+        } else {
+            Toasty.error(this, message, Toast.LENGTH_SHORT, true).show();
+        }
     }
 }
