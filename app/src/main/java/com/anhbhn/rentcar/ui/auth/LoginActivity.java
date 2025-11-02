@@ -1,12 +1,15 @@
 package com.anhbhn.rentcar.ui.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.anhbhn.rentcar.MainActivity;
 import com.anhbhn.rentcar.R;
 import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
 import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
@@ -62,8 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                             showToast("Welcome " + fullName, true);
 
                             // TODO: Navigate to Home
-                            // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                            // finish();
+                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                             finish();
                         } else {
                             showToast(res.message, false);
                         }

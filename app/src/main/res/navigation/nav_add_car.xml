@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_add_car"
+    app:startDestination="@id/basicFragment">
+
+    <fragment
+        android:id="@+id/basicFragment"
+        android:name="com.anhbhn.rentcar.ui.car.addCar.BasicFragment"
+        android:label="AddCarBasic" >
+        <action
+            android:id="@+id/action_basicFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.anhbhn.rentcar.ui.car.addCar.DetailsFragment"
+        android:label="AddCarDetails" >
+        <action
+            android:id="@+id/action_detailsFragment_to_pricingFragment"
+            app:destination="@id/pricingFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_basicFragment"
+            app:destination="@id/basicFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pricingFragment"
+        android:name="com.anhbhn.rentcar.ui.car.addCar.PricingFragment"
+        android:label="AddCarPricing" >
+        <action
+            android:id="@+id/action_pricingFragment_to_finishFragment"
+            app:destination="@id/finishFragment" />
+        <action
+            android:id="@+id/action_pricingFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/finishFragment"
+        android:name="com.anhbhn.rentcar.ui.car.addCar.FinishFragment"
+        android:label="AddCarFinish" >
+
+        <!-- ACTION SUBMIT ĐƯA ĐẾN MÀN HÌNH THÀNH CÔNG -->
+<!--        <action-->
+<!--            android:id="@+id/action_finishFragment_to_mainScreen"-->
+<!--            app:destination="@id/myCarsScreen"-->
+<!--            app:popUpTo="@id/nav_add_car"-->
+<!--            app:popUpToInclusive="true"/> &lt;!&ndash; Xóa toàn bộ luồng 4 bước &ndash;&gt;-->
+
+        <action
+            android:id="@+id/action_finishFragment_to_pricingFragment"
+            app:destination="@id/pricingFragment" />
+    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/myCarsScreen"-->
+<!--        android:name="com.anhbhn.rentcar.ui.car.MyCarsFragment"-->
+<!--        android:label="MyCars" />-->
+
+</navigation>

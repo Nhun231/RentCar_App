@@ -1,3 +1,89 @@
 <resources>
     <string name="app_name">RentCar</string>
+
+    <string name="step_basic_title">Step 1: Basic</string>
+    <string name="step_details_title">Step 2: Add Car Details</string>
+    <string name="btn_next">NEXT</string>
+    <string name="btn_back">BACK</string>
+    <string name="btn_cancel">CANCEL</string>
+
+    <string name="hint_license_plate">License Plate * (EX: 49F-123.56)</string>
+    <string name="hint_brand_name">Brand name *</string>
+    <string name="hint_model">Model *</string>
+    <string name="hint_production_year">Production Year *</string>
+    <string name="hint_number_of_seats">Number of Seats *</string>
+    <string name="label_transmission">Transmission: *</string>
+    <string name="label_fuel">Fuel: *</string>
+    <string name="radio_automatic">AUTOMATIC</string>
+    <string name="radio_manual">MANUAL</string>
+    <string name="radio_gasoline">GASOLINE</string>
+    <string name="radio_diesel">DIESEL</string>
+    <string name="section_documents">Documents</string>
+    <string name="btn_select_registration">Select Registration paper *</string>
+    <string name="btn_select_inspection">Select Certificate of inspection *</string>
+    <string name="btn_select_insurance">Select Insurance *</string>
+    <string name="hint_color">Color of the car *</string>
+    <string name="label_registration_paper">Registration paper: *</string>
+    <string name="label_certificate_of_inspection">Certificate of inspection: *</string>
+    <string name="label_insurance">Insurance: *</string>
+
+    <string name="hint_mileage">Mileage * (km)</string>
+    <string name="hint_fuel_consumption">Fuel Consumption (L/100 km)</string>
+    <string name="section_address">Address</string>
+
+    <string name="hint_city_province">City/Province *</string>
+    <string name="hint_district">District *</string>
+    <string name="hint_ward">Ward *</string>
+
+    <string name="label_city_province">City/Province *</string>
+    <string name="label_district">District *</string>
+    <string name="label_ward">Ward *</string>
+    <string name="hint_house_street">House number, Street *</string>
+    <string name="hint_description">Description</string>
+    <string name="section_additional_functions">Additional Functions</string>
+    <string name="section_images">Images: *</string>
+    <string name="image_front">Front: *</string>
+    <string name="image_back">Back: *</string>
+    <string name="image_left">Left: *</string>
+    <string name="image_right">Right: *</string>
+    <string name="checkbox_bluetooth">Bluetooth</string>
+    <string name="checkbox_sun_roof">Sun roof</string>
+    <string name="checkbox_dvd">DVD</string>
+    <string name="checkbox_gps">GPS</string>
+    <string name="checkbox_child_lock">Child lock</string>
+    <string name="checkbox_usb">USB</string>
+    <string name="checkbox_camera">Camera</string>
+
+    <string name="checkbox_child_lock_2">Child lock</string>
+
+    <string name="note_image_upload">Please include full 4 images of your vehicle. File type: jpg, jpeg, png, gif</string>
+
+    <string name="file_select_file">Select file</string>
+    <string name="file_selected_placeholder">Selected file: %s</string>
+    <string name="step_pricing_title">Step 3: Add Car Pricing</string>
+
+    <string name="label_base_price_intro">Please enter your basePrice (VND/Day)</string>
+    <string name="hint_base_price">VND/Day *</string>
+
+    <string name="label_deposit">Required deposit: VND *</string>
+    <string name="hint_deposit">Please enter your requiredDeposit (VND)</string>
+
+    <string name="section_terms_of_use">Terms of use</string>
+    <string name="checkbox_no_smoking">No smoking</string>
+    <string name="checkbox_no_food">No food in car</string>
+    <string name="checkbox_no_pet">No pet</string>
+    <string name="checkbox_other">Other</string>
+
+    <string name="label_specify_terms">Please specify: *</string>
+    <string name="hint_specify_terms">Please enter your terms you want</string>
+
+    <string name="step_finish_title">Step 4: Add Car Finish</string>
+    <string name="btn_preview">PREVIEW</string>
+    <string name="btn_submit">SUBMIT</string>
+
+    <string name="label_ratings">Ratings:</string>
+    <string name="label_no_of_rides">No. of rides:</string>
+    <string name="label_price">Price:</string>
+    <string name="label_locations">Locations:</string>
+    <string name="label_status">Status:</string>
 </resources>
