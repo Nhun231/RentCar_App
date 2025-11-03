@@ -42,7 +42,6 @@ public class RefreshTokenInterceptor implements Interceptor {
 
         // Nếu request trả về 401 (token hết hạn)
         if (response.code() == 401) {
-            response.close(); // Đóng response cũ trước khi retry
 
             if (isRefreshing.compareAndSet(false, true)) {
                 try {
@@ -54,7 +53,7 @@ public class RefreshTokenInterceptor implements Interceptor {
                         String newToken = refreshResponse.body().data;
                         if (newToken != null && !newToken.isEmpty()) {
                             TokenManager.saveToken(context, newToken);
-
+                            response.close();
                             // Retry request với token mới
                             Request newRequest = request.newBuilder()
                                     .header("X-CSRF-TOKEN", newToken)
@@ -66,8 +65,21 @@ public class RefreshTokenInterceptor implements Interceptor {
                     // Nếu refresh thất bại → xóa token
                     TokenManager.clearToken(context);
                     // TODO: có thể broadcast sự kiện logout tại đây
+                    response.close(); // Đóng Response 401 cũ
 
-                } finally {
+                    return new Response.Builder()
+                            .request(request)
+                            .protocol(response.protocol())
+                            .code(403)
+                            .message("Token refresh failed. User logged out.")
+                            .body(okhttp3.ResponseBody.create(null, new byte[0]))
+                            .build();
+
+                } catch (Exception e) {
+                    response.close();
+                    throw e;
+                }
+                finally {
                     isRefreshing.set(false);
                 }
             }
