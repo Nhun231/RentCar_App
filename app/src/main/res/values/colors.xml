@@ -19,4 +19,17 @@
     <color name="action_error">#FF0000</color>
     <color name="background_light">#FAFAFA</color>
     <color name="background_card">#FFFFFF</color>
+
+    <color name="colorPrimary">#51B851</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#4CAF50</color>
+    <color name="gray_300">#E0E0E0</color>
+
+    <color name="white_50_opacity">#80FFFFFF</color>
+
+    <color name="material_dynamic_neutral90">#E0E0E0</color>
+    <color name="material_dynamic_primary40">#51B851</color>
+    <color name="material_dynamic_secondary90">#9E9E9E</color>
+    <color name="primary_color_or_active_text_color">#51B851</color>
+    <color name="step_active_text_color">#212121</color>
 </resources>

@@ -86,4 +86,12 @@
     <string name="label_price">Price:</string>
     <string name="label_locations">Locations:</string>
     <string name="label_status">Status:</string>
+
+    <string name="title_my_cars">My Cars</string>
+    <string name="msg_no_cars_found">You have not registered any cars yet.</string>
+    <string name="btn_view_more">VIEW DETAILS</string>
+    <string name="error_data_load_failed">Failed to load car data. Please try again.</string>
+
+    <string name="car_item_price_format">From %,dđ/day</string>
+    <string name="car_item_details_format">Year: %1$d | Status: %2$s | Address: %3$s</string>
 </resources>

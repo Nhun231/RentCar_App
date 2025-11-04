@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.anhbhn.rentcar.ui.auth.LoginActivity
+import com.anhbhn.rentcar.ui.car.addCar.AddCarActivity
+import com.anhbhn.rentcar.ui.car.myCar.MyCarsActivity
 import com.anhbhn.rentcar.ui.theme.RentCarTheme
 import com.anhbhn.rentcar.utils.TokenManager   // <--- Make sure this import is added
 
@@ -29,34 +31,7 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
-        setContentView(R.layout.activity_main)
-        // Token exists → show main screen
-//        enableEdgeToEdge()
-//        setContent {
-//            RentCarTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Welcome!",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
-//            }
-//        }
+        startActivity(Intent(this, MyCarsActivity::class.java))
+        finish()
     }
 }
-
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    RentCarTheme {
-//        Greeting("Android")
-//    }
-//}

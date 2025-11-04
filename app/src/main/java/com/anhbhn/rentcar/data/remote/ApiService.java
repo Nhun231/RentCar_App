@@ -1,9 +1,12 @@
 package com.anhbhn.rentcar.data.remote;
 
+import com.anhbhn.rentcar.data.dto.helper.PageResponse;
 import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
 import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.RefreshTokenResponse;
 import com.anhbhn.rentcar.data.dto.response.car.CarResponse;
+import com.anhbhn.rentcar.data.dto.response.car.CarThumbnailResponse;
+import com.anhbhn.rentcar.data.dto.response.car.MyCarsPageResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -33,4 +37,8 @@ public interface ApiService {
             @PartMap Map<String, RequestBody> fields,
             @Part List<MultipartBody.Part> files
     );
+    @GET("car/car-owner/my-cars")
+    Call<MyCarsPageResponse> getMyCars(@Query("page") int page,
+                                       @Query("size") int size,
+                                       @Query("sort") String sort);
 }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:background="@color/colorPrimary"
+            app:title="Add Car"
+            app:titleTextColor="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/step_indicator_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="12dp"
+            android:gravity="center"
+            android:background="@color/colorPrimary"> <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/step_1_number"
+                style="@style/StepIndicatorNumberStyle"
+                android:text="1"
+                android:background="@drawable/step_active_background"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/white"/> <TextView
+            android:id="@+id/step_1_title"
+            style="@style/StepIndicatorTitleStyle"
+            android:text="Step 1: Basic"
+            android:textColor="@color/white" /> </LinearLayout>
+
+            <View
+                android:id="@+id/line_1_2"
+                style="@style/StepIndicatorLineStyle"
+                android:background="@color/white" /> <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/step_2_number"
+                    style="@style/StepIndicatorNumberStyle"
+                    android:text="2"
+                    android:background="@drawable/step_inactive_background"
+                    android:layout_marginBottom="4dp"/>
+                <TextView
+                    android:id="@+id/step_2_title"
+                    style="@style/StepIndicatorTitleStyle"
+                    android:text="Step 2: Details"
+                    android:textColor="@color/white"/> </LinearLayout>
+
+            <View
+                android:id="@+id/line_2_3"
+                style="@style/StepIndicatorLineStyle"
+                android:background="@color/white" /> <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/step_3_number"
+                    style="@style/StepIndicatorNumberStyle"
+                    android:text="3"
+                    android:background="@drawable/step_inactive_background"
+                    android:layout_marginBottom="4dp"/>
+                <TextView
+                    android:id="@+id/step_3_title"
+                    style="@style/StepIndicatorTitleStyle"
+                    android:text="Step 3: Pricing"
+                    android:textColor="@color/white"/> </LinearLayout>
+
+            <View
+                android:id="@+id/line_3_4"
+                style="@style/StepIndicatorLineStyle"
+                android:background="@color/white" /> <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/step_4_number"
+                    style="@style/StepIndicatorNumberStyle"
+                    android:text="4"
+                    android:background="@drawable/step_inactive_background"
+                    android:layout_marginBottom="4dp"/>
+                <TextView
+                    android:id="@+id/step_4_title"
+                    style="@style/StepIndicatorTitleStyle"
+                    android:text="Step 4: Finish"
+                    android:textColor="@color/white"/> </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment_add_car"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_add_car"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

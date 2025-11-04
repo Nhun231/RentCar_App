@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginTop="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/img_car_display"
+            android:layout_width="120dp"
+            android:layout_height="90dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/gray_300"
+            android:contentDescription="Car Image" />
+
+        <ImageView
+            android:id="@+id/btn_prev_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_left"
+            app:tint="@color/white"
+            android:background="#60000000"
+            android:padding="4dp"
+            app:layout_constraintTop_toTopOf="@id/img_car_display"
+            app:layout_constraintBottom_toBottomOf="@id/img_car_display"
+            app:layout_constraintStart_toStartOf="@id/img_car_display"
+            android:contentDescription="Previous Image" />
+
+        <ImageView
+            android:id="@+id/btn_next_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_right"
+            app:tint="@color/white"
+            android:background="#60000000"
+            android:padding="4dp"
+            app:layout_constraintTop_toTopOf="@id/img_car_display"
+            app:layout_constraintBottom_toBottomOf="@id/img_car_display"
+            app:layout_constraintEnd_toEndOf="@id/img_car_display"
+            android:contentDescription="Next Image" />
+
+        <TextView
+            android:id="@+id/tv_image_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:background="@drawable/rounded_background_dark_translucent"
+            app:layout_constraintEnd_toEndOf="@id/img_car_display"
+            app:layout_constraintBottom_toBottomOf="@id/img_car_display"
+            android:layout_margin="4dp"
+            android:elevation="2dp"
+            tools:text="1/4" />
+
+        <TextView
+            android:id="@+id/tv_car_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/img_car_display"
+            app:layout_constraintEnd_toStartOf="@id/btn_menu"
+            tools:text="Acura ILX" />
+
+        <ImageView
+            android:id="@+id/btn_menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_more_vert"
+            app:tint="@color/text_secondary"
+            android:padding="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="Options Menu" />
+
+        <TextView
+            android:id="@+id/tv_car_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/tv_car_name"
+            app:layout_constraintEnd_toStartOf="@id/btn_menu"
+            app:layout_constraintTop_toBottomOf="@id/tv_car_name"
+            tools:text="Năm: 2020 | Trạng thái: AVAILABLE | Địa chỉ: Thong Nhat" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/primary_dark_green"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_car_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_car_details"
+            app:layout_constraintBottom_toTopOf="@id/btn_view_more"
+            tools:text="From 300,000đ/day" />
+
+        <Button
+            android:id="@+id/btn_view_more"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_view_more"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_price"
+            android:layout_marginTop="8dp"
+            tools:minHeight="30dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

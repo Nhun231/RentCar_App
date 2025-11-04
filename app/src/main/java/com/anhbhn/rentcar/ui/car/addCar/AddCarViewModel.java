@@ -14,6 +14,7 @@ import com.anhbhn.rentcar.data.mapper.AddCarMapper;
 import com.anhbhn.rentcar.data.repository.car.CarRepository;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -238,31 +239,63 @@ public class AddCarViewModel extends ViewModel {
             return;
         }
 
-        // 1. Ánh xạ State (CarRegistrationData) sang AddCarRequest DTO
-        //    (Cần đảm bảo hàm mapDataToRequest đã được tạo)
         AddCarRequest request = mapDataToRequest(finalData);
-
-        // 2. Gọi API thông qua Repository
         CarRepository repository = new CarRepository(context);
 
         // Gọi hàm repository và xử lý callback
+        // Dùng CarResponse làm kiểu phản hồi vì nó chứa 'code' và 'message'
         repository.addCar(request).enqueue(new Callback<CarResponse>() {
             @Override
             public void onResponse(@NonNull Call<CarResponse> call, @NonNull Response<CarResponse> response) {
-                if (response.isSuccessful()) {
-                    // Thành công: Thông báo cho Fragment
-                    submitSuccess.setValue(true);
+
+                if (response.isSuccessful() && response.body() != null) {
+                    // 1. HTTP 2xx VÀ Body không rỗng
+                    CarResponse carResponse = response.body();
+
+                    // 2. Kiểm tra mã nghiệp vụ bên trong Body
+                    if (carResponse.code == 1000) {
+                        // ✅ THÀNH CÔNG NGHIỆP VỤ (Code: 1000)
+                        submitSuccess.setValue(true);
+                    } else {
+                        // ❌ THẤT BẠI NGHIỆP VỤ (HTTP 200, nhưng Code != 1000)
+                        // Lấy thông báo lỗi chi tiết từ message
+                        String errorMsg = "Lỗi nghiệp vụ: " + carResponse.message + " (Mã: " + carResponse.code + ")";
+                        submitError.setValue(errorMsg);
+                    }
+
                 } else {
-                    // Thất bại: Xử lý lỗi HTTP (Ví dụ: 400 Bad Request)
-                    String errorMsg = "Lỗi hệ thống hoặc xác thực: Mã " + response.code();
+                    // ❌ THẤT BẠI HTTP (4xx hoặc 5xx) hoặc LỖI BODY RỖNG
+
+                    String errorMsg = "Lỗi kết nối máy chủ (Mã HTTP: " + response.code() + ")";
+
+                    // Thử đọc chi tiết lỗi từ Error Body (áp dụng cho lỗi 4xx/5xx)
+                    if (response.errorBody() != null) {
+                        try {
+                            String detailedError = response.errorBody().string();
+                            // Đối với lỗi 4xx/5xx, detailedError thường là JSON chứa code/message
+                            errorMsg += ". Chi tiết: " + detailedError;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            errorMsg += ". Lỗi đọc phản hồi lỗi.";
+                        }
+                    }
                     submitError.setValue(errorMsg);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CarResponse> call, @NonNull Throwable t) {
-                // Lỗi kết nối (Mạng, I/O)
-                submitError.setValue("Lỗi kết nối mạng: " + t.getMessage());
+                // Lỗi kết nối (Network, Timeout, Deserialization Error)
+                String failureMessage = "Lỗi kết nối mạng: " + t.getMessage();
+
+                if (t instanceof IOException) {
+                    failureMessage = "Lỗi I/O (Timeout hoặc Mạng): " + t.getMessage();
+                } else if (t instanceof com.google.gson.JsonSyntaxException) {
+                    // Đây là nơi lỗi Deserialization thường xảy ra khi body không hợp lệ
+                    failureMessage = "Lỗi phân tích cú pháp JSON: Server trả về dữ liệu không hợp lệ. " + t.getMessage();
+                }
+
+                submitError.setValue(failureMessage);
             }
         });
     }

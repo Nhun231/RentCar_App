@@ -47,6 +47,7 @@ dependencies {
     implementation("com.github.GrenderG:Toasty:1.5.2")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.squareup.okhttp3:okhttp-urlconnection:4.12.0")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.4.6")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
