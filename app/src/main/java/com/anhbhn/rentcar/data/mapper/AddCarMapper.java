@@ -41,8 +41,12 @@ public class AddCarMapper {
         fields.put("description", createPartFromString(request.getDescription()));
         fields.put("additionalFunction", createPartFromString(request.getAdditionalFunction()));
         fields.put("termOfUse", createPartFromString(request.getTermOfUse()));
-        fields.put("isAutomatic", createPartFromString(String.valueOf(request.isAutomatic())));
-        fields.put("isGasoline", createPartFromString(String.valueOf(request.isGasoline())));
+
+        String isAutomaticValue = request.isAutomatic() ? "1" : "0";
+        String isGasolineValue = request.isGasoline() ? "1" : "0";
+
+        fields.put("automatic", createPartFromString(isAutomaticValue));
+        fields.put("gasoline", createPartFromString(isGasolineValue));
 
         // --- Các file upload ---
         List<MultipartBody.Part> files = new ArrayList<>();

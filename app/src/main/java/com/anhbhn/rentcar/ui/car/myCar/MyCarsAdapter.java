@@ -1,5 +1,6 @@
 package com.anhbhn.rentcar.ui.car.myCar;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.anhbhn.rentcar.R;
 import com.anhbhn.rentcar.data.dto.response.car.CarThumbnailResponse;
 import com.anhbhn.rentcar.databinding.ItemMyCarBinding; // Đảm bảo View Binding được bật
+import com.anhbhn.rentcar.ui.car.carDetail.CarDetailActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -153,6 +155,13 @@ public class MyCarsAdapter extends RecyclerView.Adapter<MyCarsAdapter.CarViewHol
 
             binding.btnMenu.setOnClickListener(v -> {
                 Toast.makeText(context, "Showing menu for: " + car.getModel(), Toast.LENGTH_SHORT).show();
+            });
+            binding.btnViewMore.setOnClickListener(v -> {
+                // Tạo Intent và truyền ID xe
+                Intent intent = new Intent(context, CarDetailActivity.class);
+                // Đảm bảo CarThumbnailResponse có getId()
+                intent.putExtra(CarDetailActivity.EXTRA_CAR_ID, car.getId());
+                context.startActivity(intent);
             });
         }
     }

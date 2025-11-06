@@ -94,4 +94,16 @@
 
     <string name="car_item_price_format">From %,dđ/day</string>
     <string name="car_item_details_format">Year: %1$d | Status: %2$s | Address: %3$s</string>
+
+
+    <string name="action_add_car">Add car</string>
+
+    <string name="hint_sort_by">Sort By</string>
+    <string name="sort_option_newest">Production year: Newest first</string>
+    <string name="sort_option_oldest">Production year: Oldest first</string>
+    <string name="sort_option_price_low_high">Price: Low to High</string>
+    <string name="sort_option_price_high_low">Price: High to Low</string>
+    <string name="title_car_details">Car Details</string>
+    <string name="btn_save">Save</string>
+
 </resources>

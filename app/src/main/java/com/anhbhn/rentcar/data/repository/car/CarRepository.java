@@ -33,4 +33,7 @@ public class CarRepository {
         // Gọi phương thức API Service tương ứng
         return apiService.getMyCars(page, size, sort);
     }
+    public Call<CarResponse> getCarDetailsForOwner(String carId) {
+        return apiService.getCarDetailsForOwner(carId);
+    }
 }

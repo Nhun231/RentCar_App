@@ -1,9 +1,7 @@
-package com.anhbhn.rentcar.ui.car.addCar;
+package com.anhbhn.rentcar.ui.car;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CarRegistrationData {
 
@@ -13,8 +11,8 @@ public class CarRegistrationData {
     public String model;
     public Integer productionYear;
     public Integer numberOfSeats;
-    public Boolean isAutomatic;
-    public Boolean isGasoline;
+    public boolean isAutomatic;
+    public boolean isGasoline;
     public String color;
     public String registrationPaperUri;        // NEW: Lưu Path/URI file tạm
     public String certificateOfInspectionUri;  // NEW

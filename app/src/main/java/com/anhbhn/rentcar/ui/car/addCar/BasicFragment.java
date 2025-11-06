@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import androidx.navigation.Navigation;
 
 import com.anhbhn.rentcar.R;
 import com.anhbhn.rentcar.databinding.FragmentAddCarBasicBinding;
+import com.anhbhn.rentcar.ui.car.carDetail.CarDetailViewModel;
 
 import java.util.List;
 import java.util.Objects;
@@ -189,8 +191,23 @@ public class BasicFragment extends Fragment {
                 if (data.productionYear != null) binding.inputProductionYear.setText(String.valueOf(data.productionYear));
                 if (data.numberOfSeats != null) binding.inputNumberOfSeats.setText(String.valueOf(data.numberOfSeats));
 
-                if (data.isAutomatic != null && data.isAutomatic) binding.radioAutomatic.setChecked(true);
-                if (data.isGasoline != null && data.isGasoline) binding.radioGasoline.setChecked(true);
+                Log.d("DEBUG_ID_CHECK", "--- Transmission Check ---");
+                Log.d("DEBUG_ID_CHECK", "Checked  (Runtime): " + data.isAutomatic);
+                Log.d("DEBUG_ID_CHECK", "--- Fuel Check ---");
+                Log.d("DEBUG_ID_CHECK", "Checked  (Runtime): " + data.isGasoline);
+                if (data.isAutomatic) {
+                    binding.radioAutomatic.setChecked(true); // Nếu là TRUE (Tự động)
+                } else {
+                    // Nếu là FALSE (tức là Số sàn)
+                    binding.radioManual.setChecked(true);
+                }
+
+                if (data.isGasoline) {
+                    binding.radioGasoline.setChecked(true); // Nếu là TRUE (Xăng)
+                } else {
+                    // Nếu là FALSE (tức là Dầu Diesel)
+                    binding.radioDiesel.setChecked(true);
+                }
 
                 if (data.registrationPaperUri != null) this.registrationUri = data.registrationPaperUri;
                 if (data.certificateOfInspectionUri != null) this.inspectionUri = data.certificateOfInspectionUri;
@@ -203,31 +220,69 @@ public class BasicFragment extends Fragment {
     // --- LOGIC NÚT BẤM VÀ XÁC THỰC (Đã có sẵn) ---
 
     private void setupButtons() {
-        // Nút NEXT và CANCEL
-        binding.btnNextBasic.setOnClickListener(v -> {
-            if (!validateAndProcessInputs()) {
-                return;
+// GÁN LISTENER CHUNG CHO NÚT CHỌN FILE (Giữ nguyên)
+        binding.docRegistration.btnSelectFile.setOnClickListener(v -> registrationPaperPicker.launch("*/*"));
+        binding.docInspection.btnSelectFile.setOnClickListener(v -> inspectionCertificatePicker.launch("*/*"));
+        binding.docInsurance.btnSelectFile.setOnClickListener(v -> insurancePicker.launch("*/*"));
+
+        // --- LOGIC CHUYỂN ĐỔI MODE SỬ DỤNG LIVEDATA ---
+
+        addCarViewModel.getIsEditMode().observe(getViewLifecycleOwner(), isEditMode -> {
+
+            if (isEditMode) {
+                // CHẾ ĐỘ DETAIL/EDIT (Nút SAVE)
+
+                // Ẩn Container chứa NEXT/CANCEL
+                if (binding.addCarActions != null) {
+                    binding.addCarActions.setVisibility(View.GONE);
+                }
+
+                // Hiển thị nút SAVE
+                if (binding.btnSaveDetail != null) {
+                    binding.btnSaveDetail.setVisibility(View.VISIBLE);
+
+                    binding.btnSaveDetail.setOnClickListener(v -> {
+                        if (!validateAndProcessInputs()) {
+                            return;
+                        }
+
+                        // Lấy Car ID cần Update (giả định đã lưu trong CarRegistrationData)
+//                        String carId = addCarViewModel.getRegistrationData().getValue().carId;
+
+                        // Gọi hàm Update API (cần được định nghĩa trong ViewModel)
+//                        addCarViewModel.updateCarDetails(carId, requireContext());
+
+                        Toast.makeText(getContext(), "Đang lưu thông tin cơ bản...", Toast.LENGTH_SHORT).show();
+                    });
+                }
+
+            } else {
+                // CHẾ ĐỘ ADD CAR (Nút NEXT/CANCEL)
+
+                // Hiển thị Container chứa NEXT/CANCEL
+                if (binding.addCarActions != null) {
+                    binding.addCarActions.setVisibility(View.VISIBLE);
+                }
+
+                // Ẩn nút SAVE
+                if (binding.btnSaveDetail != null) {
+                    binding.btnSaveDetail.setVisibility(View.GONE);
+                }
+
+                // Thiết lập Listener cho nút NEXT
+                binding.btnNextBasic.setOnClickListener(v -> {
+                    if (!validateAndProcessInputs()) {
+                        return;
+                    }
+                    addCarViewModel.setStep(2);
+                    Navigation.findNavController(v).navigate(R.id.action_basicFragment_to_detailsFragment);
+                });
+
+                // Thiết lập Listener cho nút CANCEL
+                binding.btnCancel.setOnClickListener(v -> {
+                    Navigation.findNavController(v).navigate(R.id.action_basicFragment_to_myCarsActivity);
+                });
             }
-            addCarViewModel.setStep(2);
-            Navigation.findNavController(v).navigate(R.id.action_basicFragment_to_detailsFragment);
-        });
-
-        binding.btnCancel.setOnClickListener(v -> {
-            // Hành động CANCEL
-            // Navigation.findNavController(v).navigate(R.id.action_global_to_myCarsScreen);
-        });
-
-        // GÁN LISTENER CHO NÚT CHỌN FILE (ĐÃ SỬA LỖI LOGIC)
-        binding.docRegistration.btnSelectFile.setOnClickListener(v -> {
-            registrationPaperPicker.launch("*/*");
-        });
-
-        binding.docInspection.btnSelectFile.setOnClickListener(v -> {
-            inspectionCertificatePicker.launch("*/*");
-        });
-
-        binding.docInsurance.btnSelectFile.setOnClickListener(v -> {
-            insurancePicker.launch("*/*");
         });
     }
 
@@ -247,16 +302,12 @@ public class BasicFragment extends Fragment {
             int seats = Integer.parseInt(binding.inputNumberOfSeats.getText().toString());
 
             // Xử lý Radio Button: Kiểm tra RadioGroup
-            boolean isAutomatic = binding.rgTransmission.getCheckedRadioButtonId() == binding.radioAutomatic.getId();
-            boolean isManual = binding.rgTransmission.getCheckedRadioButtonId() == binding.radioManual.getId();
+            boolean isAutomatic = binding.rgTransmission.getCheckedRadioButtonId() == R.id.radio_automatic;
 
-            boolean isGasoline = binding.rgFuel.getCheckedRadioButtonId() == binding.radioGasoline.getId();
-            boolean isDiesel = binding.rgFuel.getCheckedRadioButtonId() == binding.radioDiesel.getId();
-
+            boolean isGasoline = binding.rgFuel.getCheckedRadioButtonId() == R.id.radio_gasoline;
 
             // B. Xác thực cơ bản
             if (lp.isEmpty() || brand.isEmpty() || model.isEmpty() || color.isEmpty() ||
-                    (!isAutomatic && !isManual) || (!isGasoline && !isDiesel) || // Kiểm tra phải chọn hộp số và nhiên liệu
                     registrationUri.isEmpty() || inspectionUri.isEmpty() || insuranceUri.isEmpty()) {
 
                 Toast.makeText(getContext(), "Vui lòng điền và chọn đủ thông tin bắt buộc, bao gồm cả tài liệu.", Toast.LENGTH_LONG).show();

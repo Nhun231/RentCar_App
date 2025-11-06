@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_options_display">
+        <item>@string/sort_option_newest</item>
+        <item>@string/sort_option_oldest</item>
+        <item>@string/sort_option_price_low_high</item>
+        <item>@string/sort_option_price_high_low</item>
+    </string-array>
+</resources>

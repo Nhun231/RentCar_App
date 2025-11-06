@@ -146,26 +146,73 @@ public class PricingFragment extends Fragment {
         binding.inputTermsSpecify.setText(remainingText.toString());
     }
     private void setupActionButtons() {
-        // Nút NEXT: Chuyển sang Finish (Step 4)
-        binding.btnNextPricing.setOnClickListener(v -> {
-            if (!validateAndProcessInputs()) {
-                return;
+
+        // --- LOGIC CHUYỂN ĐỔI MODE SỬ DỤNG LIVEDATA ---
+
+        // Giả định addCarViewModel đã được khởi tạo
+        addCarViewModel.getIsEditMode().observe(getViewLifecycleOwner(), isEditMode -> {
+
+            if (isEditMode) {
+                // 1. CHẾ ĐỘ DETAIL/EDIT (Nút SAVE)
+
+                // Ẩn Container chứa BACK/NEXT/CANCEL
+                // (Bạn cần thêm ID cho container này trong XML)
+                if (binding.addCarActions != null) {
+                    binding.addCarActions.setVisibility(View.GONE);
+                }
+
+                // Hiển thị nút SAVE
+                if (binding.btnSaveDetail != null) {
+                    binding.btnSaveDetail.setVisibility(View.VISIBLE);
+
+                    binding.btnSaveDetail.setOnClickListener(v -> {
+                        if (!validateAndProcessInputs()) {
+                            return;
+                        }
+
+//                        // Lấy Car ID cần Update (cần lưu trong CarRegistrationData)
+//                        String carId = addCarViewModel.getRegistrationData().getValue().carId;
+//
+//                        // Gọi hàm Update API cho toàn bộ dữ liệu
+//                        addCarViewModel.updateCarDetails(carId, requireContext());
+
+                        Toast.makeText(getContext(), "Đang lưu thay đổi giá và điều khoản...", Toast.LENGTH_SHORT).show();
+                    });
+                }
+
+            } else {
+                // 2. CHẾ ĐỘ ADD CAR (Nút BACK/NEXT/CANCEL)
+
+                // Hiển thị Container chứa BACK/NEXT/CANCEL
+                if (binding.addCarActions != null) {
+                    binding.addCarActions.setVisibility(View.VISIBLE);
+                }
+
+                // Ẩn nút SAVE
+                if (binding.btnSaveDetail != null) {
+                    binding.btnSaveDetail.setVisibility(View.GONE);
+                }
+
+                // Thiết lập Listener cho nút NEXT (Chuyển sang Finish - Step 4)
+                binding.btnNextPricing.setOnClickListener(v -> {
+                    if (!validateAndProcessInputs()) {
+                        return;
+                    }
+                    addCarViewModel.setStep(4);
+                    Navigation.findNavController(v).navigate(R.id.action_pricingFragment_to_finishFragment);
+                });
+
+                // Thiết lập Listener cho nút BACK (Quay lại Details - Step 2)
+                binding.btnBackPricing.setOnClickListener(v -> {
+                    addCarViewModel.setStep(2);
+                    Navigation.findNavController(v).navigate(R.id.action_pricingFragment_to_detailsFragment);
+                });
+
+                // Thiết lập Listener cho nút CANCEL
+                binding.btnCancel.setOnClickListener(v -> {
+                    Navigation.findNavController(v).navigate(R.id.action_pricingFragment_to_myCarsActivity);
+                });
             }
-            // Cập nhật bước và chuyển Navigation
-            addCarViewModel.setStep(4);
-            Navigation.findNavController(v).navigate(R.id.action_pricingFragment_to_finishFragment);
-        });
-
-        // Nút BACK: Quay lại Details (Step 2)
-        binding.btnBackPricing.setOnClickListener(v -> {
-            addCarViewModel.setStep(2);
-            Navigation.findNavController(v).navigate(R.id.action_pricingFragment_to_detailsFragment);
-        });
-
-        // Nút CANCEL (Tùy chọn)
-        binding.btnCancel.setOnClickListener(v -> {
-            // Thực hiện hành động hủy bỏ, ví dụ: quay về màn hình danh sách xe
-            // Navigation.findNavController(v).navigate(R.id.action_global_to_myCarsScreen);
         });
     }
 

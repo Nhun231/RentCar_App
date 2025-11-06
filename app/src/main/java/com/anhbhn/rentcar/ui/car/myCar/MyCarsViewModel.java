@@ -1,5 +1,6 @@
 package com.anhbhn.rentcar.ui.car.myCar;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -20,6 +21,9 @@ import retrofit2.Response;
 public class MyCarsViewModel extends ViewModel {
 
     private static final String TAG = "MyCarsViewModel";
+    private String currentSortParameter = "productionYear,DESC";
+    private final MutableLiveData<String> _pageIndicator = new MutableLiveData<>("0 / 0");
+    public LiveData<String> getPageIndicator() { return _pageIndicator; }
 
     // --- LiveData for UI ---
     private final MutableLiveData<List<CarThumbnailResponse>> _carList = new MutableLiveData<>(new ArrayList<>());
@@ -37,38 +41,41 @@ public class MyCarsViewModel extends ViewModel {
     // --- Pagination State & Repository ---
     private CarRepository carRepository;
     private int currentPage = 0;
-    private final int pageSize = 10;
-    private boolean isLastPage = false;
-    private final String defaultSort = "productionYear,DESC";
+    private int pageToLoad = 0; // Trang mục tiêu đang cố gắng tải
+    private final int pageSize = 5;
+    private int totalPages = 0;
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
 
     public MyCarsViewModel() {
-        // Khởi tạo không tham số để sử dụng ViewModelProvider mặc định
+        // Khởi tạo không tham số
     }
 
     /**
      * Initializes the CarRepository. Must be called from the Activity/Fragment lifecycle.
-     * @param context Application/Activity context.
      */
     public void initializeRepository(Context context) {
         if (carRepository == null) {
             carRepository = new CarRepository(context);
         }
-        // Load first page if list is empty and not currently loading
+        // Tải trang đầu tiên
         if (_carList.getValue().isEmpty() && !Boolean.TRUE.equals(_isLoading.getValue())) {
             loadCars(true);
         }
     }
 
     /**
-     * Returns the current last page status. Used by the PaginationScrollListener.
+     * Returns the current last page status.
      */
     public boolean isLastPage() {
-        return isLastPage;
+        // Trả về true nếu trang hiện tại là trang cuối cùng (totalPages - 1)
+        return currentPage >= totalPages - 1 && totalPages > 0;
     }
 
     /**
      * Loads car data from the API, handling pagination and loading state.
-     * @param isInitialLoad True if it's the first load or a Refresh operation.
      */
     public void loadCars(boolean isInitialLoad) {
         if (carRepository == null) {
@@ -76,74 +83,92 @@ public class MyCarsViewModel extends ViewModel {
             _errorMessage.setValue("Error initializing data repository.");
             return;
         }
-
-        if (isLastPage && !isInitialLoad) {
-            Log.d(TAG, "Reached last page.");
-            return;
-        }
-        if (Boolean.TRUE.equals(_isLoading.getValue())) {
-            Log.d(TAG, "Already loading, ignoring request.");
-            return;
-        }
+        if (Boolean.TRUE.equals(_isLoading.getValue())) return;
 
         _isLoading.setValue(true);
+
         if (isInitialLoad) {
+            pageToLoad = 0; // 🌟 RESET TRANG MỤC TIÊU KHI TẢI LẠI 🌟
             currentPage = 0;
-            isLastPage = false;
-        } else {
-            currentPage++;
+            totalPages = 0;
         }
 
-        Log.d(TAG, "Loading page: " + currentPage);
+        Log.d(TAG, "Loading page: " + pageToLoad);
 
-        carRepository.getMyCars(currentPage, pageSize, defaultSort)
+        // Gọi API với TRANG MỤC TIÊU
+        carRepository.getMyCars(pageToLoad, pageSize, currentSortParameter)
                 .enqueue(new Callback<MyCarsPageResponse>() {
                     @Override
-                    public void onResponse(Call<MyCarsPageResponse> call, Response<MyCarsPageResponse> response) {
+                    public void onResponse(@NonNull Call<MyCarsPageResponse> call, @NonNull Response<MyCarsPageResponse> response) {
                         _isLoading.setValue(false);
 
                         if (response.isSuccessful() && response.body() != null) {
                             MyCarsPageResponse rootResponse = response.body();
 
-                            if (rootResponse.getCode() == 1000) {
+                            if (rootResponse.getCode() == 1000 && rootResponse.getData() != null) {
 
                                 PageResponse<CarThumbnailResponse> pageData = rootResponse.getData();
                                 List<CarThumbnailResponse> newCars = pageData.getContent();
 
-                                // Update pagination state
-                                isLastPage = pageData.isLast();
+                                // Cập nhật trạng thái nội bộ sau khi tải thành công
+                                currentPage = pageData.getNumber();
+                                totalPages = pageData.getTotalPages();
+                                // isLastPage được cập nhật thông qua hàm isLastPage()
 
-                                // Update LiveData (Handle Refresh vs Load More)
-                                if (isInitialLoad) {
-                                    _carList.setValue(newCars);
-                                } else {
-                                    List<CarThumbnailResponse> currentList = _carList.getValue();
-                                    if (currentList == null) currentList = new ArrayList<>();
-                                    currentList.addAll(newCars);
-                                    _carList.setValue(currentList);
-                                }
+                                int currentPageDisplay = pageData.getNumber() + 1;
+                                _pageIndicator.setValue(String.format("%d / %d", currentPageDisplay, totalPages));
+
+                                // Thay thế dữ liệu hiện tại
+                                _carList.setValue(newCars);
                             } else {
-                                // Business error from server
-                                String msg = "Business error: " + rootResponse.getMessage();
-                                _errorMessage.setValue(msg);
-                                Log.e(TAG, msg);
+                                // Lỗi nghiệp vụ
+                                _errorMessage.setValue("Business error: " + rootResponse.getMessage());
                             }
                         } else {
-                            // HTTP Error
-                            String msg = "HTTP Error: " + response.code() + ". Message: " + response.message();
-                            _errorMessage.setValue(msg);
-                            Log.e(TAG, msg);
+                            // Lỗi HTTP
+                            _errorMessage.setValue("HTTP Error: " + response.code());
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<MyCarsPageResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<MyCarsPageResponse> call, @NonNull Throwable t) {
                         _isLoading.setValue(false);
-                        String msg = "Network failure: " + t.getMessage();
-                        _errorMessage.setValue(msg);
-                        Log.e(TAG, msg, t);
+
+                        // KHÔNG CẦN ROLLBACK TRANG ở đây vì pageToLoad/currentPage không bị thay đổi trước đó
+                        _errorMessage.setValue("Network failure: " + t.getMessage());
                     }
                 });
+    }
+
+    public void setCurrentSortParameter(String sortParam) {
+        if (sortParam == null || sortParam.isEmpty()) {
+            sortParam = "productionYear,DESC";
+        }
+
+        if (!this.currentSortParameter.equals(sortParam)) {
+            this.currentSortParameter = sortParam;
+            loadCars(true); // Tải lại từ trang 0
+        }
+    }
+
+    // ------------------------------------------
+    // CÁC HÀM ĐIỀU HƯỚNG
+    // ------------------------------------------
+
+    public void goToNextPage() {
+        if (currentPage < totalPages - 1 && totalPages > 0) {
+            pageToLoad = currentPage + 1; // Tính trang tiếp theo
+            loadCars(false);
+        } else if (totalPages == 0) {
+            loadCars(true);
+        }
+    }
+
+    public void goToPrevPage() {
+        if (currentPage > 0) {
+            pageToLoad = currentPage - 1; // Tính trang trước đó
+            loadCars(false);
+        }
     }
 
     /**

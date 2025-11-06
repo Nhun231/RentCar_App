@@ -1,5 +1,7 @@
 package com.anhbhn.rentcar.data.dto.response.car;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CarResponse {
     public int code;
     public String message;
@@ -22,7 +24,9 @@ public class CarResponse {
         public String description;
         public String additionalFunction;
         public String termOfUse;
+        @SerializedName("automatic")
         public boolean isAutomatic;
+        @SerializedName("gasoline")
         public boolean isGasoline;
 
         // Documents

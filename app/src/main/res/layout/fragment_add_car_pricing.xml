@@ -104,6 +104,7 @@
 
 
         <LinearLayout
+            android:id="@+id/add_car_actions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -131,6 +132,14 @@
                 android:backgroundTint="@color/action_next_submit"
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
+        <Button
+            android:id="@+id/btn_save_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/btn_save"
+            android:visibility="gone"
+            android:backgroundTint="@color/action_next_submit" />
 
     </LinearLayout>
 </ScrollView>

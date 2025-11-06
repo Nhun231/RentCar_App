@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView; // Cần thiết để hiển thị thông tin bổ sung
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +15,7 @@ import androidx.navigation.Navigation;
 
 import com.anhbhn.rentcar.R;
 import com.anhbhn.rentcar.databinding.FragmentAddCarFinishBinding;
+import com.anhbhn.rentcar.ui.car.CarRegistrationData;
 import com.bumptech.glide.Glide;
 
 import java.text.NumberFormat;
@@ -130,18 +130,16 @@ public class FinishFragment extends Fragment {
         // Quan sát trạng thái thành công
         addCarViewModel.submitSuccess.observe(getViewLifecycleOwner(), isSuccess -> {
             if (isSuccess != null && isSuccess) {
-                // 1. THÀNH CÔNG: Hiển thị Toast và điều hướng
+                // 1. THÀNH CÔNG: Hiển thị Toast
                 Toast.makeText(getContext(), "🎉 Thêm xe thành công! Xe đang chờ phê duyệt.", Toast.LENGTH_LONG).show();
 
-                // 2. Điều hướng về màn hình chính (hoặc màn hình quản lý xe)
-                // LƯU Ý: Đây là nơi bạn sẽ finish() AddCarActivity nếu dùng Activity riêng.
-                // Nếu đang test trong MainActivity, bạn cần pop Fragment này khỏi stack.
-                // Ví dụ: Đóng AddCar flow và về màn hình Home
-                // Navigation.findNavController(requireView()).navigate(R.id.action_global_homeScreen);
+                // 2. Reset LiveData trước khi điều hướng để ngăn kích hoạt lại khi quay lại
+                addCarViewModel.submitSuccess.setValue(null);
+
+                // 3. Kích hoạt Navigation
+                // Điều hướng về MyCarsActivity và xóa toàn bộ luồng Add Car khỏi Back Stack
+                Navigation.findNavController(binding.getRoot()).navigate(R.id.action_finishFragment_to_myCarsActivity);
             }
-            // Xóa giá trị LiveData để không kích hoạt lại khi thay đổi cấu hình
-            addCarViewModel.submitSuccess.setValue(null);
-            binding.btnSubmitFinish.setEnabled(true); // Kích hoạt lại nút (trừ khi bạn đã điều hướng)
         });
 
         // Quan sát trạng thái thất bại
@@ -152,10 +150,12 @@ public class FinishFragment extends Fragment {
                 Toast.makeText(getContext(), displayMessage, Toast.LENGTH_LONG).show();
 
                 // 2. Kích hoạt lại nút SUBMIT
+                // Đặt lại cờ này trước khi reset LiveData
                 binding.btnSubmitFinish.setEnabled(true);
+
+                // 3. Reset LiveData sau khi xử lý xong thông báo lỗi
+                addCarViewModel.submitError.setValue(null);
             }
-            // Xóa giá trị LiveData để không kích hoạt lại
-            addCarViewModel.submitError.setValue(null);
         });
     }
 

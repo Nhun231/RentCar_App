@@ -1,17 +1,20 @@
 package com.anhbhn.rentcar.ui.car.addCar;
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.anhbhn.rentcar.data.dto.helper.AddCarFormData;
 import com.anhbhn.rentcar.data.dto.request.car.AddCarRequest;
 import com.anhbhn.rentcar.data.dto.response.car.CarResponse;
-import com.anhbhn.rentcar.data.mapper.AddCarMapper;
+import com.anhbhn.rentcar.data.mapper.CarDetailMapper;
 import com.anhbhn.rentcar.data.repository.car.CarRepository;
+import com.anhbhn.rentcar.ui.car.CarRegistrationData;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -51,6 +54,14 @@ public class AddCarViewModel extends ViewModel {
     private final MutableLiveData<List<String>> availableCities = new MutableLiveData<>();
     public final MutableLiveData<Boolean> submitSuccess = new MutableLiveData<>();
     public final MutableLiveData<String> submitError = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isEditMode = new MutableLiveData<>(false);
+
+    private CarRepository repository;
+    private void ensureRepositoryInitialized(Context context) {
+        if (this.repository == null) {
+            this.repository = new CarRepository(context);
+        }
+    }
     public AddCarViewModel() {
         // Khởi tạo LiveData COLORS tĩnh ngay trong constructor
         availableColors.setValue(STATIC_COLORS);
@@ -64,6 +75,11 @@ public class AddCarViewModel extends ViewModel {
 
     public MutableLiveData<Integer> getCurrentStep() {
         return currentStep;
+    }
+    public LiveData<Boolean> getIsEditMode() { return isEditMode; }
+
+    public void setEditMode(boolean isEdit) {
+        isEditMode.setValue(isEdit);
     }
 
     public void setStep(int step) {
@@ -240,7 +256,7 @@ public class AddCarViewModel extends ViewModel {
         }
 
         AddCarRequest request = mapDataToRequest(finalData);
-        CarRepository repository = new CarRepository(context);
+        ensureRepositoryInitialized(context);
 
         // Gọi hàm repository và xử lý callback
         // Dùng CarResponse làm kiểu phản hồi vì nó chứa 'code' và 'message'
@@ -332,8 +348,8 @@ public class AddCarViewModel extends ViewModel {
                 data.termsOfUseCombined,
 
                 // 5. Booleans
-                data.isAutomatic != null ? data.isAutomatic : false,
-                data.isGasoline != null ? data.isGasoline : false,
+                data.isAutomatic,
+                data.isGasoline,
 
                 // 6. FILES (URIs - phải khớp với thứ tự Constructor)
                 Uri.parse(data.registrationPaperUri),
@@ -371,5 +387,47 @@ public class AddCarViewModel extends ViewModel {
         }
         // Nối các chức năng phụ bằng ", "
         return String.join(", ", data.selectedFunctions);
+    }
+
+    public void fetchCarDetailsForEdit(String carId, Context context) {
+        ensureRepositoryInitialized(context);
+
+        if (repository == null) {
+            Log.e(TAG, "CarRepository is not initialized! Cannot fetch details.");
+            return;
+        }
+
+        repository.getCarDetailsForOwner(carId).enqueue(new Callback<CarResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CarResponse> call, @NonNull Response<CarResponse> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+                    CarResponse apiResponse = response.body();
+
+                    if (apiResponse.code == 1000) {
+                        // ... (Logic thành công) ...
+                        CarRegistrationData mappedData = CarDetailMapper.mapToRegistrationData(apiResponse.data);
+                        registrationData.postValue(mappedData);
+                        Log.i(TAG, "Car details loaded successfully.");
+                    } else {
+                        // ❌ ĐÃ SỬA: Lỗi nghiệp vụ chỉ ghi Log
+                        String errorMsg = "Lỗi nghiệp vụ: " + apiResponse.message;
+                        Log.e(TAG, errorMsg);
+                    }
+
+                } else {
+                    // ❌ ĐÃ SỬA: Lỗi HTTP chỉ ghi Log
+                    String errorMsg = "Lỗi HTTP: " + response.code();
+                    Log.e(TAG, errorMsg);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CarResponse> call, @NonNull Throwable t) {
+                // ❌ ĐÃ SỬA: Lỗi kết nối mạng chỉ ghi Log
+                String errorMsg = "Lỗi kết nối mạng: " + t.getMessage();
+                Log.e(TAG, errorMsg);
+            }
+        });
     }
 }
