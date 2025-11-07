@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.anhbhn.rentcar.data.dto.request.car.AddCarRequest;
+import com.anhbhn.rentcar.data.dto.request.car.EditCarRequest;
 import com.anhbhn.rentcar.data.dto.response.car.CarResponse;
 import com.anhbhn.rentcar.data.mapper.CarDetailMapper;
 import com.anhbhn.rentcar.data.repository.car.CarRepository;
@@ -55,6 +56,7 @@ public class AddCarViewModel extends ViewModel {
     public final MutableLiveData<Boolean> submitSuccess = new MutableLiveData<>();
     public final MutableLiveData<String> submitError = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isEditMode = new MutableLiveData<>(false);
+    public final MutableLiveData<Boolean> editSuccess = new MutableLiveData<>();
 
     private CarRepository repository;
     private void ensureRepositoryInitialized(Context context) {
@@ -77,6 +79,7 @@ public class AddCarViewModel extends ViewModel {
         return currentStep;
     }
     public LiveData<Boolean> getIsEditMode() { return isEditMode; }
+    public LiveData<Boolean> getEditSuccess() { return editSuccess; }
 
     public void setEditMode(boolean isEdit) {
         isEditMode.setValue(isEdit);
@@ -84,6 +87,9 @@ public class AddCarViewModel extends ViewModel {
 
     public void setStep(int step) {
         currentStep.setValue(step);
+    }
+    public void resetEditSuccessStatus() {
+        editSuccess.setValue(null);
     }
     //-------------
     /**
@@ -367,10 +373,10 @@ public class AddCarViewModel extends ViewModel {
      */
     private String combineAddress(CarRegistrationData data) {
         List<String> parts = Arrays.asList(
-                data.addressCityProvince,
-                data.addressDistrict,
-                data.addressWard,
-                data.addressHouseNumberStreet
+                data.addressCityProvince, // 1. Số nhà/Đường (Ví dụ: 211)
+                data.addressDistrict,              // 2. Phường/Xã
+                data.addressWard,          // 3. Quận/Huyện
+                data.addressHouseNumberStreet       // 4. Tỉnh/Thành phố
         );
         // Lọc bỏ null/empty và nối bằng ", "
         return parts.stream()
@@ -430,4 +436,81 @@ public class AddCarViewModel extends ViewModel {
             }
         });
     }
+
+    public void editCarData(String carId, Context context) {
+        CarRegistrationData finalData = registrationData.getValue();
+        if (finalData == null) {
+            submitError.setValue("Dữ liệu xe không hoàn chỉnh.");
+            return;
+        }
+
+        // Ánh xạ dữ liệu UI sang EditCarRequest DTO
+        EditCarRequest request = mapEditDataToRequest(finalData);
+        ensureRepositoryInitialized(context);
+
+        if (repository == null) {
+            submitError.setValue("Repository chưa được khởi tạo.");
+            return;
+        }
+
+        // Gọi hàm repository và xử lý callback
+        repository.editCar(carId, request).enqueue(new Callback<CarResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CarResponse> call, @NonNull Response<CarResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    CarResponse carResponse = response.body();
+                    if (carResponse.code == 1000) {
+                        // ✅ THÀNH CÔNG
+                        editSuccess.setValue(true); // Cập nhật LiveData thành công cho Edit
+                    } else {
+                        // ❌ THẤT BẠI NGHIỆP VỤ
+                        String errorMsg = "Lỗi nghiệp vụ: " + carResponse.message;
+                        submitError.setValue(errorMsg);
+                    }
+                } else {
+                    // ❌ THẤT BẠI HTTP
+                    String errorMsg = "Lỗi kết nối máy chủ (Mã HTTP: " + response.code() + ")";
+                    submitError.setValue(errorMsg);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CarResponse> call, @NonNull Throwable t) {
+                // Lỗi kết nối
+                String failureMessage = "Lỗi kết nối mạng: " + t.getMessage();
+                submitError.setValue(failureMessage);
+            }
+        });
+    }
+
+    /**
+     * Ánh xạ CarRegistrationData sang EditCarRequest.
+     */
+    private EditCarRequest mapEditDataToRequest(CarRegistrationData data) {
+
+        // Gộp địa chỉ và chức năng phụ
+        String fullAddress = combineAddress(data);
+        String finalFunctions = combineFunctions(data);
+
+        // Trạng thái được lấy từ trường status của CarRegistrationData
+        String finalStatus = data.status;
+
+        return new EditCarRequest(
+                data.mileage != null ? data.mileage : 0f,
+                data.fuelConsumption != null ? data.fuelConsumption : 0f,
+                fullAddress,
+                data.description,
+                finalFunctions,
+                data.termsOfUseCombined,
+                data.basePrice != null ? data.basePrice : 0L,
+                data.requiredDeposit != null ? data.requiredDeposit : 0L,
+                finalStatus,
+                // Files (Chuyển từ String URI/URL sang Uri object)
+                data.carImageFrontUri != null ? Uri.parse(data.carImageFrontUri) : null,
+                data.carImageBackUri != null ? Uri.parse(data.carImageBackUri) : null,
+                data.carImageLeftUri != null ? Uri.parse(data.carImageLeftUri) : null,
+                data.carImageRightUri != null ? Uri.parse(data.carImageRightUri) : null
+        );
+    }
+
 }

@@ -1,6 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    android:layout_margin="8dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/left_placeholder_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="35"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_logo_or_car"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="25dp"
+                tools:src="@tools:sample/avatars" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/right_details_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="65">
+
+            <TextView
+                android:id="@+id/tv_car_model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Acura ILX" />
+
+            <TextView
+                android:id="@+id/label_ratings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/label_ratings"
+                android:textColor="@color/gray_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_car_model" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="0"
+                android:progressTint="@color/rating_stars"
+                app:layout_constraintBottom_toBottomOf="@id/label_ratings"
+                app:layout_constraintStart_toEndOf="@id/label_ratings"
+                app:layout_constraintTop_toTopOf="@id/label_ratings" />
+
+            <TextView
+                android:id="@+id/label_rides"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/label_no_of_rides"
+                android:textColor="@color/gray_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_ratings" />
+
+            <TextView
+                android:id="@+id/tv_rides_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/label_rides"
+                app:layout_constraintStart_toEndOf="@id/label_rides"
+                app:layout_constraintTop_toTopOf="@id/label_rides"
+                tools:text="0" />
+
+            <TextView
+                android:id="@+id/label_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/label_price"
+                android:textColor="@color/gray_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_rides" />
+
+            <TextView
+                android:id="@+id/tv_price_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textStyle="bold"
+                android:textColor="@color/red_price"
+                app:layout_constraintBottom_toBottomOf="@id/label_price"
+                app:layout_constraintStart_toEndOf="@id/label_price"
+                app:layout_constraintTop_toTopOf="@id/label_price"
+                tools:text="4K /day" />
+
+            <TextView
+                android:id="@+id/label_locations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/label_locations"
+                android:textColor="@color/gray_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_price" />
+
+            <TextView
+                android:id="@+id/tv_locations_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/label_locations"
+                app:layout_constraintTop_toTopOf="@id/label_locations"
+                tools:text="Thành phố Hà Nội, Quận Ba Đình, Phường Phúc Xá, 211" />
+
+            <TextView
+                android:id="@+id/label_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/label_status"
+                android:textColor="@color/gray_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_locations_value" />
+
+            <LinearLayout
+                android:id="@+id/status_dropdown_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_status_not_verified"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="@id/label_status"
+                app:layout_constraintStart_toEndOf="@id/label_status"
+                app:layout_constraintTop_toTopOf="@id/label_status">
+
+                <TextView
+                    android:id="@+id/tv_status_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/status_not_verified_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="NOT VERIFIED" />
+
+                <ImageView
+                    android:id="@+id/iv_dropdown_arrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_arrow_drop_down"
+                    app:tint="@color/status_not_verified_text" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

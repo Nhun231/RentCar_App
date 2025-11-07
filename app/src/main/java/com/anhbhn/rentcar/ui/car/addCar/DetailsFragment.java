@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 // Để tải ảnh từ URI
+import com.anhbhn.rentcar.ui.car.CarRegistrationData;
 import com.bumptech.glide.Glide;
 
 public class DetailsFragment extends Fragment {
@@ -70,6 +71,7 @@ public class DetailsFragment extends Fragment {
 
         // Load dữ liệu đã lưu sau khi mọi thứ đã được thiết lập (quan trọng)
         loadSavedData();
+        observeEditResult();
     }
     private void setImageTitles() {
 
@@ -320,11 +322,17 @@ public class DetailsFragment extends Fragment {
                             return;
                         }
 
-//                        // Lấy Car ID cần Update
-//                        String carId = addCarViewModel.getRegistrationData().getValue().carId;
-//
-//                        // Gọi hàm Update API cho toàn bộ dữ liệu (cần được định nghĩa trong ViewModel)
-//                        addCarViewModel.updateCarDetails(carId, requireContext());
+                        // Lấy Car ID cần Update
+                        CarRegistrationData data = addCarViewModel.getRegistrationData().getValue();
+                        String carIdToUpdate = (data != null) ? data.carId : null;
+                        if (carIdToUpdate == null || carIdToUpdate.isEmpty()) {
+                            Toast.makeText(getContext(), "Lỗi: Không tìm thấy ID xe để cập nhật.", Toast.LENGTH_LONG).show();
+                            // Có thể gọi lại fetch details nếu cần
+                            return;
+                        }
+
+                        // Gọi hàm Update API cho toàn bộ dữ liệu (cần được định nghĩa trong ViewModel)
+                        addCarViewModel.editCarData(carIdToUpdate, requireContext());
 
                         Toast.makeText(getContext(), "Đang lưu thay đổi chi tiết xe...", Toast.LENGTH_SHORT).show();
                     });
@@ -410,6 +418,25 @@ public class DetailsFragment extends Fragment {
             Toast.makeText(getContext(), "Số km đã đi và Mức tiêu thụ nhiên liệu phải là số hợp lệ.", Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+    private void observeEditResult() {
+        addCarViewModel.getEditSuccess().observe(getViewLifecycleOwner(), isSuccess -> {
+            if (isSuccess != null) {
+                if (isSuccess) {
+                    // HIỂN THỊ THÔNG BÁO THÀNH CÔNG
+                    Toast.makeText(getContext(), "Cập nhật chi tiết xe thành công! ✅", Toast.LENGTH_LONG).show();
+
+                    // Tùy chọn: Tự động đóng Fragment và quay lại màn hình trước
+                    // Navigation.findNavController(requireView()).popBackStack();
+                } else {
+                    // HIỂN THỊ THÔNG BÁO THẤT BẠI
+                    Toast.makeText(getContext(), "Cập nhật thất bại. Vui lòng thử lại. ❌", Toast.LENGTH_LONG).show();
+                }
+
+                // Đặt lại giá trị về null để tránh việc Toast hiển thị lại khi xoay màn hình
+                addCarViewModel.resetEditSuccessStatus();
+            }
+        });
     }
 
     @Override

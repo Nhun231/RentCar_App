@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.anhbhn.rentcar.data.dto.helper.AddCarFormData;
 import com.anhbhn.rentcar.data.dto.request.car.AddCarRequest;
+import com.anhbhn.rentcar.data.dto.request.car.EditCarRequest;
 import com.anhbhn.rentcar.data.dto.response.car.CarResponse;
 import com.anhbhn.rentcar.data.dto.response.car.MyCarsPageResponse;
 import com.anhbhn.rentcar.data.mapper.AddCarMapper;
+import com.anhbhn.rentcar.data.mapper.EditCarMapper;
 import com.anhbhn.rentcar.data.remote.ApiClient;
 import com.anhbhn.rentcar.data.remote.ApiService;
 
@@ -35,5 +37,14 @@ public class CarRepository {
     }
     public Call<CarResponse> getCarDetailsForOwner(String carId) {
         return apiService.getCarDetailsForOwner(carId);
+    }
+    public Call<CarResponse> editCar(String carId, EditCarRequest request) {
+        AddCarFormData formData = EditCarMapper.toFormData(context, request);
+
+        return apiService.editCar(
+                carId,
+                formData.getFields(),
+                formData.getFiles()
+        );
     }
 }

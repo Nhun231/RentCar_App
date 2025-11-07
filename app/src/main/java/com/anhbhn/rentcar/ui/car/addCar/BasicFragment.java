@@ -1,6 +1,5 @@
 package com.anhbhn.rentcar.ui.car.addCar;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,10 +21,8 @@ import androidx.navigation.Navigation;
 
 import com.anhbhn.rentcar.R;
 import com.anhbhn.rentcar.databinding.FragmentAddCarBasicBinding;
-import com.anhbhn.rentcar.ui.car.carDetail.CarDetailViewModel;
 
 import java.util.List;
-import java.util.Objects;
 
 public class BasicFragment extends Fragment {
 
@@ -64,6 +61,9 @@ public class BasicFragment extends Fragment {
         setupDropdownsAndObservers();
         setDocumentTitles();
         loadSavedData();
+        addCarViewModel.getIsEditMode().observe(getViewLifecycleOwner(), isEditMode -> {
+            setFieldsEditable(!isEditMode);
+        });
         setupButtons();
     }
     private void setupFilePickers() {
@@ -230,30 +230,15 @@ public class BasicFragment extends Fragment {
         addCarViewModel.getIsEditMode().observe(getViewLifecycleOwner(), isEditMode -> {
 
             if (isEditMode) {
-                // CHẾ ĐỘ DETAIL/EDIT (Nút SAVE)
 
-                // Ẩn Container chứa NEXT/CANCEL
+                // Ẩn Container chứa NEXT/CANCEL/ADD
                 if (binding.addCarActions != null) {
                     binding.addCarActions.setVisibility(View.GONE);
                 }
 
-                // Hiển thị nút SAVE
+                // Ẩn nút SAVE (nếu có)
                 if (binding.btnSaveDetail != null) {
-                    binding.btnSaveDetail.setVisibility(View.VISIBLE);
-
-                    binding.btnSaveDetail.setOnClickListener(v -> {
-                        if (!validateAndProcessInputs()) {
-                            return;
-                        }
-
-                        // Lấy Car ID cần Update (giả định đã lưu trong CarRegistrationData)
-//                        String carId = addCarViewModel.getRegistrationData().getValue().carId;
-
-                        // Gọi hàm Update API (cần được định nghĩa trong ViewModel)
-//                        addCarViewModel.updateCarDetails(carId, requireContext());
-
-                        Toast.makeText(getContext(), "Đang lưu thông tin cơ bản...", Toast.LENGTH_SHORT).show();
-                    });
+                    binding.btnSaveDetail.setVisibility(View.GONE);
                 }
 
             } else {
@@ -346,6 +331,32 @@ public class BasicFragment extends Fragment {
             result = uri.getLastPathSegment();
         }
         return result != null ? result : "File đã chọn";
+    }
+    private void setFieldsEditable(boolean isEditMode) {
+        // SỬA ĐỔI: Sử dụng tham số isEditMode để quyết định khả năng bật/tắt
+        boolean isEnabled = isEditMode;
+
+        // 1. INPUT FIELDS (TextInputEditText và AutoCompleteTextView)
+        binding.inputLicensePlate.setEnabled(isEnabled);
+        binding.inputBrand.setEnabled(isEnabled);
+        binding.inputModel.setEnabled(isEnabled);
+        binding.inputColor.setEnabled(isEnabled);
+        binding.inputProductionYear.setEnabled(isEnabled);
+        binding.inputNumberOfSeats.setEnabled(isEnabled);
+
+        // 2. RADIO BUTTONS
+        // Lưu ý: RadioGroup.setEnabled() thường không hoạt động đúng, nên set từng RadioButton
+        binding.radioAutomatic.setEnabled(isEnabled);
+        binding.radioManual.setEnabled(isEnabled);
+
+        binding.radioGasoline.setEnabled(isEnabled);
+        binding.radioDiesel.setEnabled(isEnabled);
+
+        // 3. DOCUMENT UPLOAD BUTTONS
+        binding.docRegistration.btnSelectFile.setEnabled(isEnabled);
+        binding.docInspection.btnSelectFile.setEnabled(isEnabled);
+        binding.docInsurance.btnSelectFile.setEnabled(isEnabled);
+
     }
 
     @Override

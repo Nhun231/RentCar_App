@@ -20,6 +20,7 @@ public class CarDetailMapper {
         data.brand = responseData.brand;
         data.model = responseData.model;
         data.color = responseData.color;
+        data.status = responseData.status;
 
         // Xử lý các kiểu số (đã là kiểu nguyên thủy, không cần kiểm tra null)
         data.productionYear = responseData.productionYear;
@@ -73,15 +74,16 @@ public class CarDetailMapper {
         // Tách chuỗi bằng dấu phẩy và loại bỏ khoảng trắng thừa
         String[] parts = fullAddress.split(",\\s*");
 
-        // Thao tác với các phần tử từ cuối lên (an toàn hơn) hoặc kiểm tra độ dài
+        // Nếu chuỗi API trả về theo thứ tự chuẩn: City, District, Ward, Street
         if (parts.length >= 4) {
-            // Thứ tự thường là ngược lại trong DTO:
-            data.addressCityProvince = parts[parts.length - 1].trim(); // Phần tử cuối: Thành phố
-            data.addressDistrict = parts[parts.length - 2].trim();     // Quận/Huyện
-            data.addressWard = parts[parts.length - 3].trim();         // Phường/Xã
-            data.addressHouseNumberStreet = parts[parts.length - 4].trim(); // Số nhà/Đường
+            // Ánh xạ theo thứ tự từ đầu chuỗi (index 0)
+            data.addressCityProvince = parts[0].trim();     // Phần tử 1 (Index 0): Tỉnh/Thành phố
+            data.addressDistrict = parts[1].trim();         // Phần tử 2 (Index 1): Quận/Huyện
+            data.addressWard = parts[2].trim();             // Phần tử 3 (Index 2): Phường/Xã
+            data.addressHouseNumberStreet = parts[3].trim(); // Phần tử 4 (Index 3): Số nhà/Đường
+
         } else if (parts.length > 0) {
-            // Trường hợp địa chỉ đơn giản hơn, chỉ gán vào trường địa chỉ đầy đủ
+            // Trường hợp địa chỉ đơn giản, chỉ gán vào trường địa chỉ đầy đủ
             data.addressHouseNumberStreet = fullAddress;
         }
     }

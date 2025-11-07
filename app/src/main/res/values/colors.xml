@@ -32,4 +32,14 @@
     <color name="material_dynamic_secondary90">#9E9E9E</color>
     <color name="primary_color_or_active_text_color">#51B851</color>
     <color name="step_active_text_color">#212121</color>
+    <color name="text_dark">#333333</color>
+    <color name="status_unverified_bg">#F44336</color>
+    <color name="rating_stars">#FFC107</color>
+    <color name="status_not_verified_text">#F44336</color>
+
+    <color name="status_verified_bg">#4CAF50</color>
+
+    <color name="status_stopped_bg">#FF9800</color>
+    <color name="gray_text">#757575</color>
+    <color name="red_price">#F44336</color>
 </resources>

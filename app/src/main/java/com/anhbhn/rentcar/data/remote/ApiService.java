@@ -18,6 +18,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
@@ -44,4 +45,11 @@ public interface ApiService {
                                        @Query("sort") String sort);
     @GET("car/car-owner/{carId}")
     Call<CarResponse> getCarDetailsForOwner(@Path("carId") String carId);
+    @Multipart
+    @PUT("car/car-owner/edit-car/{carId}")
+    Call<CarResponse> editCar(
+            @Path("carId") String carId,
+            @PartMap Map<String, RequestBody> fields,
+            @Part List<MultipartBody.Part> files
+    );
 }

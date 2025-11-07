@@ -95,6 +95,12 @@
     <string name="car_item_price_format">From %,dđ/day</string>
     <string name="car_item_details_format">Year: %1$d | Status: %2$s | Address: %3$s</string>
 
+    <string name="status_not_verified">NOT VERIFIED</string>
+    <string name="status_verified">VERIFIED</string>
+    <string name="status_stopped">STOPPED</string>
+
+    <string name="dialog_title_are_you_sure">Are you sure?</string>
+
 
     <string name="action_add_car">Add car</string>
 
@@ -105,5 +111,11 @@
     <string name="sort_option_price_high_low">Price: High to Low</string>
     <string name="title_car_details">Car Details</string>
     <string name="btn_save">Save</string>
+
+    <string name="content_description_warning_icon">Warning icon indicating a status change is about to happen</string>
+    <string name="dialog_msg_change_car_status">Do you really want to change the car status?</string>
+    <string name="btn_yes_change_it">Yes, change it</string>
+    <string name="btn_no_keep_it">No, keep it</string>
+    <string name="format_price_day">%sđ/day</string>
 
 </resources>

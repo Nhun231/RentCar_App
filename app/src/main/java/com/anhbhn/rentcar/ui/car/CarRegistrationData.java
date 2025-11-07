@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarRegistrationData {
-
+    public String carId;
     // --- STEP 1: Basic ---
     public String licensePlate;
     public String brand;
@@ -36,6 +36,9 @@ public class CarRegistrationData {
     public Long basePrice;
     public Long requiredDeposit;
     public String termsOfUseCombined; // Ví dụ: {"No smoking": true, "No pet": false}
+    public double averageRatingByCar;
+    public long noOfRides;
+    public String status;
 
     // Constructor mặc định
     public CarRegistrationData() {

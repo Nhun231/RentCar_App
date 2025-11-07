@@ -53,7 +53,7 @@
 
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-        android:paddingBottom="60dp"
+        android:paddingBottom="250dp"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
