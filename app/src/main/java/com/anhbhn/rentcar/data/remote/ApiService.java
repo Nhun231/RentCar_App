@@ -4,6 +4,7 @@ import com.anhbhn.rentcar.data.dto.helper.PageResponse;
 import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
 import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.RefreshTokenResponse;
+import com.anhbhn.rentcar.data.dto.response.booking.MyRentalsListResponse;
 import com.anhbhn.rentcar.data.dto.response.car.CarResponse;
 import com.anhbhn.rentcar.data.dto.response.car.CarThumbnailResponse;
 import com.anhbhn.rentcar.data.dto.response.car.MyCarsPageResponse;
@@ -51,5 +52,14 @@ public interface ApiService {
             @Path("carId") String carId,
             @PartMap Map<String, RequestBody> fields,
             @Part List<MultipartBody.Part> files
+    );
+
+    //Booking
+    @GET("booking/car-owner/rentals")
+    Call<MyRentalsListResponse> getOwnerBookings(
+            @Query("page") int page,
+            @Query("size") int size,
+            @Query("status") String status, // EBookingStatus.name() hoặc null
+            @Query("sort") String sort // Ví dụ: "updatedAt,DESC"
     );
 }

@@ -118,4 +118,16 @@
     <string name="btn_no_keep_it">No, keep it</string>
     <string name="format_price_day">%sđ/day</string>
 
+    <string name="title_my_rentals">My Rentals</string>
+    <string name="msg_waiting_count_format">You have %d waiting-approved bookings!</string>
+    <string name="hint_status_filter">Status Filter</string>
+
+    <string name="btn_view_details">Details</string>
+    <string name="btn_approve_request">Approve Request</string>
+    <string name="btn_reject_request">Reject Request</string>
+
+    <string name="label_number_of_days_format">Number of days: %d</string>
+    <string name="label_base_price_format">Base Price: %s/day</string>
+    <string name="label_deposit_format">Deposit: %s</string>
+    <string name="label_booking_status_format">Booking Status: %s</string>
 </resources>

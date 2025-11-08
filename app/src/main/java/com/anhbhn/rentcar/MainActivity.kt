@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.anhbhn.rentcar.ui.auth.LoginActivity
+import com.anhbhn.rentcar.ui.booking.myRentals.MyRentalsActivity
 import com.anhbhn.rentcar.ui.car.addCar.AddCarActivity
 import com.anhbhn.rentcar.ui.car.myCar.MyCarsActivity
 import com.anhbhn.rentcar.ui.theme.RentCarTheme
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
-        startActivity(Intent(this, MyCarsActivity::class.java))
+        startActivity(Intent(this, MyRentalsActivity::class.java))
         finish()
     }
 }

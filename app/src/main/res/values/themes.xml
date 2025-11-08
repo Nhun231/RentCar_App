@@ -52,4 +52,28 @@
         <item name="android:layout_height">2dp</item>
         <item name="android:layout_weight">0.5</item>
     </style>
+
+    <style name="RentalInfoText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:layout_marginTop">2dp</item>
+    </style>
+
+    <style name="RentalPriceText" parent="RentalInfoText">
+        <item name="android:textColor">@color/rental_price_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RentalDepositText" parent="RentalInfoText">
+        <item name="android:textColor">@color/rental_deposit_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="RentalActionButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">32dp</item>     <item name="android:textSize">10sp</item>          <item name="android:padding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:layout_weight">1</item>         </style>
 </resources>

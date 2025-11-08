@@ -6,4 +6,20 @@
         <item>@string/sort_option_price_low_high</item>
         <item>@string/sort_option_price_high_low</item>
     </string-array>
+
+    <string-array name="status_filter_options">
+        <item>ALL</item>
+        <item>WAITING_CONFIRMED</item>
+        <item>PENDING_DEPOSIT</item>
+        <item>CONFIRMED</item>
+        <item>IN_PROGRESS</item>
+        <item>COMPLETED</item>
+        <item>CANCELLED</item>
+    </string-array>
+    <string-array name="sort_by_options">
+        <item>Update At: Newest to Oldest</item>
+        <item>Update At: Oldest to Newest</item>
+        <item>Price: High to Low</item>
+        <item>Price: Low to High</item>
+    </string-array>
 </resources>

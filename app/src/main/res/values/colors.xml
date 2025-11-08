@@ -42,4 +42,11 @@
     <color name="status_stopped_bg">#FF9800</color>
     <color name="gray_text">#757575</color>
     <color name="red_price">#F44336</color>
+
+    <color name="purple_text">#673AB7</color>
+    <color name="orange_warning">#FF9800</color>
+    <color name="red_action">#F44336</color>
+    <color name="blue_action">#2196F3</color>
+    <color name="rental_price_text">@color/primary_green</color>
+    <color name="rental_deposit_text">@color/red_price</color>
 </resources>

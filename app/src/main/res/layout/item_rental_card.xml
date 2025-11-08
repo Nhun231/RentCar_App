@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginTop="12dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_weight="35"
+            android:layout_marginEnd="16dp">
+
+            <ImageView
+                android:id="@+id/img_car_display"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="#E0E0E0"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <ImageButton
+                android:id="@+id/btn_prev_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="#60000000"
+                android:src="@drawable/ic_arrow_left"
+                android:contentDescription="Previous Image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btn_next_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="#60000000"
+                android:src="@drawable/ic_arrow_right"
+                android:contentDescription="Next Image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_image_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="#80000000"
+                android:textColor="@color/white"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="1/4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="65"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_car_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Toyota Camry" />
+
+            <TextView
+                android:id="@+id/tv_rental_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                tools:text="11/30/2025 (17:00) - 11/30/2025 (19:00)" />
+
+            <TextView android:id="@+id/tv_number_of_days" style="@style/RentalInfoText" tools:text="Number of days: 1" />
+            <TextView android:id="@+id/tv_base_price" style="@style/RentalPriceText" tools:text="Base Price: 1.000.000đ/day" />
+            <TextView android:id="@+id/tv_deposit" style="@style/RentalDepositText" tools:text="Deposit: 500.000đ" />
+
+            <TextView
+                android:id="@+id/tv_booking_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/orange_warning"
+                android:textSize="12sp"
+                tools:text="Booking Status: WAITING_CONFIRMED" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_action_details"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"             android:layout_weight="1"
+                    android:layout_marginEnd="4dp"           android:text="@string/btn_view_details"
+                    android:textSize="10sp"                  android:backgroundTint="@color/blue_action"
+                    android:textColor="@color/white"
+                    tools:visibility="visible"
+                    app:cornerRadius="4dp" />
+
+                <Button
+                    android:id="@+id/btn_action_approve"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"             android:layout_weight="1"
+                    android:layout_marginEnd="4dp"           android:text="@string/btn_approve_request"
+                    android:textSize="10sp"                  android:backgroundTint="@color/primary_green"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:cornerRadius="4dp" />
+
+                <Button
+                    android:id="@+id/btn_action_reject"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"             android:layout_weight="1"
+                    android:text="@string/btn_reject_request"
+                    android:textSize="10sp"                  android:backgroundTint="@color/red_action"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:cornerRadius="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

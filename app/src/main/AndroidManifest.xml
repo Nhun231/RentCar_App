@@ -44,6 +44,11 @@
             android:exported="true"
             android:label="Car Details"
             android:theme="@style/Theme.RentCar" />
+        <activity
+            android:name=".ui.booking.myRentals.MyRentalsActivity"
+            android:exported="true"
+            android:label="My Rentals"
+            android:theme="@style/Theme.RentCar" />
     </application>
 
 </manifest>
