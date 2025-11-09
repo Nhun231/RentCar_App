@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/ivTermIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@android:drawable/ic_menu_info_details"
+        android:tint="#26C281"
+        android:contentDescription="Term"
+        android:layout_marginEnd="12dp" />
+
+    <TextView
+        android:id="@+id/tvTermName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Term of use"
+        android:textSize="14sp"
+        android:textColor="@android:color/black" />
+
+    <ImageView
+        android:id="@+id/ivTermCheck"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@android:drawable/checkbox_on_background"
+        android:tint="#26C281"
+        android:visibility="visible" />
+
+</LinearLayout>
+
