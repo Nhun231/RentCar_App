@@ -4,6 +4,7 @@ import com.anhbhn.rentcar.data.dto.helper.PageResponse;
 import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
 import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.RefreshTokenResponse;
+import com.anhbhn.rentcar.data.dto.response.booking.BookingResponse;
 import com.anhbhn.rentcar.data.dto.response.booking.MyRentalsListResponse;
 import com.anhbhn.rentcar.data.dto.response.car.CarResponse;
 import com.anhbhn.rentcar.data.dto.response.car.CarThumbnailResponse;
@@ -62,4 +63,14 @@ public interface ApiService {
             @Query("status") String status, // EBookingStatus.name() hoặc null
             @Query("sort") String sort // Ví dụ: "updatedAt,DESC"
     );
+    @GET("booking/car-owner/{bookingNumber}")
+    Call<BookingResponse> getBookingDetails(@Path("bookingNumber") String bookingNumber);
+    @PUT("booking/car-owner/{bookingNumber}/confirm")
+    Call<BookingResponse> confirmBooking(@Path("bookingNumber") String bookingNumber);
+    @PUT("booking/car-owner/reject-booking/{bookingNumber}")
+    Call<BookingResponse> rejectBooking(@Path("bookingNumber") String bookingNumber);
+    @PUT("booking/car-owner/confirm-early-return/{bookingNumber}")
+    Call<BookingResponse> confirmEarlyReturnCar(@Path("bookingNumber") String bookingNumber);
+    @PUT("booking/car-owner/reject-early-return/{bookingNumber}")
+    Call<BookingResponse> rejectEarlyReturnCar(@Path("bookingNumber") String bookingNumber);
 }

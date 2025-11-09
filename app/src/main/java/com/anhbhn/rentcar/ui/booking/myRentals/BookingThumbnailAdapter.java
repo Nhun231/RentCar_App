@@ -23,8 +23,8 @@ public class BookingThumbnailAdapter extends RecyclerView.Adapter<BookingThumbna
 
     public interface OnItemClickListener {
         void onViewDetailsClick(String bookingNumber);
-        void onApproveClick(String bookingNumber);
-        void onRejectClick(String bookingNumber);
+        void onApproveClick(String bookingNumber, String currentStatus);
+        void onRejectClick(String bookingNumber, String currentStatus);
     }
 
     public BookingThumbnailAdapter(Context context, List<BookingThumbnailResponse> bookingList, OnItemClickListener listener) {
@@ -147,8 +147,8 @@ public class BookingThumbnailAdapter extends RecyclerView.Adapter<BookingThumbna
                 binding.btnActionApprove.setVisibility(View.VISIBLE);
                 binding.btnActionReject.setVisibility(View.VISIBLE);
 
-                binding.btnActionApprove.setOnClickListener(v -> listener.onApproveClick(item.getBookingNumber()));
-                binding.btnActionReject.setOnClickListener(v -> listener.onRejectClick(item.getBookingNumber()));
+                binding.btnActionApprove.setOnClickListener(v -> listener.onApproveClick(item.getBookingNumber(), item.getStatus()));
+                binding.btnActionReject.setOnClickListener(v -> listener.onRejectClick(item.getBookingNumber(), item.getStatus()));
             } else {
                 // Ẩn các nút hành động nếu trạng thái không phải chờ xác nhận
                 binding.btnActionApprove.setVisibility(View.GONE);

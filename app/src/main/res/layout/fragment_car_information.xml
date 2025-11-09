@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="4"
+            android:rowCount="2"
+            android:alignmentMode="alignBounds"
+            android:columnOrderPreserved="false"
+            android:useDefaultMargins="true"
+            android:paddingBottom="16dp">
+
+            <TextView android:text="@string/label_license_plate" style="@style/PreviewLabel" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" />
+            <TextView android:text="@string/label_color" style="@style/PreviewLabel" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" />
+            <TextView android:text="@string/label_no_of_seats" style="@style/PreviewLabel" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" />
+            <TextView android:text="@string/label_brand_name" style="@style/PreviewLabel" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" />
+
+            <TextView android:id="@+id/tv_license_plate" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" tools:text="28F-125.20" />
+            <TextView android:id="@+id/tv_car_color" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" tools:text="Black" />
+            <TextView android:id="@+id/tv_no_of_seats" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" tools:text="5" />
+            <TextView android:id="@+id/tv_brand_name" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" tools:text="Toyota" />
+
+            <TextView android:text="@string/label_production_year" style="@style/PreviewLabel" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" android:layout_marginTop="16dp"/>
+            <TextView android:text="@string/label_transmission" style="@style/PreviewLabel" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" android:layout_marginTop="16dp"/>
+            <TextView android:text="@string/label_model" style="@style/PreviewLabel" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" android:layout_marginTop="16dp"/>
+            <TextView android:text="@string/label_fuel_type" style="@style/PreviewLabel" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" android:layout_marginTop="16dp"/>
+
+            <TextView android:id="@+id/tv_production_year" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" tools:text="2023" />
+            <TextView android:id="@+id/tv_transmission" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" tools:text="Automatic" />
+            <TextView android:id="@+id/tv_model" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" tools:text="Camry" />
+            <TextView android:id="@+id/tv_fuel_type" android:layout_width="0dp" android:layout_columnWeight="1" android:gravity="center" tools:text="Gasoline" />
+
+        </GridLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_light" android:layout_marginVertical="16dp"/>
+
+
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_light" android:layout_marginVertical="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_mileage"/>
+                <TextView
+                    android:id="@+id/tv_mileage_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginTop="4dp"
+                    tools:text="15000 Miles" />
+                <TextView
+                    android:text="@string/label_mileage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_fuel_consumption"/>
+                <TextView
+                    android:id="@+id/tv_fuel_consumption_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginTop="4dp"
+                    tools:text="7.5 L/100KM" />
+
+                <TextView
+                    android:text="@string/label_fuel_consumption"
+                    android:layout_width="wrap_content"    android:layout_height="wrap_content"   android:textSize="12sp"
+                    android:textColor="@color/text_secondary" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_light" android:layout_marginVertical="16dp"/>
+
+        <TextView style="@style/DetailSectionHeader" android:text="@string/section_address" android:layout_marginTop="0dp" />
+        <TextView
+            android:id="@+id/tv_car_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="Tỉnh Hà Giang, Thành phố Hà Giang, Phường Quang Trung, 211 Trần Duy Hưng" />
+
+        <TextView style="@style/DetailSectionHeader" android:text="@string/section_description" />
+        <TextView
+            android:id="@+id/tv_car_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="Xe như mới 99%" />
+
+        <TextView style="@style/DetailSectionHeader" android:text="@string/section_additional_function" />
+        <TextView
+            android:id="@+id/tv_additional_functions" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="Bluetooth, Sun roof, DVD, GPS" />
+
+        <TextView style="@style/DetailSectionHeader" android:text="@string/section_price" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/label_base_price" style="@style/PreviewLabel"/>
+            <TextView android:id="@+id/tv_base_price_detail" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/RentalDetailPrice" tools:text="1.000.000đ" android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/label_required_deposit" style="@style/PreviewLabel"/>
+            <TextView android:id="@+id/tv_deposit_detail" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/RentalDetailDeposit" tools:text="500.000đ" android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <TextView style="@style/DetailSectionHeader" android:text="@string/section_terms_of_use" />
+        <TextView
+            android:id="@+id/tv_terms_of_use" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="No smoking, No food in car" />
+
+        <View android:layout_width="match_parent" android:layout_height="60dp"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

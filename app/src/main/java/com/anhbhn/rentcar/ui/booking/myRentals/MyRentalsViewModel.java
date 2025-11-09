@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.anhbhn.rentcar.data.dto.response.booking.BookingResponse;
 import com.anhbhn.rentcar.data.dto.response.booking.MyRentalsListResponse;
 import com.anhbhn.rentcar.data.dto.response.booking.BookingListResponse;
 import com.anhbhn.rentcar.data.dto.response.booking.BookingThumbnailResponse;
@@ -35,6 +36,8 @@ public class MyRentalsViewModel extends ViewModel {
 
     private final MutableLiveData<String> _errorMessage = new MutableLiveData<>();
     public LiveData<String> getErrorMessage() { return _errorMessage; }
+    private final MutableLiveData<String> _successMessage = new MutableLiveData<>();
+    public LiveData<String> getSuccessMessage() { return _successMessage; }
 
     // --- Trạng thái Phân trang & Sort/Filter ---
     private final MutableLiveData<Integer> _currentPage = new MutableLiveData<>(0); // Index trang hiện tại (0-based)
@@ -55,6 +58,8 @@ public class MyRentalsViewModel extends ViewModel {
     private String currentSortBy = "updatedAt,DESC";
 
     private BookingRepository repository;
+    private static final String STATUS_WAITING_CONFIRMED = "WAITING_CONFIRMED";
+    private static final String STATUS_WAITING_RETURN = "WAITING_CONFIRMED_RETURN_CAR";
 
     public void initializeRepository(Context context) {
         if (this.repository == null) {
@@ -78,7 +83,12 @@ public class MyRentalsViewModel extends ViewModel {
     public boolean isLastPage() {
         return currentPageInternal >= totalPagesInternal - 1 && totalPagesInternal > 0;
     }
-
+    public void clearSuccessMessage() {
+        _successMessage.setValue(null);
+    }
+    public void clearErrorMessage() {
+        _errorMessage.setValue(null);
+    }
     // --- Logic Tải dữ liệu ---
 
     /**
@@ -195,14 +205,86 @@ public class MyRentalsViewModel extends ViewModel {
     }
 
     // --- Logic Thao tác (Approve/Reject) ---
+    private void reloadCurrentPage(Context context) {
+        Integer currentPage = _currentPage.getValue();
 
-    public void approveBooking(String bookingNumber, Context context) {
-        initializeRepository(context);
-        // TODO: Gọi API approve và tải lại trang hiện tại
+        int pageToLoadSafely = (currentPage != null && currentPage >= 0) ? currentPage : 0;
+
+        this.pageToLoad = pageToLoadSafely;
+
+        loadBookings(context, false);
     }
 
-    public void rejectBooking(String bookingNumber, Context context) {
+    public void approveBooking(String bookingNumber, String currentStatus, Context context) {
         initializeRepository(context);
-        // TODO: Gọi API reject và tải lại trang hiện tại
+        _errorMessage.setValue(null);
+
+        Call<BookingResponse> call;
+
+        if (STATUS_WAITING_RETURN.equals(currentStatus)) {
+            // Trường hợp Trả xe sớm
+            call = repository.confirmEarlyReturnCar(bookingNumber);
+        } else {
+            // Mặc định: Xác nhận booking ban đầu (WAITING_CONFIRMED)
+            call = repository.confirmBooking(bookingNumber);
+        }
+
+        call.enqueue(new Callback<BookingResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<BookingResponse> call, @NonNull Response<BookingResponse> response) {
+                if (response.body() != null && response.body().getCode() == 1000) {
+                    _successMessage.setValue("Phê duyệt booking " + bookingNumber + " thành công!");
+                    reloadCurrentPage(context);
+                } else {
+                    _isLoading.setValue(false);
+                    _errorMessage.setValue("Lỗi phê duyệt: " + (response.body() != null ? response.body().getMessage() : "HTTP " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BookingResponse> call, @NonNull Throwable t) {
+                _isLoading.setValue(false);
+                _errorMessage.setValue("Lỗi mạng khi phê duyệt: " + t.getMessage());
+            }
+        });
     }
+
+    /**
+     * Từ chối yêu cầu booking (Bình thường hoặc Trả xe sớm).
+     * 🚨 PHẢI NHẬN 3 THAM SỐ ĐỂ PHÂN BIỆT API.
+     */
+    public void rejectBooking(String bookingNumber, String currentStatus, Context context) {
+        initializeRepository(context);
+        _errorMessage.setValue(null);
+
+        Call<BookingResponse> call;
+
+        if (STATUS_WAITING_RETURN.equals(currentStatus)) {
+            // Trường hợp Trả xe sớm
+            call = repository.rejectEarlyReturnCar(bookingNumber);
+        } else {
+            // Mặc định: Từ chối booking ban đầu (WAITING_CONFIRMED)
+            call = repository.rejectBooking(bookingNumber);
+        }
+
+        call.enqueue(new Callback<BookingResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<BookingResponse> call, @NonNull Response<BookingResponse> response) {
+                if (response.body() != null && response.body().getCode() == 1000) {
+                    _successMessage.setValue("Từ chối booking " + bookingNumber + " thành công!");
+                    reloadCurrentPage(context);
+                } else {
+                    _isLoading.setValue(false);
+                    _errorMessage.setValue("Lỗi từ chối: " + (response.body() != null ? response.body().getMessage() : "HTTP " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BookingResponse> call, @NonNull Throwable t) {
+                _isLoading.setValue(false);
+                _errorMessage.setValue("Lỗi mạng khi từ chối: " + t.getMessage());
+            }
+        });
+    }
+
 }

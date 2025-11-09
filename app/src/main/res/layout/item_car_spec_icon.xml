@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_columnWeight="1"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <ImageView
+        android:id="@+id/iv_spec_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:contentDescription="Specification Icon"
+        android:src="@drawable/ic_car_spec_placeholder"
+        tools:src="@drawable/ic_license_plate" />
+
+    <TextView
+        android:id="@+id/tv_spec_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:textColor="@color/text_secondary"
+        tools:text="License Plate" />
+
+    <TextView
+        android:id="@+id/tv_spec_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/text_dark"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="29F-125.20" />
+</LinearLayout>

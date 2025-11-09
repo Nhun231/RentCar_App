@@ -49,4 +49,6 @@
     <color name="blue_action">#2196F3</color>
     <color name="rental_price_text">@color/primary_green</color>
     <color name="rental_deposit_text">@color/red_price</color>
+
+    <color name="divider_light">#E0E0E0</color>
 </resources>

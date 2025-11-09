@@ -130,4 +130,50 @@
     <string name="label_base_price_format">Base Price: %s/day</string>
     <string name="label_deposit_format">Deposit: %s</string>
     <string name="label_booking_status_format">Booking Status: %s</string>
+
+    <string name="dialog_title_confirm_action">Confirm Action</string>
+
+    <string name="dialog_msg_reject_booking_q">Do you really want to reject this booking?</string>
+    <string name="dialog_msg_confirm_booking_q">Are you sure you want to confirm this booking request?</string>
+
+    <string name="btn_yes_reject">Yes, reject it!</string>
+    <string name="btn_no_keep">No, keep it</string>
+    <string name="btn_confirm">CONFIRM</string>
+    <string name="label_driving_license">Driving License</string>
+    <string name="section_driver_information">Driver\'s Information</string>
+    <string name="label_full_name">Full Name</string>
+    <string name="label_dob">Date of Birth</string>
+    <string name="label_phone_number">Phone Number</string>
+    <string name="label_email">Email</string>
+    <string name="label_national_id">National ID No</string>
+    <string name="section_pricing_and_terms">Pricing and Terms of Use</string>
+    <string name="section_vehicle_documents">Vehicle Registration Documents</string>
+    <string name="title_rental_details">Rental Details</string>
+
+    <string name="label_license_plate">License Plate</string>
+    <string name="label_color">Color</string>
+    <string name="label_brand_name">Brand Name</string>
+    <string name="label_model">Model</string>
+    <string name="label_production_year">Prod. Year</string>
+    <string name="label_number_of_seats">No. of Seats</string>
+    <string name="label_fuel_type">Fuel Type</string>
+
+    <string name="label_mileage">Mileage</string>
+    <string name="label_fuel_consumption">Fuel Consumption</string>
+    <string name="label_base_price">Base Price</string>
+    <string name="label_required_deposit">Required Deposit</string>
+
+    <string name="section_description">Description</string>
+    <string name="section_additional_function">Additional Functions</string>
+    <string name="section_price">Pricing</string>
+
+    <string name="label_doc_name">Name</string>
+    <string name="label_doc_note">Note</string>
+    <string name="label_doc_link">Link</string>
+    <string name="doc_registration_paper">Registration Paper</string>
+    <string name="action_view_document">View Document</string>
+
+    <string name="divider_light">#E0E0E0</string> <string name="label_mileage_unit">Mileage</string>
+    <string name="label_fuel_consumption_unit">Fuel Consumption</string>
+    <string name="label_no_of_seats">No of seats</string>
 </resources>

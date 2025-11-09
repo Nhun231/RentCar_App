@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/section_driver_information"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:columnCount="2"
+            android:rowCount="5"
+            android:useDefaultMargins="true">
+
+            <TextView android:layout_width="0dp" android:layout_columnWeight="1" android:textStyle="bold" android:text="@string/label_full_name" />
+            <TextView android:id="@+id/tv_driver_name" android:layout_width="0dp" android:layout_columnWeight="1" tools:text="Hihi" />
+
+            <TextView android:layout_width="0dp" android:layout_columnWeight="1" android:textStyle="bold" android:text="@string/label_dob" android:layout_marginTop="8dp" />
+            <TextView android:id="@+id/tv_driver_dob" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_marginTop="8dp" tools:text="12/30/2002" />
+
+            <TextView android:layout_width="0dp" android:layout_columnWeight="1" android:textStyle="bold" android:text="@string/label_phone_number" android:layout_marginTop="8dp" />
+            <TextView android:id="@+id/tv_driver_phone" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_marginTop="8dp" tools:text="0123456789" />
+
+            <TextView android:layout_width="0dp" android:layout_columnWeight="1" android:textStyle="bold" android:text="@string/label_email" android:layout_marginTop="8dp" />
+            <TextView android:id="@+id/tv_driver_email" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_marginTop="8dp" tools:text="abc2@gmail.com" />
+
+            <TextView android:layout_width="0dp" android:layout_columnWeight="1" android:textStyle="bold" android:text="@string/label_national_id" android:layout_marginTop="8dp" />
+            <TextView android:id="@+id/tv_driver_national_id" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_marginTop="8dp" tools:text="123456789123" />
+        </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/section_address"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/tv_driver_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            tools:text="Tỉnh Hà Giang, Thành phố Hà Giang, Phường Quang Trung, 211 Trần Duy Hưng" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_driving_license"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <ImageView
+            android:id="@+id/iv_driving_license"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitCenter"
+            android:background="#E0E0E0"
+            tools:background="#E0E0E0"
+            android:contentDescription="Driver's License" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

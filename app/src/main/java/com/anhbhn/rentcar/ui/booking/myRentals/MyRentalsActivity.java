@@ -16,10 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.anhbhn.rentcar.R;
 import com.anhbhn.rentcar.data.dto.response.booking.BookingThumbnailResponse;
 import com.anhbhn.rentcar.databinding.ActivityMyRentalsBinding;
+import com.anhbhn.rentcar.ui.booking.ConfirmationDialogFragment;
+import com.anhbhn.rentcar.ui.booking.rentalDetails.RentalDetailsActivity;
 
 import java.util.ArrayList;
 
-public class MyRentalsActivity extends AppCompatActivity implements BookingThumbnailAdapter.OnItemClickListener {
+public class MyRentalsActivity extends AppCompatActivity implements BookingThumbnailAdapter.OnItemClickListener, ConfirmationDialogFragment.ConfirmationListener {
 
     private ActivityMyRentalsBinding binding;
     private MyRentalsViewModel viewModel;
@@ -28,7 +30,8 @@ public class MyRentalsActivity extends AppCompatActivity implements BookingThumb
     // Các tham số mặc định
     private static final String DEFAULT_SORT = "updatedAt,DESC";
     private static final String DEFAULT_STATUS = "ALL";
-
+    private static final String STATUS_WAITING_CONFIRMED = "WAITING_CONFIRMED";
+    private static final String STATUS_WAITING_RETURN = "WAITING_CONFIRMED_RETURN_CAR";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,47 @@ public class MyRentalsActivity extends AppCompatActivity implements BookingThumb
 
         // 2. Tải dữ liệu ban đầu
         viewModel.loadBookings(this, true);
+    }
+    private void showBookingActionDialog(String bookingNumber, String actionType, String currentItemStatus) {
+        String title, message, confirmText;
+        int confirmColorResId;
+        boolean showIcon = false;
+
+        // 1. Xác định nội dung và màu sắc
+        if (actionType.equals("REJECT")) {
+            title = getString(R.string.dialog_title_are_you_sure);
+            message = getString(R.string.dialog_msg_reject_booking_q);
+            confirmText = getString(R.string.btn_yes_reject);
+            confirmColorResId = R.color.red_action;
+            showIcon = true;
+        } else {
+            // APPROVE
+            title = getString(R.string.dialog_title_confirm_action);
+            message = getString(R.string.dialog_msg_confirm_booking_q);
+            confirmText = getString(R.string.btn_confirm);
+            confirmColorResId = R.color.primary_green;
+        }
+
+        // 2. Tạo instance DialogFragment và truyền tham số
+        ConfirmationDialogFragment dialogFragment = ConfirmationDialogFragment.newInstance(
+                bookingNumber,
+                actionType,
+                title,
+                message,
+                confirmText,
+                confirmColorResId,
+                showIcon
+        );
+
+        // Truyền trạng thái hiện tại (Giữ lại để sử dụng trong onConfirmAction)
+        Bundle args = dialogFragment.getArguments();
+        if (args != null) {
+            args.putString("CURRENT_ITEM_STATUS", currentItemStatus);
+        }
+
+        // 3. Gán Listener và Hiển thị
+        dialogFragment.setConfirmationListener(this); // ⬅️ Gán Activity làm Listener
+        dialogFragment.show(getSupportFragmentManager(), "BookingActionDialog");
     }
 
     private void setupToolbar() {
@@ -157,7 +201,15 @@ public class MyRentalsActivity extends AppCompatActivity implements BookingThumb
             if (errorMessage != null && !errorMessage.isEmpty()) {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
                 // Nếu bạn có hàm clearErrorMessage() trong ViewModel, hãy gọi nó:
-                // viewModel.clearErrorMessage();
+                 viewModel.clearErrorMessage();
+            }
+        });
+        viewModel.getSuccessMessage().observe(this, successMessage -> {
+            if (successMessage != null && !successMessage.isEmpty()) {
+                // Hiển thị Toast thông báo thành công sau khi API call hoàn tất
+                Toast.makeText(this, successMessage, Toast.LENGTH_LONG).show();
+                // Xóa message sau khi hiển thị để tránh hiển thị lại
+                viewModel.clearSuccessMessage();
             }
         });
 
@@ -192,23 +244,41 @@ public class MyRentalsActivity extends AppCompatActivity implements BookingThumb
     @Override
     public void onViewDetailsClick(String bookingNumber) {
         // Chuyển sang màn hình chi tiết
-//        Intent intent = new Intent(this, RentalDetailsActivity.class);
-//        intent.putExtra("BOOKING_NUMBER", bookingNumber);
-//        startActivity(intent);
+        Intent intent = new Intent(this, RentalDetailsActivity.class);
+        intent.putExtra("BOOKING_NUMBER", bookingNumber);
+        startActivity(intent);
     }
 
     @Override
-    public void onApproveClick(String bookingNumber) {
-        // TODO: Hiển thị dialog xác nhận trước (như ảnh web)
-        Toast.makeText(this, "Xác nhận Approve cho Booking: " + bookingNumber, Toast.LENGTH_SHORT).show();
-        // Sau khi xác nhận, gọi: viewModel.approveBooking(bookingNumber, this);
+    public void onApproveClick(String bookingNumber, String currentStatus) {
+        // ✅ GỌI DIALOG VỚI STATUS THỰC TẾ
+        showBookingActionDialog(bookingNumber, "APPROVE", currentStatus);
     }
 
     @Override
-    public void onRejectClick(String bookingNumber) {
-        // TODO: Hiển thị dialog xác nhận trước (như ảnh web)
-        Toast.makeText(this, "Xác nhận Reject cho Booking: " + bookingNumber, Toast.LENGTH_SHORT).show();
-        // Sau khi xác nhận, gọi: viewModel.rejectBooking(bookingNumber, this);
+    public void onRejectClick(String bookingNumber, String currentStatus) {
+        // ✅ GỌI DIALOG VỚI STATUS THỰC TẾ
+        showBookingActionDialog(bookingNumber, "REJECT", currentStatus);
+    }
+// Trong MyRentalsActivity.java
+
+    @Override
+    public void onConfirmAction(String bookingNumber, String actionType) {
+
+        ConfirmationDialogFragment dialogFragment = (ConfirmationDialogFragment) getSupportFragmentManager().findFragmentByTag("BookingActionDialog");
+
+        String currentStatus = "WAITING_CONFIRMED";
+
+        if (dialogFragment != null && dialogFragment.getArguments() != null) {
+            currentStatus = dialogFragment.getArguments().getString("CURRENT_ITEM_STATUS", "WAITING_CONFIRMED");
+        }
+
+        if (actionType.equals("APPROVE")) {
+            viewModel.approveBooking(bookingNumber, currentStatus, this);
+        } else if (actionType.equals("REJECT")) {
+            viewModel.rejectBooking(bookingNumber, currentStatus, this);
+        }
+        Toast.makeText(this, actionType + " yêu cầu đã được gửi cho booking " + bookingNumber, Toast.LENGTH_SHORT).show();
     }
 
     @Override
