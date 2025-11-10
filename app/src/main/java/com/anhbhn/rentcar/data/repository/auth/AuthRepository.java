@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
 import com.anhbhn.rentcar.data.dto.request.auth.RegisterRequest;
+import com.anhbhn.rentcar.data.dto.response.ApiResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.RefreshTokenResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.RegisterResponse;
@@ -29,5 +30,8 @@ public class AuthRepository {
     
     public Call<RefreshTokenResponse> refreshToken(){
         return apiService.refreshToken();
+    }
+    public Call<ApiResponse<String>> logout() {
+        return apiService.logout();
     }
 }

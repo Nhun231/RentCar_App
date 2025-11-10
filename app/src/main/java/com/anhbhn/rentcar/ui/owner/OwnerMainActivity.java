@@ -23,7 +23,7 @@ public class OwnerMainActivity extends AppCompatActivity {
     // Tags cho Fragment
     private static final String TAG_MY_CARS = "my_cars";
     private static final String TAG_MY_RENTALS = "my_rentals";
-    private static final String TAG_OWNER_SETTINGS = "owner_settings";
+    private static final String TAG_OWNER_SETTINGS = "settings";
     private String currentTag = TAG_MY_CARS;
 
     // IDs từ menu_owner_bottom_nav.xml

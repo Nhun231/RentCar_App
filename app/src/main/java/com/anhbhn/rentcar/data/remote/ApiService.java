@@ -3,6 +3,7 @@ package com.anhbhn.rentcar.data.remote;
 import com.anhbhn.rentcar.data.dto.helper.PageResponse;
 import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
 import com.anhbhn.rentcar.data.dto.request.auth.RegisterRequest;
+import com.anhbhn.rentcar.data.dto.response.ApiResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.RefreshTokenResponse;
 import com.anhbhn.rentcar.data.dto.response.booking.BookingResponse;
@@ -36,6 +37,8 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     //Auth
+    @GET("logout")
+    Call<ApiResponse<String>> logout();
     @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest request);
     @GET("auth/refresh-token")
