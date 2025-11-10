@@ -53,8 +53,8 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             // Token exists -> check role and navigate to appropriate screen
             if ("CUSTOMER".equals(userRole)) {
-                // Customer -> Search Car screen
-                intent = new Intent(this, SearchCarActivity.class);
+                // Customer -> Customer Main Activity with bottom navigation
+                intent = new Intent(this, com.anhbhn.rentcar.ui.customer.CustomerMainActivity.class);
             } else if ("CAR_OWNER".equals(userRole)) {
                 // Car Owner -> Add Car screen (MainActivity)
                 intent = new Intent(this, MainActivity.class);

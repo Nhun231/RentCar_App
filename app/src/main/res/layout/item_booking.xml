@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:elevation="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardUseCompatPadding="false"
+    app:cardBackgroundColor="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Car Image and Booking Info Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Car Image -->
+            <ImageView
+                android:id="@+id/ivCarImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:background="#E0E0E0"
+                android:contentDescription="Car image"
+                android:layout_marginEnd="16dp"
+                android:clipToOutline="true" />
+
+            <!-- Booking Details -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Car Name -->
+                <TextView
+                    android:id="@+id/tvCarName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="HONDA CITY RS 2020"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Pick Up Time -->
+                <TextView
+                    android:id="@+id/tvPickUpTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="From: 01/01/2024 - 10:00"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="4dp" />
+
+                <!-- Drop Off Time -->
+                <TextView
+                    android:id="@+id/tvDropOffTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="To: 05/01/2024 - 18:00"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Number of Days -->
+                <TextView
+                    android:id="@+id/tvNumberOfDays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Number of days: 4"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="4dp" />
+
+                <!-- Base Price -->
+                <TextView
+                    android:id="@+id/tvBasePrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Base Price: 500,000 VND/day"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="4dp" />
+
+                <!-- Total Price -->
+                <TextView
+                    android:id="@+id/tvTotalPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total: 2,000,000 VND"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#05ce80"
+                    android:layout_marginBottom="4dp" />
+
+                <!-- Deposit -->
+                <TextView
+                    android:id="@+id/tvDeposit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Deposit: 1,000,000 VND"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Booking Number -->
+                <TextView
+                    android:id="@+id/tvBookingNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Booking No.: BK123456"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Status -->
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONFIRMED"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#05ce80"
+                    android:padding="4dp"
+                    android:background="#E8F5E9"
+                    android:layout_marginBottom="8dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Action Buttons Container -->
+        <LinearLayout
+            android:id="@+id/layoutActionButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="8dp">
+
+            <!-- View Details Button -->
+            <Button
+                android:id="@+id/btnViewDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Details"
+                android:textSize="12sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#1976d2"
+                android:textColor="@android:color/white" />
+
+            <!-- Action Button 1 (Pick-up, Cancel, Return Car, etc.) -->
+            <Button
+                android:id="@+id/btnAction1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Action"
+                android:textSize="12sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone" />
+
+            <!-- Action Button 2 (Cancel button when needed) -->
+            <Button
+                android:id="@+id/btnAction2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textSize="12sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/nav_search">
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.anhbhn.rentcar.ui.main.SearchFragment"
+        android:label="Search" />
+
+    <fragment
+        android:id="@+id/nav_my_booking"
+        android:name="com.anhbhn.rentcar.ui.main.MyBookingFragment"
+        android:label="My Booking" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.anhbhn.rentcar.ui.main.SettingsFragment"
+        android:label="Settings" />
+
+</navigation>
+

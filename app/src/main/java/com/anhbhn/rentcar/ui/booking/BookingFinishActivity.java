@@ -133,8 +133,11 @@ public class BookingFinishActivity extends AppCompatActivity {
     
     private void setupButtons() {
         btnMyBookings.setOnClickListener(v -> {
-            // TODO: Navigate to my bookings screen
-            // For now, just finish this activity
+            // Navigate to CustomerMainActivity with My Booking tab selected
+            Intent intent = new Intent(BookingFinishActivity.this, com.anhbhn.rentcar.ui.customer.CustomerMainActivity.class);
+            intent.putExtra("selectedTab", "my_booking");
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         });
         

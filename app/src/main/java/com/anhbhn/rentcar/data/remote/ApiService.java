@@ -106,6 +106,16 @@ public interface ApiService {
             @Path("bookingNumber") String bookingNumber
     );
     
+    @PUT("booking/customer/pay-deposit-again/{bookingNumber}")
+    Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<BookingResponse>> payDepositAgain(
+            @Path("bookingNumber") String bookingNumber
+    );
+    
+    @PUT("booking/customer/pay-total-payment-again/{bookingNumber}")
+    Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<BookingResponse>> payTotalPaymentAgain(
+            @Path("bookingNumber") String bookingNumber
+    );
+    
     //User Profile
     @GET("user/edit-profile")
     Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<com.anhbhn.rentcar.data.dto.response.user.EditProfileResponse>> getUserProfile();

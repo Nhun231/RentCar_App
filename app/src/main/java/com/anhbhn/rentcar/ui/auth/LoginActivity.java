@@ -74,14 +74,14 @@ public class LoginActivity extends AppCompatActivity {
                             // Navigate based on user role
                             Intent intent;
                             if ("CUSTOMER".equals(userRole)) {
-                                // Customer -> Search Car screen
-                                intent = new Intent(LoginActivity.this, SearchCarActivity.class);
+                                // Customer -> Customer Main Activity with bottom navigation
+                                intent = new Intent(LoginActivity.this, com.anhbhn.rentcar.ui.customer.CustomerMainActivity.class);
                             } else if ("CAR_OWNER".equals(userRole)) {
                                 // Car Owner -> Add Car screen (MainActivity with add car flow)
                                 intent = new Intent(LoginActivity.this, MainActivity.class);
                             } else {
-                                // Default to Search Car for unknown roles
-                                intent = new Intent(LoginActivity.this, SearchCarActivity.class);
+                                // Default to Customer Main for unknown roles
+                                intent = new Intent(LoginActivity.this, com.anhbhn.rentcar.ui.customer.CustomerMainActivity.class);
                             }
                             startActivity(intent);
                             finish();

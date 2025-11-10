@@ -129,5 +129,13 @@ public class BookingRepository {
     public Call<ApiResponse<BookingResponse>> returnCar(String bookingNumber) {
         return apiService.returnCar(bookingNumber);
     }
+
+    public Call<ApiResponse<BookingResponse>> payDepositAgain(String bookingNumber) {
+        return apiService.payDepositAgain(bookingNumber);
+    }
+
+    public Call<ApiResponse<BookingResponse>> payTotalPaymentAgain(String bookingNumber) {
+        return apiService.payTotalPaymentAgain(bookingNumber);
+    }
 }
 

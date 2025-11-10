@@ -2,61 +2,47 @@ package com.anhbhn.rentcar
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentContainerView
+import androidx.navigation.fragment.NavHostFragment
 import com.anhbhn.rentcar.ui.auth.LoginActivity
-import com.anhbhn.rentcar.ui.theme.RentCarTheme
-import com.anhbhn.rentcar.utils.TokenManager   // <--- Make sure this import is added
+import com.anhbhn.rentcar.utils.TokenManager
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Check token here
+        // Check token and role here
         val token = TokenManager.getToken(this)
+        val userRole = TokenManager.getUserRole(this)
+        
         if (token.isNullOrEmpty()) {
             // No token → go to Login screen
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             return
         }
+        
+        // Verify this is CAR_OWNER (should be checked in SplashActivity, but safety check)
+        if (!"CAR_OWNER".equals(userRole)) {
+            // Not car owner → redirect to login
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
+        
+        // Car Owner -> Add Car flow
         setContentView(R.layout.activity_main)
-        // Token exists → show main screen
-//        enableEdgeToEdge()
-//        setContent {
-//            RentCarTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Welcome!",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
-//            }
-//        }
+        
+        // Setup navigation for add car flow (nav_add_car)
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_add_car) as? NavHostFragment
+        if (navHostFragment == null) {
+            // Initialize if not already initialized
+            val fragmentContainer = findViewById<FragmentContainerView>(R.id.nav_host_fragment_add_car)
+            if (fragmentContainer != null) {
+                // FragmentContainerView will auto-initialize with nav_add_car graph
+            }
+        }
     }
 }
-
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    RentCarTheme {
-//        Greeting("Android")
-//    }
-//}
