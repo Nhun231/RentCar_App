@@ -511,7 +511,7 @@ public class SearchCarActivity extends AppCompatActivity {
                                 // Debug: Log first car's automatic and gasoline values
                                 if (cars != null && !cars.isEmpty()) {
                                     CarThumbnailResponse firstCar = cars.get(0);
-                                    android.util.Log.d("SearchCar", "First car - isAutomatic: " + firstCar.isAutomatic + ", isGasoline: " + firstCar.isGasoline);
+//                                    android.util.Log.d("SearchCar", "First car - isAutomatic: " + firstCar.isAutomatic + ", isGasoline: " + firstCar.isGasoline);
                                     navigateToCarList(cars, address, pickUpTime, dropOffTime);
                                 } else {
                                     showToast("No cars found", false);

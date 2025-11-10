@@ -158,7 +158,7 @@ public class CarListActivity extends AppCompatActivity {
     
     private void onCarItemClick(CarThumbnailResponse car) {
         Intent intent = new Intent(this, com.anhbhn.rentcar.ui.car.detail.CarDetailActivity.class);
-        intent.putExtra("carId", car.id);
+        intent.putExtra("carId", car.getId());
         intent.putExtra("pickUpTime", pickUpTime);
         intent.putExtra("dropOffTime", dropOffTime);
         startActivity(intent);

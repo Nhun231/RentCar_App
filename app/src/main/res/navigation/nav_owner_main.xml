@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_owner_main"
+    app:startDestination="@id/nav_my_cars">
+
+    <activity
+        android:id="@+id/nav_my_cars"
+        android:name="com.anhbhn.rentcar.ui.car.myCar.MyCarsActivity"
+        android:label="@string/title_my_cars"
+        tools:layout="@layout/activity_my_cars" />
+
+    <activity
+        android:id="@+id/nav_my_rentals"
+        android:name="com.anhbhn.rentcar.ui.booking.myRentals.MyRentalsActivity"
+        android:label="@string/title_my_rentals"
+        tools:layout="@layout/activity_my_rentals" />
+
+</navigation>

@@ -69,7 +69,7 @@ public class RentalDetailsViewModel extends ViewModel {
         _errorMessage.setValue(null);
 
         // Gọi API Service
-        repository.getBookingDetails(bookingNumber).enqueue(new Callback<BookingResponse>() {
+        repository.getBookingDetailsOwner(bookingNumber).enqueue(new Callback<BookingResponse>() {
             @Override
             public void onResponse(@NonNull Call<BookingResponse> call, @NonNull Response<BookingResponse> response) {
                 _isLoading.setValue(false);

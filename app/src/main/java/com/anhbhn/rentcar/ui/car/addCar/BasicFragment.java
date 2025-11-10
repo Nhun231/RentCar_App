@@ -265,7 +265,8 @@ public class BasicFragment extends Fragment {
 
                 // Thiết lập Listener cho nút CANCEL
                 binding.btnCancel.setOnClickListener(v -> {
-                    Navigation.findNavController(v).navigate(R.id.action_basicFragment_to_myCarsActivity);
+//                    Navigation.findNavController(v).navigate(R.id.action_basicFragment_to_myCarsActivity);
+                    requireActivity().finish();
                 });
             }
         });

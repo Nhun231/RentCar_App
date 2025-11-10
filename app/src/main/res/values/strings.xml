@@ -214,4 +214,5 @@
     <string name="divider_light">#E0E0E0</string> <string name="label_mileage_unit">Mileage</string>
     <string name="label_fuel_consumption_unit">Fuel Consumption</string>
     <string name="label_no_of_seats">No of seats</string>
+    <string name="title_car_owner_dashboard">car owner main</string>
 </resources>

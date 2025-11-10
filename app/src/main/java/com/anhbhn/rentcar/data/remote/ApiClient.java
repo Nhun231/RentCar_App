@@ -40,13 +40,7 @@ public class ApiClient {
     static {
         // Cấu hình chấp nhận mọi cookie
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-        // Create a single shared cookie jar instance
         cookieJar = new JavaNetCookieJar(cookieManager);
-    }
-
-    // Get CookieManager for cookie restoration on app startup
-    public static CookieManager getCookieManager() {
-        return cookieManager;
 
         // --- LOGIC XỬ LÝ LOCALDATETIME BẰNG THREETENABP ---
         // Sử dụng định dạng ISO 8601
@@ -66,6 +60,11 @@ public class ApiClient {
                 .registerTypeAdapter(LocalDateTime.class, localDateTimeSerializer)
                 .create();
         // --- KẾT THÚC LOGIC XỬ LÝ LOCALDATETIME ---
+    }
+
+    // Get CookieManager for cookie restoration on app startup
+    public static CookieManager getCookieManager() {
+        return cookieManager;
     }
 
 

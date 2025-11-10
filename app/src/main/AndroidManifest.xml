@@ -28,6 +28,8 @@
         <activity android:name=".MainActivity" android:exported="false" android:theme="@style/Theme.RentCar" />
         <activity android:name=".ui.customer.CustomerMainActivity" android:exported="false" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <activity android:name=".ui.owner.OwnerMainActivity" android:exported="false" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity android:name=".ui.auth.RegisterActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ui.auth.LoginActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 

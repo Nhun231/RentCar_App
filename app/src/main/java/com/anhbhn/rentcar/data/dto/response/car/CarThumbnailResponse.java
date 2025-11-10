@@ -1,6 +1,8 @@
 package com.anhbhn.rentcar.data.dto.response.car;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import org.threeten.bp.LocalDateTime;
 
 public class CarThumbnailResponse {
@@ -23,6 +25,14 @@ public class CarThumbnailResponse {
         private long noOfRides;
         private double averageRatingByCar;
         private LocalDateTime updatedAt;
+    @SerializedName("numberOfSeats")
+    public Integer numberOfSeats;
+
+    @SerializedName("automatic")
+    public Boolean isAutomatic;
+
+    @SerializedName("gasoline")
+    public Boolean isGasoline;
 
     public CarThumbnailResponse() {
     }

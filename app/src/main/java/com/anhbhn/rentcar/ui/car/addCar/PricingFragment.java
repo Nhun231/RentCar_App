@@ -220,7 +220,8 @@ public class PricingFragment extends Fragment {
 
                 // Thiết lập Listener cho nút CANCEL
                 binding.btnCancel.setOnClickListener(v -> {
-                    Navigation.findNavController(v).navigate(R.id.action_pricingFragment_to_myCarsActivity);
+//                    Navigation.findNavController(v).navigate(R.id.action_pricingFragment_to_myCarsActivity);
+                    requireActivity().finish();
                 });
             }
         });

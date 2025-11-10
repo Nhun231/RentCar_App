@@ -97,62 +97,62 @@ public class MyBookingAdapter extends RecyclerView.Adapter<MyBookingAdapter.Book
         
         public void bind(BookingThumbnailResponse booking) {
             // Car name: Brand Model Year
-            String brand = booking.brand != null ? booking.brand.toUpperCase() : "";
-            String model = booking.model != null ? booking.model.toUpperCase() : "";
-            String carName = brand + " " + model + " " + booking.productionYear;
+            String brand = booking.getBrand() != null ? booking.getBrand().toUpperCase() : "";
+            String model = booking.getModel() != null ? booking.getModel().toUpperCase() : "";
+            String carName = brand + " " + model + " " + booking.getProductionYear();
             tvCarName.setText(carName.trim());
             
             // Pick-up time
-            if (booking.pickUpTime != null && !booking.pickUpTime.isEmpty()) {
-                tvPickUpTime.setText("From: " + formatDateTime(booking.pickUpTime));
+            if (booking.getPickUpTime() != null && !booking.getPickUpTime().isEmpty()) {
+                tvPickUpTime.setText("From: " + formatDateTime(booking.getPickUpTime()));
             } else {
                 tvPickUpTime.setText("From: N/A");
             }
             
             // Drop-off time
-            if (booking.dropOffTime != null && !booking.dropOffTime.isEmpty()) {
-                tvDropOffTime.setText("To: " + formatDateTime(booking.dropOffTime));
+            if (booking.getDropOffTime() != null && !booking.getDropOffTime().isEmpty()) {
+                tvDropOffTime.setText("To: " + formatDateTime(booking.getDropOffTime()));
             } else {
                 tvDropOffTime.setText("To: N/A");
             }
             
             // Number of days
-            int numberOfDays = booking.numberOfDay > 0 ? booking.numberOfDay : 1;
+            int numberOfDays = booking.getNumberOfDay() > 0 ? booking.getNumberOfDay() : 1;
             tvNumberOfDays.setText("Number of days: " + numberOfDays);
             
             // Base price
             NumberFormat formatter = NumberFormat.getNumberInstance(Locale.getDefault());
-            String basePriceText = "Base Price: " + formatter.format(booking.basePrice) + " VND/day";
+            String basePriceText = "Base Price: " + formatter.format(booking.getBasePrice()) + " VND/day";
             tvBasePrice.setText(basePriceText);
             
             // Total price
-            String totalPriceText = "Total: " + formatter.format(booking.totalPrice) + " VND";
+            String totalPriceText = "Total: " + formatter.format(booking.getTotalPrice()) + " VND";
             tvTotalPrice.setText(totalPriceText);
             
             // Deposit
-            String depositText = "Deposit: " + formatter.format(booking.deposit) + " VND";
+            String depositText = "Deposit: " + formatter.format(booking.getDeposit()) + " VND";
             tvDeposit.setText(depositText);
             
             // Booking number
-            if (booking.bookingNumber != null && !booking.bookingNumber.isEmpty()) {
-                tvBookingNumber.setText("Booking No.: " + booking.bookingNumber);
+            if (booking.getBookingNumber() != null && !booking.getBookingNumber().isEmpty()) {
+                tvBookingNumber.setText("Booking No.: " + booking.getBookingNumber());
             } else {
                 tvBookingNumber.setText("Booking No.: N/A");
             }
             
             // Status with color
-            if (booking.status != null && !booking.status.isEmpty()) {
-                tvStatus.setText(booking.status);
-                setStatusColor(booking.status);
+            if (booking.getStatus() != null && !booking.getStatus().isEmpty()) {
+                tvStatus.setText(booking.getStatus());
+                setStatusColor(booking.getStatus());
             } else {
                 tvStatus.setText("UNKNOWN");
                 tvStatus.setTextColor(itemView.getContext().getResources().getColor(android.R.color.darker_gray, null));
             }
             
             // Load car image
-            String imageUrl = booking.carImageFrontUrl != null ? booking.carImageFrontUrl :
-                             (booking.carImageRightUrl != null ? booking.carImageRightUrl :
-                             (booking.carImageLeftUrl != null ? booking.carImageLeftUrl : booking.carImageBackUrl));
+            String imageUrl = booking.getCarImageFrontUrl() != null ? booking.getCarImageFrontUrl() :
+                             (booking.getCarImageRightUrl() != null ? booking.getCarImageRightUrl() :
+                             (booking.getCarImageLeftUrl() != null ? booking.getCarImageLeftUrl() : booking.getCarImageBackUrl()));
             
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 Glide.with(itemView.getContext())
@@ -221,11 +221,11 @@ public class MyBookingAdapter extends RecyclerView.Adapter<MyBookingAdapter.Book
             btnAction1.setVisibility(View.GONE);
             btnAction2.setVisibility(View.GONE);
             
-            if (booking.status == null) {
+            if (booking.getStatus() == null) {
                 return;
             }
             
-            String status = booking.status;
+            String status = booking.getStatus();
             
             // CONFIRMED: Show Pick-up and Cancel buttons
             if ("CONFIRMED".equals(status)) {
@@ -259,7 +259,7 @@ public class MyBookingAdapter extends RecyclerView.Adapter<MyBookingAdapter.Book
                 });
             }
             // PENDING_DEPOSIT with WALLET: Show Pay Deposit and Cancel buttons
-            else if ("PENDING_DEPOSIT".equals(status) && "WALLET".equals(booking.paymentType)) {
+            else if ("PENDING_DEPOSIT".equals(status) && "WALLET".equals(booking.getPaymentType())) {
                 btnAction1.setVisibility(View.VISIBLE);
                 btnAction1.setText("Pay Deposit");
                 btnAction1.setBackgroundTintList(itemView.getContext().getResources().getColorStateList(android.R.color.darker_gray, null));

@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
                 intent = new Intent(this, com.anhbhn.rentcar.ui.customer.CustomerMainActivity.class);
             } else if ("CAR_OWNER".equals(userRole)) {
                 // Car Owner -> Add Car screen (MainActivity)
-                intent = new Intent(this, MainActivity.class);
+                intent = new Intent(this, com.anhbhn.rentcar.ui.owner.OwnerMainActivity.class);
             } else {
                 // Unknown role or no role -> default to Login
                 intent = new Intent(this, LoginActivity.class);

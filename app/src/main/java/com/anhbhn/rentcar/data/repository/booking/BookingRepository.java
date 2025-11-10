@@ -35,8 +35,8 @@ public class BookingRepository {
         // Gọi phương thức API Service tương ứng
         return apiService.getOwnerBookings(page, size, status, sort);
     }
-    public Call<BookingResponse> getBookingDetails(String bookingNumber){
-        return apiService.getBookingDetails(bookingNumber);
+    public Call<BookingResponse> getBookingDetailsOwner(String bookingNumber){
+        return apiService.getBookingDetailsOwner(bookingNumber);
     }
     public Call<BookingResponse> confirmBooking(String bookingNumber){
         return apiService.confirmBooking(bookingNumber);
@@ -51,7 +51,7 @@ public class BookingRepository {
         return apiService.rejectEarlyReturnCar(bookingNumber);
     }
 
-    public Call<ApiResponse<BookingResponse>> createBooking(
+    public Call<BookingResponse> createBooking(
             String carId,
             String pickUpLocation,
             String pickUpTime,
@@ -139,27 +139,27 @@ public class BookingRepository {
         return apiService.getWallet();
     }
 
-    public Call<ApiResponse<BookingResponse>> getBookingDetails(String bookingNumber) {
-        return apiService.getBookingDetails(bookingNumber);
+    public Call<BookingResponse> getBookingDetailsCustomer(String bookingNumber) {
+        return apiService.getBookingDetailsCustomer(bookingNumber);
     }
 
-    public Call<ApiResponse<BookingResponse>> cancelBooking(String bookingNumber) {
+    public Call<BookingResponse> cancelBooking(String bookingNumber) {
         return apiService.cancelBooking(bookingNumber);
     }
 
-    public Call<ApiResponse<BookingResponse>> confirmPickUp(String bookingNumber) {
+    public Call<BookingResponse> confirmPickUp(String bookingNumber) {
         return apiService.confirmPickUp(bookingNumber);
     }
 
-    public Call<ApiResponse<BookingResponse>> returnCar(String bookingNumber) {
+    public Call<BookingResponse> returnCar(String bookingNumber) {
         return apiService.returnCar(bookingNumber);
     }
 
-    public Call<ApiResponse<BookingResponse>> payDepositAgain(String bookingNumber) {
+    public Call<BookingResponse> payDepositAgain(String bookingNumber) {
         return apiService.payDepositAgain(bookingNumber);
     }
 
-    public Call<ApiResponse<BookingResponse>> payTotalPaymentAgain(String bookingNumber) {
+    public Call<BookingResponse> payTotalPaymentAgain(String bookingNumber) {
         return apiService.payTotalPaymentAgain(bookingNumber);
     }
 }

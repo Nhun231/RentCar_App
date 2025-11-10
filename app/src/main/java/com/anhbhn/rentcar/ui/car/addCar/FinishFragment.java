@@ -138,7 +138,10 @@ public class FinishFragment extends Fragment {
 
                 // 3. Kích hoạt Navigation
                 // Điều hướng về MyCarsActivity và xóa toàn bộ luồng Add Car khỏi Back Stack
-                Navigation.findNavController(binding.getRoot()).navigate(R.id.action_finishFragment_to_myCarsActivity);
+//                Navigation.findNavController(binding.getRoot()).navigate(R.id.action_finishFragment_to_myCarsActivity);
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
             }
         });
 

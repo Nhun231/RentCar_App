@@ -22,10 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.anhbhn.rentcar.R;
 import com.anhbhn.rentcar.data.dto.response.car.CarThumbnailResponse;
 import com.anhbhn.rentcar.ui.car.addCar.AddCarActivity;
+import com.anhbhn.rentcar.ui.car.carDetail.CarDetailActivity;
 
 import java.util.ArrayList;
 
-public class MyCarsActivity extends AppCompatActivity {
+public class MyCarsActivity extends AppCompatActivity implements MyCarsAdapter.OnCarActionListener {
 
     private MyCarsViewModel viewModel;
     private MyCarsAdapter adapter;
@@ -144,14 +145,23 @@ public class MyCarsActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new MyCarsAdapter(this, new ArrayList<>());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        adapter = new MyCarsAdapter(this, new ArrayList<>(), this);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-        // Thêm Scroll Listener để xử lý Phân trang (Load More)
-//        recyclerView.addOnScrollListener(new PaginationScrollListener(layoutManager));
+    }
+    @Override
+    public void onCarAction(String carId, String actionType) {
+        if ("VIEW_DETAILS".equals(actionType)) {
+            // Logic điều hướng
+            Intent intent = new Intent(this, CarDetailActivity.class);
+            intent.putExtra(CarDetailActivity.EXTRA_CAR_ID, carId);
+            startActivity(intent);
+        } else if ("SHOW_MENU".equals(actionType)) {
+            // Logic cho menu (Ví dụ: show popup menu)
+            Toast.makeText(this, "Showing menu for car: " + carId, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void observeViewModel() {

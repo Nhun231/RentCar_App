@@ -246,29 +246,29 @@ public class BookingPaymentActivity extends AppCompatActivity {
             isDriver ? driverWard : null,
             isDriver ? driverHouseNumberStreet : null,
             drivingLicenseFile
-        ).enqueue(new Callback<ApiResponse<BookingResponse>>() {
+        ).enqueue(new Callback<BookingResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse<BookingResponse>> call, Response<ApiResponse<BookingResponse>> response) {
+            public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                 btnConfirm.setEnabled(true);
                 btnConfirm.setText("CONFIRM PAYMENT");
                 
                 if (response.isSuccessful() && response.body() != null) {
-                    ApiResponse<BookingResponse> apiResponse = response.body();
-                    if (apiResponse.code == 1000 && apiResponse.data != null) {
+                    BookingResponse bookingResponse = response.body();
+                    if (bookingResponse.getCode() == 1000 && bookingResponse.getData() != null) {
                         // Navigate to booking finish screen
                         Intent intent = new Intent(BookingPaymentActivity.this, BookingFinishActivity.class);
-                        intent.putExtra("bookingNumber", apiResponse.data.bookingNumber);
-                        intent.putExtra("status", apiResponse.data.status);
-                        intent.putExtra("paymentType", apiResponse.data.paymentType);
-                        intent.putExtra("pickUpTime", apiResponse.data.pickUpTime);
-                        intent.putExtra("dropOffTime", apiResponse.data.dropOffTime);
+                        intent.putExtra("bookingNumber", bookingResponse.getData().getBookingNumber());
+                        intent.putExtra("status", bookingResponse.getData().getStatus());
+                        intent.putExtra("paymentType", bookingResponse.getData().getPaymentType());
+                        intent.putExtra("pickUpTime", bookingResponse.getData().getPickUpTime());
+                        intent.putExtra("dropOffTime", bookingResponse.getData().getDropOffTime());
                         intent.putExtra("carId", carId);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
                     } else {
                         Toasty.error(BookingPaymentActivity.this, 
-                            apiResponse.message != null ? apiResponse.message : "Failed to create booking", 
+                            bookingResponse.getMessage() != null ? bookingResponse.getMessage() : "Failed to create booking",
                             Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -306,7 +306,7 @@ public class BookingPaymentActivity extends AppCompatActivity {
             }
             
             @Override
-            public void onFailure(Call<ApiResponse<BookingResponse>> call, Throwable t) {
+            public void onFailure(Call<BookingResponse> call, Throwable t) {
                 btnConfirm.setEnabled(true);
                 btnConfirm.setText("CONFIRM PAYMENT");
                 Toasty.error(BookingPaymentActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();

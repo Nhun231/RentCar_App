@@ -44,8 +44,8 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:src="@android:drawable/ic_menu_recent_history"
-                            android:tint="#26C281"
-                            android:contentDescription="Mileage" />
+                            android:contentDescription="Mileage"
+                            app:tint="#26C281" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -79,8 +79,8 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:src="@android:drawable/ic_menu_recent_history"
-                            android:tint="#26C281"
-                            android:contentDescription="Fuel Consumption" />
+                            android:contentDescription="Fuel Consumption"
+                            app:tint="#26C281" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -125,8 +125,8 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@android:drawable/ic_menu_mylocation"
-                        android:tint="#26C281"
-                        android:contentDescription="Address" />
+                        android:contentDescription="Address"
+                        app:tint="#26C281" />
 
                     <TextView
                         android:id="@+id/tvAddress"

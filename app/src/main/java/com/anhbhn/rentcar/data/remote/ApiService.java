@@ -75,7 +75,7 @@ public interface ApiService {
             @Query("sort") String sort // Ví dụ: "updatedAt,DESC"
     );
     @GET("booking/car-owner/{bookingNumber}")
-    Call<BookingResponse> getBookingDetails(@Path("bookingNumber") String bookingNumber);
+    Call<BookingResponse> getBookingDetailsOwner(@Path("bookingNumber") String bookingNumber);
     @PUT("booking/car-owner/{bookingNumber}/confirm")
     Call<BookingResponse> confirmBooking(@Path("bookingNumber") String bookingNumber);
     @PUT("booking/car-owner/reject-booking/{bookingNumber}")
@@ -108,7 +108,7 @@ public interface ApiService {
     //Booking
     @Multipart
     @POST("booking/customer/create-book")
-    Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<BookingResponse>> createBooking(
+    Call<BookingResponse> createBooking(
             @PartMap Map<String, RequestBody> fields,
             @Part MultipartBody.Part driverDrivingLicense
     );
@@ -125,32 +125,32 @@ public interface ApiService {
     Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<WalletResponse>> getWallet();
 
     @GET("booking/customer/{bookingNumber}")
-    Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<BookingResponse>> getBookingDetails(
+    Call<BookingResponse> getBookingDetailsCustomer(
             @Path("bookingNumber") String bookingNumber
     );
 
     @PUT("booking/customer/cancel-booking/{bookingNumber}")
-    Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<BookingResponse>> cancelBooking(
+    Call<BookingResponse> cancelBooking(
             @Path("bookingNumber") String bookingNumber
     );
 
     @PUT("booking/customer/confirm-pick-up/{bookingNumber}")
-    Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<BookingResponse>> confirmPickUp(
+    Call<BookingResponse> confirmPickUp(
             @Path("bookingNumber") String bookingNumber
     );
 
     @PUT("booking/customer/return-car/{bookingNumber}")
-    Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<BookingResponse>> returnCar(
+    Call<BookingResponse> returnCar(
             @Path("bookingNumber") String bookingNumber
     );
 
     @PUT("booking/customer/pay-deposit-again/{bookingNumber}")
-    Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<BookingResponse>> payDepositAgain(
+    Call<BookingResponse> payDepositAgain(
             @Path("bookingNumber") String bookingNumber
     );
 
     @PUT("booking/customer/pay-total-payment-again/{bookingNumber}")
-    Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<BookingResponse>> payTotalPaymentAgain(
+    Call<BookingResponse> payTotalPaymentAgain(
             @Path("bookingNumber") String bookingNumber
     );
 

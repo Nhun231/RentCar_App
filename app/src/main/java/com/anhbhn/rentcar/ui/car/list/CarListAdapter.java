@@ -89,21 +89,21 @@ public class CarListAdapter extends RecyclerView.Adapter<CarListAdapter.CarViewH
         
         public void bind(CarThumbnailResponse car) {
             // Car name: Brand Model Year
-            String brand = car.brand != null ? car.brand.toUpperCase() : "";
-            String model = car.model != null ? car.model.toUpperCase() : "";
-            String carName = brand + " " + model + " " + car.productionYear;
+            String brand = car.getBrand() != null ? car.getBrand().toUpperCase() : "";
+            String model = car.getModel() != null ? car.getModel().toUpperCase() : "";
+            String carName = brand + " " + model + " " + car.getProductionYear();
             tvCarName.setText(carName.trim());
             
             // Location
-            if (car.address != null && !car.address.isEmpty()) {
-                tvLocation.setText(car.address);
+            if (car.getAddress() != null && !car.getAddress().isEmpty()) {
+                tvLocation.setText(car.getAddress());
             } else {
                 tvLocation.setText("Location not available");
             }
             
             // Price - Format as VND (e.g., "690K /day")
             NumberFormat vndFormat = NumberFormat.getNumberInstance(Locale.getDefault());
-            long price = car.basePrice;
+            long price = car.getBasePrice();
             String priceText;
             if (price >= 1000000) {
                 // Format as millions (e.g., 1.5M)
@@ -120,35 +120,35 @@ public class CarListAdapter extends RecyclerView.Adapter<CarListAdapter.CarViewH
             tvOriginalPrice.setVisibility(View.GONE);
             
             // Rating
-            if (car.averageRatingByCar > 0) {
-                tvRating.setText(String.format(Locale.getDefault(), "%.1f", car.averageRatingByCar));
+            if (car.getAverageRatingByCar() > 0) {
+                tvRating.setText(String.format(Locale.getDefault(), "%.1f", car.getAverageRatingByCar()));
             } else {
                 tvRating.setText("0.0"); // No ratings yet
             }
             
             // Number of rides
-            tvRides.setText(String.valueOf(car.noOfRides) + " rides");
+            tvRides.setText(String.valueOf(car.getNoOfRides()) + " rides");
             
             // Transmission - Use actual value from API (default to false/Manual if null)
             if (car.isAutomatic == null) {
-                Log.w("CarAdapter", "Car " + car.id + " - isAutomatic is NULL! Check JSON deserialization.");
+                Log.w("CarAdapter", "Car " + car.getId() + " - isAutomatic is NULL! Check JSON deserialization.");
             }
             boolean isAutomatic = car.isAutomatic != null ? car.isAutomatic : false;
             tvTransmission.setText(isAutomatic ? "Automatic" : "Manual");
-            Log.d("CarAdapter", "Car " + car.id + " - isAutomatic: " + car.isAutomatic + ", showing: " + (isAutomatic ? "Automatic" : "Manual"));
+            Log.d("CarAdapter", "Car " + car.getId() + " - isAutomatic: " + car.isAutomatic + ", showing: " + (isAutomatic ? "Automatic" : "Manual"));
             
             // Number of seats - Always display, use actual value if available
             int seats = (car.numberOfSeats != null && car.numberOfSeats > 0) ? car.numberOfSeats : 5; // Default to 5
             tvSeats.setText(seats + " seats");
-            Log.d("CarAdapter", "Car " + car.id + " - numberOfSeats: " + car.numberOfSeats + ", showing: " + seats);
+            Log.d("CarAdapter", "Car " + car.getId() + " - numberOfSeats: " + car.numberOfSeats + ", showing: " + seats);
             
             // Fuel type - Use actual value from API (default to false/Diesel if null)
             if (car.isGasoline == null) {
-                Log.w("CarAdapter", "Car " + car.id + " - isGasoline is NULL! Check JSON deserialization.");
+                Log.w("CarAdapter", "Car " + car.getId() + " - isGasoline is NULL! Check JSON deserialization.");
             }
             boolean isGasoline = car.isGasoline != null ? car.isGasoline : false;
             tvFuelType.setText(isGasoline ? "Gasoline" : "Diesel");
-            Log.d("CarAdapter", "Car " + car.id + " - isGasoline: " + car.isGasoline + ", showing: " + (isGasoline ? "Gasoline" : "Diesel"));
+            Log.d("CarAdapter", "Car " + car.getId() + " - isGasoline: " + car.isGasoline + ", showing: " + (isGasoline ? "Gasoline" : "Diesel"));
             
             // Hide optional badges for now
             ivQuickBooking.setVisibility(View.GONE);
@@ -157,9 +157,9 @@ public class CarListAdapter extends RecyclerView.Adapter<CarListAdapter.CarViewH
             tvHourlyPrice.setVisibility(View.GONE);
             
             // Load car image with rounded corners
-            String imageUrl = car.carImageFront != null ? car.carImageFront : 
-                             (car.carImageRight != null ? car.carImageRight : 
-                             (car.carImageLeft != null ? car.carImageLeft : car.carImageBack));
+            String imageUrl = car.getCarImageFront() != null ? car.getCarImageFront() :
+                             (car.getCarImageRight() != null ? car.getCarImageRight() :
+                             (car.getCarImageLeft() != null ? car.getCarImageLeft() : car.getCarImageBack()));
             
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 Glide.with(itemView.getContext())
