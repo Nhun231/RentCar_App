@@ -87,6 +87,44 @@
     <string name="label_locations">Locations:</string>
     <string name="label_status">Status:</string>
 
+    <string name="close">Close</string>
+    <string name="register_account">Register Account</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Enter email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="enter_phone_number">Enter phone number</string>
+    <string name="full_name">Full Name</string>
+    <string name="enter_full_name">Enter full name</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="toggle_password">Toggle password visibility</string>
+    <string name="register">Register</string>
+    <string name="terms_text">I have read and agree to the Terms &amp; Conditions and Privacy Policy of Mioto</string>
+    <string name="account_type">Account Type</string>
+    <string name="customer">Customer</string>
+    <string name="car_owner">Car Owner</string>
+
+    <!-- Search Car -->
+    <string name="find_ideal_car">Find the ideal car rental for your trip</string>
+    <string name="pick_up_location">Pick-up Location</string>
+    <string name="select_city_province">Select City/Province</string>
+    <string name="select_district">Select District</string>
+    <string name="select_ward">Select Ward</string>
+    <string name="rental_time">Rental Time</string>
+    <string name="pick_up_time">Pick-up Time</string>
+    <string name="drop_off_time">Drop-off Time</string>
+    <string name="search">Search Cars</string>
+    <string name="search_cars">SEARCH</string>
+    <string name="no_cars_found">No cars found</string>
+    <string name="loading">Loading...</string>
+    <string name="cars_found">%1$d %2$s</string>
+    <string name="car">car</string>
+    <string name="cars">cars</string>
+    <string name="car_found">car found</string>
+    <string name="cars_found_plural">cars found</string>
+    <string name="date_time"><![CDATA[Date & Time]]></string>
+
     <string name="title_my_cars">My Cars</string>
     <string name="msg_no_cars_found">You have not registered any cars yet.</string>
     <string name="btn_view_more">VIEW DETAILS</string>

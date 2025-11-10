@@ -12,48 +12,39 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light"
-        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.RentCar"  android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
-            android:name=".ui.auth.LoginActivity"
-            android:exported="true">
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.RentCar"> </activity>
-        <activity
-            android:name=".ui.car.addCar.AddCarActivity"
-            android:exported="true"
-            android:label="Add new car"
-            android:theme="@style/Theme.RentCar" />
-        <activity
-            android:name=".ui.car.myCar.MyCarsActivity"
-            android:exported="true"
-            android:label="My Cars"
-            android:theme="@style/Theme.RentCar" />
-        <activity
-            android:name=".ui.car.carDetail.CarDetailActivity"
-            android:exported="true"
-            android:label="Car Details"
-            android:theme="@style/Theme.RentCar" />
-        <activity
-            android:name=".ui.booking.myRentals.MyRentalsActivity"
-            android:exported="true"
-            android:label="My Rentals"
-            android:theme="@style/Theme.RentCar" />
-        <activity
-            android:name=".ui.booking.rentalDetails.RentalDetailsActivity"
-            android:exported="true"
-            android:label="Rental Details"
-            android:theme="@style/Theme.RentCar" />
+
+        <activity android:name=".MainActivity" android:exported="false" android:theme="@style/Theme.RentCar" />
+        <activity android:name=".ui.customer.CustomerMainActivity" android:exported="false" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity android:name=".ui.auth.RegisterActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.auth.LoginActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity android:name=".ui.car.carDetail.CarDetailActivity" android:exported="true" android:label="Car Details" android:theme="@style/Theme.RentCar" />
+        <activity android:name=".ui.car.addCar.AddCarActivity" android:exported="true" android:label="Add new car" android:theme="@style/Theme.RentCar" />
+        <activity android:name=".ui.car.myCar.MyCarsActivity" android:exported="true" android:label="My Cars" android:theme="@style/Theme.RentCar" />
+
+        <activity android:name=".ui.booking.myRentals.MyRentalsActivity" android:exported="true" android:label="My Rentals" android:theme="@style/Theme.RentCar" />
+        <activity android:name=".ui.booking.rentalDetails.RentalDetailsActivity" android:exported="true" android:label="Rental Details" android:theme="@style/Theme.RentCar" />
+
+        <activity android:name=".ui.car.search.SearchCarActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.car.list.CarListActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.booking.BookingInformationActivity" android:exported="false" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.booking.BookingPaymentActivity" android:exported="false" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.booking.BookingFinishActivity" android:exported="false" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.booking.MyBookingActivity" android:exported="false" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
     </application>
 
 </manifest>

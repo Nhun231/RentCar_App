@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:fillViewport="true"
+    android:paddingTop="@dimen/activity_top_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Renter's information"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Renter Information Section -->
+        <LinearLayout
+            android:id="@+id/layoutRenterInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp">
+
+            <!-- Full Name -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Full Name *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etRenterFullName"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter full name"
+                android:inputType="textPersonName"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Phone Number -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone number *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etRenterPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter phone number"
+                android:inputType="phone"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- National ID -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="National ID No. *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etRenterNationalId"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter national ID"
+                android:inputType="number"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Date of Birth -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date of birth"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etRenterDob"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Select date of birth (DD/MM/YYYY)"
+                android:inputType="date"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Email -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email address *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etRenterEmail"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter email address"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Driving License -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Driving License"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <Button
+                android:id="@+id/btnUploadRenterLicense"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Upload Driving License"
+                android:background="@drawable/button_register_background"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp" />
+            <TextView
+                android:id="@+id/tvRenterLicenseFileName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Address Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address: *"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- City/Province -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="City / Province *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <Spinner
+                android:id="@+id/spinnerRenterCityProvince"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- District -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="District *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <Spinner
+                android:id="@+id/spinnerRenterDistrict"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="8dp"
+                android:enabled="false"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Ward -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ward *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <Spinner
+                android:id="@+id/spinnerRenterWard"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="8dp"
+                android:enabled="false"
+                android:layout_marginBottom="16dp" />
+
+            <!-- House Number and Street -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="House number, Street *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etRenterHouseNumberStreet"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter house number and street"
+                android:inputType="textPostalAddress"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+        </LinearLayout>
+
+        <!-- Driver Information Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Driver Information"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Different Driver Checkbox -->
+        <CheckBox
+            android:id="@+id/cbDifferentDriver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Driver is different from renter"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Driver Information Layout (initially hidden) -->
+        <LinearLayout
+            android:id="@+id/layoutDriverInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <!-- Full Name -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Full Name *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etDriverFullName"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter full name"
+                android:inputType="textPersonName"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Phone Number -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone Number *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etDriverPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter phone number"
+                android:inputType="phone"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- National ID -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="National ID *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etDriverNationalId"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter national ID"
+                android:inputType="number"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Date of Birth -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date of Birth *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etDriverDob"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Select date of birth"
+                android:inputType="date"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Email -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etDriverEmail"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter email"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Address Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address: *"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- City/Province -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="City/Province *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <Spinner
+                android:id="@+id/spinnerDriverCityProvince"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- District -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="District *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <Spinner
+                android:id="@+id/spinnerDriverDistrict"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="8dp"
+                android:enabled="false"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Ward -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ward *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <Spinner
+                android:id="@+id/spinnerDriverWard"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="8dp"
+                android:enabled="false"
+                android:layout_marginBottom="16dp" />
+
+            <!-- House Number and Street -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="House Number and Street *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <EditText
+                android:id="@+id/etDriverHouseNumberStreet"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter house number and street"
+                android:inputType="textPostalAddress"
+                android:background="@drawable/edit_text_background"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Driving License Upload -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Driving License *"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp" />
+            <Button
+                android:id="@+id/btnUploadLicense"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Upload Driving License"
+                android:background="@drawable/button_register_background"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp" />
+            <TextView
+                android:id="@+id/tvLicenseFileName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Next Button -->
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="NEXT"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_register_background"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</ScrollView>
+
