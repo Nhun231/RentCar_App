@@ -808,11 +808,11 @@ public class BookingInformationActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     private void updateProfileAndProceed() {
         btnNext.setEnabled(false);
         btnNext.setText("Updating profile...");
-        
+
         // Get renter information from EditTexts and Spinners
         String fullName = etRenterFullName.getText().toString().trim();
         String phoneNumber = etRenterPhoneNumber.getText().toString().trim();
@@ -822,29 +822,31 @@ public class BookingInformationActivity extends AppCompatActivity {
         String district = getSpinnerSelectedValue(spinnerRenterDistrict);
         String ward = getSpinnerSelectedValue(spinnerRenterWard);
         String houseNumberStreet = etRenterHouseNumberStreet.getText().toString().trim();
-        
-        // Convert DOB from DD/MM/YYYY to yyyy-MM-dd format for API
-        String dobStr = "";
-        if (!TextUtils.isEmpty(etRenterDob.getText())) {
-            try {
-                SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                SimpleDateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                java.util.Date date = displayFormat.parse(etRenterDob.getText().toString().trim());
-                if (date != null) {
-                    dobStr = apiFormat.format(date);
-                }
-            } catch (Exception e) {
-                dobStr = etRenterDob.getText().toString().trim();
-            }
+
+        // 🟢 SỬA DOB: Dùng hàm chuyển đổi an toàn
+        String dobStr = null;
+
+        // 1. Cố gắng chuyển đổi chuỗi từ UI
+        String convertedDob = safeConvertDateToApiFormat(etRenterDob);
+
+        if (convertedDob != null) {
+            // Nếu chuyển đổi thành công (người dùng đã nhập/chọn hợp lệ)
+            dobStr = convertedDob;
+        } else if (userProfile != null && userProfile.dob != null && !userProfile.dob.isEmpty()) {
+            // Nếu chuyển đổi thất bại (do người dùng cố ý xóa hoặc nhập sai)
+            // và DOB gốc từ DB vẫn tồn tại, ta dùng DOB gốc từ DB (yyyy-MM-dd)
+            dobStr = userProfile.dob;
         }
-        
+
         // Prepare multipart request
         java.util.Map<String, okhttp3.RequestBody> fields = new java.util.HashMap<>();
         fields.put("fullName", okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), fullName));
         fields.put("phoneNumber", okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), phoneNumber));
         fields.put("nationalId", okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), nationalId));
         fields.put("email", okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), email));
-        if (!dobStr.isEmpty()) {
+
+        // 🟢 Kiểm tra NULL trước khi gửi
+        if (dobStr != null) { // 🟢 Kiểm tra NULL
             fields.put("dob", okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), dobStr));
         }
         if (!cityProvince.isEmpty()) {
@@ -859,7 +861,7 @@ public class BookingInformationActivity extends AppCompatActivity {
         if (!houseNumberStreet.isEmpty()) {
             fields.put("houseNumberStreet", okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), houseNumberStreet));
         }
-        
+
         // Handle driving license file
         okhttp3.MultipartBody.Part licensePart = null;
         if (renterDrivingLicenseFile != null && renterDrivingLicenseFile.exists()) {
@@ -876,7 +878,7 @@ public class BookingInformationActivity extends AppCompatActivity {
             } else if (fileName.endsWith(".docx")) {
                 mediaType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
             }
-            
+
             okhttp3.RequestBody fileRequestBody = okhttp3.RequestBody.create(
                     okhttp3.MediaType.parse(mediaType),
                     renterDrivingLicenseFile
@@ -887,7 +889,7 @@ public class BookingInformationActivity extends AppCompatActivity {
                     fileRequestBody
             );
         }
-        
+
         // Call API to update profile
         com.anhbhn.rentcar.data.remote.ApiService apiService = com.anhbhn.rentcar.data.remote.ApiClient.getClient(this).create(com.anhbhn.rentcar.data.remote.ApiService.class);
         apiService.editProfile(fields, licensePart).enqueue(new Callback<com.anhbhn.rentcar.data.dto.response.ApiResponse<com.anhbhn.rentcar.data.dto.response.user.EditProfileResponse>>() {
@@ -895,7 +897,7 @@ public class BookingInformationActivity extends AppCompatActivity {
             public void onResponse(Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<com.anhbhn.rentcar.data.dto.response.user.EditProfileResponse>> call, Response<com.anhbhn.rentcar.data.dto.response.ApiResponse<com.anhbhn.rentcar.data.dto.response.user.EditProfileResponse>> response) {
                 btnNext.setEnabled(true);
                 btnNext.setText("NEXT");
-                
+
                 if (response.isSuccessful() && response.body() != null) {
                     com.anhbhn.rentcar.data.dto.response.ApiResponse<com.anhbhn.rentcar.data.dto.response.user.EditProfileResponse> apiResponse = response.body();
                     if (apiResponse.code == 1000) {
@@ -930,7 +932,7 @@ public class BookingInformationActivity extends AppCompatActivity {
                     Toasty.error(BookingInformationActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                 }
             }
-            
+
             @Override
             public void onFailure(Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<com.anhbhn.rentcar.data.dto.response.user.EditProfileResponse>> call, Throwable t) {
                 btnNext.setEnabled(true);
@@ -939,34 +941,44 @@ public class BookingInformationActivity extends AppCompatActivity {
             }
         });
     }
-    
+    private String getRenterDobForApi() {
+        // 1. Cố gắng lấy giá trị từ UI (parse chỉ khi cần)
+        String convertedDob = safeConvertDateToApiFormat(etRenterDob);
+
+        if (convertedDob != null) {
+            // CASE 1: Người dùng đã nhập/chọn DOB hợp lệ
+            return convertedDob;
+        }
+
+        // 2. Nếu parse thất bại (convertedDob == null), kiểm tra DOB gốc từ DB
+        if (userProfile != null && userProfile.dob != null && !userProfile.dob.isEmpty()) {
+            // CASE 2: Dữ liệu DB gốc (2002-12-30) đã hợp lệ. Ta gửi giá trị này.
+            // Đây là trường hợp người dùng không sửa gì hoặc sửa sai format.
+            return userProfile.dob;
+        }
+
+        // CASE 3: DOB không hợp lệ
+        return null;
+    }
     private void proceedToPaymentScreen() {
-                // Navigate to payment selection screen
-                Intent intent = new Intent(this, BookingPaymentActivity.class);
-                intent.putExtra("carId", carId);
-                intent.putExtra("pickUpTime", pickUpTime);
-                intent.putExtra("dropOffTime", dropOffTime);
-                intent.putExtra("pickUpLocation", pickUpLocation);
-        
+        // Navigate to payment selection screen
+        Intent intent = new Intent(this, BookingPaymentActivity.class);
+        intent.putExtra("carId", carId);
+        intent.putExtra("pickUpTime", pickUpTime);
+        intent.putExtra("dropOffTime", dropOffTime);
+
+        // 🟢 ĐỊA CHỈ: pickUpLocation đã được làm sạch trong loadIntentData()
+        intent.putExtra("pickUpLocation", pickUpLocation);
+
         // Pass renter information (updated from EditTexts)
         intent.putExtra("renterFullName", etRenterFullName.getText().toString().trim());
         intent.putExtra("renterPhoneNumber", etRenterPhoneNumber.getText().toString().trim());
         intent.putExtra("renterNationalId", etRenterNationalId.getText().toString().trim());
-        // Convert DOB from DD/MM/YYYY to yyyy-MM-dd format for API
-        String renterDob = "";
-        if (!TextUtils.isEmpty(etRenterDob.getText())) {
-            try {
-                SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                SimpleDateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                java.util.Date date = displayFormat.parse(etRenterDob.getText().toString().trim());
-                if (date != null) {
-                    renterDob = apiFormat.format(date);
-                }
-            } catch (Exception e) {
-                renterDob = etRenterDob.getText().toString().trim();
-            }
-        }
-        intent.putExtra("renterDob", renterDob);
+
+        // 🟢 SỬA DOB RENTER: Dùng hàm chuyển đổi an toàn
+        String renterDob = safeConvertDateToApiFormat(etRenterDob);
+
+        intent.putExtra("renterDob", getRenterDobForApi());
         intent.putExtra("renterEmail", etRenterEmail.getText().toString().trim());
         intent.putExtra("renterCityProvince", getSpinnerSelectedValue(spinnerRenterCityProvince));
         intent.putExtra("renterDistrict", getSpinnerSelectedValue(spinnerRenterDistrict));
@@ -976,43 +988,56 @@ public class BookingInformationActivity extends AppCompatActivity {
         if (renterDrivingLicenseFile != null && renterDrivingLicenseFile.exists()) {
             intent.putExtra("renterDrivingLicensePath", renterDrivingLicenseFile.getAbsolutePath());
         }
-        
+
         // isDriver = true if driver is different from renter (checkbox checked)
-        // isDriver = false if renter is the driver (checkbox unchecked, use renter info)
         boolean isDriverDifferent = cbDifferentDriver.isChecked();
-        intent.putExtra("isDriver", isDriverDifferent);
-        
+        int isDriverFlagInt = isDriverDifferent ? 1 : 0;
+        intent.putExtra("isDriverFlag", isDriverFlagInt);
+
         if (isDriverDifferent) {
             // Driver is different from renter - pass driver information
-                intent.putExtra("driverFullName", etDriverFullName.getText().toString().trim());
-                intent.putExtra("driverPhoneNumber", etDriverPhoneNumber.getText().toString().trim());
-                intent.putExtra("driverNationalId", etDriverNationalId.getText().toString().trim());
-            // Convert DOB from DD/MM/YYYY to yyyy-MM-dd format for API
-            String driverDob = "";
-            if (!TextUtils.isEmpty(etDriverDob.getText())) {
-                try {
-                    SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    SimpleDateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                    java.util.Date date = displayFormat.parse(etDriverDob.getText().toString().trim());
-                    if (date != null) {
-                        driverDob = apiFormat.format(date);
-                    }
-                } catch (Exception e) {
-                    driverDob = etDriverDob.getText().toString().trim();
-                }
-            }
-            intent.putExtra("driverDob", driverDob);
-                intent.putExtra("driverEmail", etDriverEmail.getText().toString().trim());
+            intent.putExtra("driverFullName", etDriverFullName.getText().toString().trim());
+            intent.putExtra("driverPhoneNumber", etDriverPhoneNumber.getText().toString().trim());
+            intent.putExtra("driverNationalId", etDriverNationalId.getText().toString().trim());
+
+            // 🟢 SỬA DOB DRIVER: Dùng hàm chuyển đổi an toàn
+            String driverDob = safeConvertDateToApiFormat(etDriverDob);
+            intent.putExtra("driverDob", driverDob); // Truyền NULL nếu không hợp lệ/trống
+
+            intent.putExtra("driverEmail", etDriverEmail.getText().toString().trim());
             intent.putExtra("driverCityProvince", getSpinnerSelectedValue(spinnerDriverCityProvince));
             intent.putExtra("driverDistrict", getSpinnerSelectedValue(spinnerDriverDistrict));
             intent.putExtra("driverWard", getSpinnerSelectedValue(spinnerDriverWard));
-                intent.putExtra("driverHouseNumberStreet", etDriverHouseNumberStreet.getText().toString().trim());
-                if (drivingLicenseFile != null) {
-                    intent.putExtra("drivingLicensePath", drivingLicenseFile.getAbsolutePath());
-                }
+            intent.putExtra("driverHouseNumberStreet", etDriverHouseNumberStreet.getText().toString().trim());
+            if (drivingLicenseFile != null) {
+                intent.putExtra("drivingLicensePath", drivingLicenseFile.getAbsolutePath());
+            }
         }
-        
-                startActivity(intent);
+
+        startActivity(intent);
+    }
+    private String safeConvertDateToApiFormat(EditText editText) {
+        String dobText = editText.getText().toString().trim();
+        if (TextUtils.isEmpty(dobText)) {
+            return null;
+        }
+        try {
+            // 🟢 SỬ DỤNG LOCALE TRUNG TÍNH (Locale.US hoặc Locale.ROOT)
+            // Điều này buộc parser chỉ dựa vào chuỗi "dd/MM/yyyy"
+            SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+            displayFormat.setLenient(false);
+
+            // Định dạng API yêu cầu
+            SimpleDateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+            java.util.Date date = displayFormat.parse(dobText);
+            if (date != null) {
+                return apiFormat.format(date);
+            }
+        } catch (Exception e) {
+            android.util.Log.e("BookingInfo", "DOB Parsing Failed for: " + dobText, e);
+        }
+        return null;
     }
     
     private boolean validateInputs() {

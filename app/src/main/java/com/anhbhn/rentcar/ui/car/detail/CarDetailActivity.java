@@ -68,7 +68,7 @@ public class CarDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car_detail);
+        setContentView(R.layout.activity_car_detail_customer);
 
         loadIntentData();
         initializeViews();
@@ -260,7 +260,7 @@ public class CarDetailActivity extends AppCompatActivity {
             String statusText = carDetail.status;
             int statusColor;
             int statusBgColor;
-            
+
             switch (carDetail.status) {
                 case "VERIFIED":
                     statusText = "VERIFIED";
@@ -281,7 +281,7 @@ public class CarDetailActivity extends AppCompatActivity {
                     statusColor = getResources().getColor(android.R.color.darker_gray, null);
                     statusBgColor = getResources().getColor(android.R.color.transparent, null);
             }
-            
+
             tvStatus.setText(statusText);
             tvStatus.setTextColor(statusColor);
             tvStatus.setBackgroundColor(statusBgColor);
@@ -355,10 +355,10 @@ public class CarDetailActivity extends AppCompatActivity {
         // Setup image carousel
         CarImagePagerAdapter imageAdapter = new CarImagePagerAdapter(carImageUrls);
         viewPagerCarImages.setAdapter(imageAdapter);
-        
+
         // Setup image navigation and indicators
         setupImageNavigation();
-        
+
         if (carImageUrls.size() > 1) {
             setupImageIndicators();
         } else {
@@ -373,7 +373,7 @@ public class CarDetailActivity extends AppCompatActivity {
         for (int i = 0; i < carImageUrls.size(); i++) {
             ImageView indicator = new ImageView(this);
             indicator.setImageResource(android.R.drawable.star_big_off);
-            indicator.setColorFilter(i == 0 ? getResources().getColor(android.R.color.holo_green_dark, null) : 
+            indicator.setColorFilter(i == 0 ? getResources().getColor(android.R.color.holo_green_dark, null) :
                 getResources().getColor(android.R.color.darker_gray, null));
             indicator.setPadding(8, 0, 8, 0);
             layoutImageIndicators.addView(indicator);
@@ -408,7 +408,7 @@ public class CarDetailActivity extends AppCompatActivity {
                 }
             }
         });
-        
+
         // Set initial button visibility
         if (carImageUrls.size() > 1) {
             btnPreviousImage.setVisibility(View.GONE);
@@ -419,8 +419,8 @@ public class CarDetailActivity extends AppCompatActivity {
     private void updateImageIndicators(int position) {
         for (int i = 0; i < layoutImageIndicators.getChildCount(); i++) {
             ImageView indicator = (ImageView) layoutImageIndicators.getChildAt(i);
-            indicator.setColorFilter(i == position ? 
-                getResources().getColor(android.R.color.holo_green_dark, null) : 
+            indicator.setColorFilter(i == position ?
+                getResources().getColor(android.R.color.holo_green_dark, null) :
                 getResources().getColor(android.R.color.darker_gray, null));
         }
     }
@@ -428,7 +428,7 @@ public class CarDetailActivity extends AppCompatActivity {
     private void updateFragments() {
         // Notify all fragments to update with car detail data
         if (carDetail == null) return;
-        
+
         // Fragments will get data from getCarDetail() when they need it
         // Refresh the adapter to trigger fragment updates
         viewPagerTabs.post(() -> {
@@ -500,7 +500,7 @@ public class CarDetailActivity extends AppCompatActivity {
                     holder.imageView.setImageResource(android.R.drawable.ic_menu_report_image);
                     return;
                 }
-                
+
                 String imageUrl = imageUrls.get(position);
                 if (imageUrl != null && !imageUrl.trim().isEmpty()) {
                     // Handle relative URLs by prepending base URL if needed
@@ -516,7 +516,7 @@ public class CarDetailActivity extends AppCompatActivity {
                         }
                         fullUrl = baseUrl + imageUrl;
                     }
-                    
+
                     Glide.with(holder.imageView.getContext())
                             .load(fullUrl)
                             .placeholder(android.R.drawable.ic_menu_report_image)

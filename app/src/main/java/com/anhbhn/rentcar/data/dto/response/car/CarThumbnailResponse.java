@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import org.threeten.bp.LocalDateTime;
 
-public class CarThumbnailResponse {
+import java.io.Serializable;
+
+public class CarThumbnailResponse implements Serializable {
         private String id;
         private String brand;
         private String model;

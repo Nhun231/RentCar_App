@@ -215,4 +215,5 @@
     <string name="label_fuel_consumption_unit">Fuel Consumption</string>
     <string name="label_no_of_seats">No of seats</string>
     <string name="title_car_owner_dashboard">car owner main</string>
+    <string name="title_settings">Settings</string>
 </resources>

@@ -71,30 +71,23 @@ public class BookingRepository {
     ) {
         Map<String, RequestBody> fields = new HashMap<>();
 
-        // Add text fields
         fields.put("carId", createRequestBody(carId));
         fields.put("pickUpLocation", createRequestBody(pickUpLocation));
         fields.put("pickUpTime", createRequestBody(pickUpTime));
         fields.put("dropOffTime", createRequestBody(dropOffTime));
         fields.put("paymentType", createRequestBody(paymentType));
-        fields.put("isDriver", createRequestBody(String.valueOf(isDriver)));
+        fields.put("driver", createRequestBody(String.valueOf(isDriver).toLowerCase()));
 
-        // Add driver fields only if isDriver is true
-        if (isDriver) {
-            fields.put("driverFullName", createRequestBody(driverFullName));
-            fields.put("driverPhoneNumber", createRequestBody(driverPhoneNumber));
-            fields.put("driverNationalId", createRequestBody(driverNationalId));
-            fields.put("driverDob", createRequestBody(driverDob));
-            fields.put("driverEmail", createRequestBody(driverEmail));
-            fields.put("driverCityProvince", createRequestBody(driverCityProvince));
-            fields.put("driverDistrict", createRequestBody(driverDistrict));
-            fields.put("driverWard", createRequestBody(driverWard));
-            fields.put("driverHouseNumberStreet", createRequestBody(driverHouseNumberStreet));
-        }
+        fields.put("driverFullName", createRequestBody(driverFullName));
+        fields.put("driverPhoneNumber", createRequestBody(driverPhoneNumber));
+        fields.put("driverNationalId", createRequestBody(driverNationalId));
+        fields.put("driverDob", createRequestBody(driverDob));
+        fields.put("driverEmail", createRequestBody(driverEmail));
+        fields.put("driverCityProvince", createRequestBody(driverCityProvince));
+        fields.put("driverDistrict", createRequestBody(driverDistrict));
+        fields.put("driverWard", createRequestBody(driverWard));
+        fields.put("driverHouseNumberStreet", createRequestBody(driverHouseNumberStreet));
 
-        // Handle file upload
-        // If isDriver is true: upload driver's license
-        // If isDriver is false: upload renter's license if provided (otherwise backend uses account's license)
         MultipartBody.Part filePart = null;
         if (drivingLicenseFile != null && drivingLicenseFile.exists()) {
             // Determine media type based on file extension

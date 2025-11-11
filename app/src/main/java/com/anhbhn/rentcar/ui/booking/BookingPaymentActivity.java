@@ -23,8 +23,6 @@ import com.anhbhn.rentcar.data.repository.car.CarRepository;
 
 import java.io.File;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
@@ -42,12 +40,17 @@ public class BookingPaymentActivity extends AppCompatActivity {
     private TextView tvDeposit;
     private Button btnConfirm;
     private Button btnBack;
-    
+
+    // --- DỮ LIỆU ĐƯỢC LOAD TỪ INTENT ---
     private String carId;
     private String pickUpTime;
     private String dropOffTime;
     private String pickUpLocation;
-    private boolean isDriver;
+
+    // 🟢 ĐỔI TÊN: Biến này xác định TÀI XẾ KHÁC người thuê
+    private boolean isDriverDifferent;
+
+    // --- THÔNG TIN TÀI XẾ (Nếu là tài xế khác) ---
     private String driverFullName;
     private String driverPhoneNumber;
     private String driverNationalId;
@@ -58,9 +61,19 @@ public class BookingPaymentActivity extends AppCompatActivity {
     private String driverWard;
     private String driverHouseNumberStreet;
     private String drivingLicensePath;
-    private String renterDrivingLicensePath;
+
+    // --- THÔNG TIN NGƯỜI THUÊ ---
+    private String renterFullName;
+    private String renterPhoneNumber;
+    private String renterNationalId;
     private String renterDob;
-    
+    private String renterEmail;
+    private String renterCityProvince;
+    private String renterDistrict;
+    private String renterWard;
+    private String renterHouseNumberStreet;
+    private String renterDrivingLicensePath;
+
     private long walletBalance = 0;
     private long deposit = 0;
     private String selectedPaymentType = "";
@@ -71,14 +84,14 @@ public class BookingPaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_payment);
-        
+
         loadIntentData();
         initializeViews();
         loadWalletAndCarDetail();
         setupPaymentSelection();
         setupButtons();
     }
-    
+
     private void loadIntentData() {
         Intent intent = getIntent();
         if (intent != null) {
@@ -86,7 +99,12 @@ public class BookingPaymentActivity extends AppCompatActivity {
             pickUpTime = intent.getStringExtra("pickUpTime");
             dropOffTime = intent.getStringExtra("dropOffTime");
             pickUpLocation = intent.getStringExtra("pickUpLocation");
-            isDriver = intent.getBooleanExtra("isDriver", false);
+
+            // 🟢 LẤY GIÁ TRỊ VÀO BIẾN ĐÃ ĐỔI TÊN
+            int isDriverFlagInt = intent.getIntExtra("isDriverFlag", 0);
+            isDriverDifferent = (isDriverFlagInt == 1);
+
+            // Lấy thông tin Tài xế (Nếu là tài xế khác)
             driverFullName = intent.getStringExtra("driverFullName");
             driverPhoneNumber = intent.getStringExtra("driverPhoneNumber");
             driverNationalId = intent.getStringExtra("driverNationalId");
@@ -97,11 +115,21 @@ public class BookingPaymentActivity extends AppCompatActivity {
             driverWard = intent.getStringExtra("driverWard");
             driverHouseNumberStreet = intent.getStringExtra("driverHouseNumberStreet");
             drivingLicensePath = intent.getStringExtra("drivingLicensePath");
-            renterDrivingLicensePath = intent.getStringExtra("renterDrivingLicensePath");
+
+            // LOAD THÔNG TIN NGƯỜI THUÊ
+            renterFullName = intent.getStringExtra("renterFullName");
+            renterPhoneNumber = intent.getStringExtra("renterPhoneNumber");
+            renterNationalId = intent.getStringExtra("renterNationalId");
             renterDob = intent.getStringExtra("renterDob");
+            renterEmail = intent.getStringExtra("renterEmail");
+            renterCityProvince = intent.getStringExtra("renterCityProvince");
+            renterDistrict = intent.getStringExtra("renterDistrict");
+            renterWard = intent.getStringExtra("renterWard");
+            renterHouseNumberStreet = intent.getStringExtra("renterHouseNumberStreet");
+            renterDrivingLicensePath = intent.getStringExtra("renterDrivingLicensePath");
         }
     }
-    
+
     private void initializeViews() {
         rgPaymentType = findViewById(R.id.rgPaymentType);
         rbWallet = findViewById(R.id.rbWallet);
@@ -111,11 +139,11 @@ public class BookingPaymentActivity extends AppCompatActivity {
         tvDeposit = findViewById(R.id.tvDeposit);
         btnConfirm = findViewById(R.id.btnConfirm);
         btnBack = findViewById(R.id.btnBack);
-        
+
         bookingRepository = new BookingRepository(this);
         carRepository = new CarRepository(this);
     }
-    
+
     private void loadWalletAndCarDetail() {
         // Load wallet balance
         ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
@@ -127,36 +155,36 @@ public class BookingPaymentActivity extends AppCompatActivity {
                     updateWalletBalance();
                 }
             }
-            
+
             @Override
             public void onFailure(Call<ApiResponse<WalletResponse>> call, Throwable t) {
                 // Silently fail
             }
         });
-        
+
         // Load car detail to get deposit
         carRepository.getCarDetail(carId, pickUpTime, dropOffTime)
-            .enqueue(new Callback<ApiResponse<CarDetailResponse>>() {
-                @Override
-                public void onResponse(Call<ApiResponse<CarDetailResponse>> call, Response<ApiResponse<CarDetailResponse>> response) {
-                    if (response.isSuccessful() && response.body() != null && response.body().data != null) {
-                        deposit = response.body().data.deposit;
-                        updateDeposit();
+                .enqueue(new Callback<ApiResponse<CarDetailResponse>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<CarDetailResponse>> call, Response<ApiResponse<CarDetailResponse>> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().data != null) {
+                            deposit = response.body().data.deposit;
+                            updateDeposit();
+                        }
                     }
-                }
-                
-                @Override
-                public void onFailure(Call<ApiResponse<CarDetailResponse>> call, Throwable t) {
-                    // Silently fail
-                }
-            });
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<CarDetailResponse>> call, Throwable t) {
+                        // Silently fail
+                    }
+                });
     }
-    
+
     private void updateWalletBalance() {
         NumberFormat formatter = NumberFormat.getNumberInstance(Locale.getDefault());
         String balanceText = "Current balance: " + formatter.format(walletBalance) + " VND";
         tvWalletBalance.setText(balanceText);
-        
+
         // Change color based on balance
         if (walletBalance >= deposit) {
             tvWalletBalance.setTextColor(getResources().getColor(android.R.color.holo_green_dark, null));
@@ -164,13 +192,13 @@ public class BookingPaymentActivity extends AppCompatActivity {
             tvWalletBalance.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
         }
     }
-    
+
     private void updateDeposit() {
         NumberFormat formatter = NumberFormat.getNumberInstance(Locale.getDefault());
         String depositText = "Deposit: " + formatter.format(deposit) + " VND";
         tvDeposit.setText(depositText);
     }
-    
+
     private void setupPaymentSelection() {
         rgPaymentType.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbWallet) {
@@ -182,76 +210,87 @@ public class BookingPaymentActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     private void setupButtons() {
         btnBack.setOnClickListener(v -> finish());
-        
+
         btnConfirm.setOnClickListener(v -> {
             if (selectedPaymentType.isEmpty()) {
                 Toasty.warning(this, "Please select a payment method", Toast.LENGTH_SHORT).show();
                 return;
             }
-            
+
             createBooking();
         });
     }
-    
+
     private void createBooking() {
         btnConfirm.setEnabled(false);
         btnConfirm.setText("Creating booking...");
-        
+
         File drivingLicenseFile = null;
-        // If driver is different from renter, use driver's license
-        // If renter is the driver, use renter's uploaded license if available
-        if (isDriver) {
-            // Driver is different from renter - use driver's license
-            if (drivingLicensePath != null && !drivingLicensePath.isEmpty()) {
-                drivingLicenseFile = new File(drivingLicensePath);
-                if (!drivingLicenseFile.exists()) {
+        // 🟢 SỬ DỤNG BIẾN ĐÃ ĐỔI TÊN
+        String licensePath = isDriverDifferent ? drivingLicensePath : renterDrivingLicensePath;
+
+        if (licensePath != null && !licensePath.isEmpty()) {
+            drivingLicenseFile = new File(licensePath);
+            if (!drivingLicenseFile.exists()) {
+                // 🟢 SỬ DỤNG BIẾN ĐÃ ĐỔI TÊN
+                if (isDriverDifferent) {
                     Toasty.error(this, "Driver driving license file not found", Toast.LENGTH_SHORT).show();
                     btnConfirm.setEnabled(true);
                     btnConfirm.setText("CONFIRM PAYMENT");
                     return;
                 }
-            }
-        } else {
-            // Renter is the driver - use renter's uploaded license if available
-            // Otherwise backend will use account's driving license
-            if (renterDrivingLicensePath != null && !renterDrivingLicensePath.isEmpty()) {
-                drivingLicenseFile = new File(renterDrivingLicensePath);
-                if (!drivingLicenseFile.exists()) {
-                    // If file doesn't exist, just continue - backend will use account's license
-                    drivingLicenseFile = null;
-                }
+                // Nếu người thuê là tài xế, ta không cần file nếu nó đã có trên Profile
+                drivingLicenseFile = null;
             }
         }
-        
-        // Note: Backend constructs pickUpLocation from car entity, so we can pass empty string
-        // Backend will override this with the full address from the car
+
+        // 🟢 XỬ LÝ DỮ LIỆU TÀI XẾ DỰA TRÊN BIẾN MỚI
+        // isDriverDifferent = true -> dùng driverFullName, driverDob, etc.
+        // isDriverDifferent = false -> dùng renterFullName, renterDob, etc.
+        boolean driverIsRenter = !isDriverDifferent;
+
+        String finalDriverFullName = driverIsRenter ? renterFullName : driverFullName;
+        String finalDriverPhoneNumber = driverIsRenter ? renterPhoneNumber : driverPhoneNumber;
+        String finalDriverNationalId = driverIsRenter ? renterNationalId : driverNationalId;
+        String finalDriverDob = driverIsRenter ? renterDob : driverDob;
+        String finalDriverEmail = driverIsRenter ? renterEmail : driverEmail;
+        String finalDriverCity = driverIsRenter ? renterCityProvince : driverCityProvince;
+        String finalDriverDistrict = driverIsRenter ? renterDistrict : driverDistrict;
+        String finalDriverWard = driverIsRenter ? renterWard : driverWard;
+        String finalDriverHouseNumberStreet = driverIsRenter ? renterHouseNumberStreet : driverHouseNumberStreet;
+
+        // 🟢 Đảm bảo DOB không phải NULL (nếu nó là NULL do parse lỗi)
+        // Nếu DOB bị null, ta chuyển nó thành chuỗi rỗng "" để gửi đi (dựa trên logic đã sửa trước đó)
+        String dobForApi = (finalDriverDob != null) ? finalDriverDob : "";
+
+
+        // 🟢 SỬ DỤNG isDriverDifferent (dạng boolean) CHO THAM SỐ THỨ 6
         bookingRepository.createBooking(
-            carId,
-            "", // Backend will construct pickUpLocation from car entity
-            pickUpTime,
-            dropOffTime,
-            selectedPaymentType,
-            isDriver,
-            isDriver ? driverFullName : null,
-            isDriver ? driverPhoneNumber : null,
-            isDriver ? driverNationalId : null,
-            // When isDriver = false, use renter's DOB (backend requires driverDob even when renter is driver)
-            isDriver ? driverDob : renterDob,
-            isDriver ? driverEmail : null,
-            isDriver ? driverCityProvince : null,
-            isDriver ? driverDistrict : null,
-            isDriver ? driverWard : null,
-            isDriver ? driverHouseNumberStreet : null,
-            drivingLicenseFile
+                carId,
+                pickUpLocation,
+                pickUpTime,
+                dropOffTime,
+                selectedPaymentType,
+                isDriverDifferent, // 🟢 ĐỔI TÊN BIẾN
+                finalDriverFullName,
+                finalDriverPhoneNumber,
+                finalDriverNationalId,
+                dobForApi, // 🟢 SỬ DỤNG GIÁ TRỊ ĐÃ XỬ LÝ (Không null)
+                finalDriverEmail,
+                finalDriverCity,
+                finalDriverDistrict,
+                finalDriverWard,
+                finalDriverHouseNumberStreet,
+                drivingLicenseFile
         ).enqueue(new Callback<BookingResponse>() {
             @Override
             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                 btnConfirm.setEnabled(true);
                 btnConfirm.setText("CONFIRM PAYMENT");
-                
+
                 if (response.isSuccessful() && response.body() != null) {
                     BookingResponse bookingResponse = response.body();
                     if (bookingResponse.getCode() == 1000 && bookingResponse.getData() != null) {
@@ -267,9 +306,9 @@ public class BookingPaymentActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        Toasty.error(BookingPaymentActivity.this, 
-                            bookingResponse.getMessage() != null ? bookingResponse.getMessage() : "Failed to create booking",
-                            Toast.LENGTH_SHORT).show();
+                        Toasty.error(BookingPaymentActivity.this,
+                                bookingResponse.getMessage() != null ? bookingResponse.getMessage() : "Failed to create booking",
+                                Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     // Handle error response - parse JSON error body
@@ -304,7 +343,7 @@ public class BookingPaymentActivity extends AppCompatActivity {
                     Toasty.error(BookingPaymentActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                 }
             }
-            
+
             @Override
             public void onFailure(Call<BookingResponse> call, Throwable t) {
                 btnConfirm.setEnabled(true);
@@ -314,4 +353,3 @@ public class BookingPaymentActivity extends AppCompatActivity {
         });
     }
 }
-

@@ -37,10 +37,12 @@ class MainActivity : AppCompatActivity() {
 
         // 3. Setup Bottom Navigation
         val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_owner) as NavHostFragment // Sử dụng ID mới
+            .findFragmentById(R.id.nav_host_fragment_owner) as NavHostFragment
 
         navController = navHostFragment.navController
-        binding.bottomNavigationOwner.setupWithNavController(navController)
+        binding.bottomNavigationOwner.post {
+            binding.bottomNavigationOwner.setupWithNavController(navController)
+        }
 
         // 4. Khởi tạo màn hình đầu tiên (My Cars)
         // (Nav Graph đã xử lý, không cần gọi thêm)

@@ -94,12 +94,12 @@
                     android:gravity="center_vertical"
                     android:layout_marginBottom="12dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@android:drawable/btn_star_big_on"
-                        android:tint="#FF9800"
-                        android:contentDescription="Rating" />
+                        android:contentDescription="Rating"
+                        app:tint="#FF9800" />
 
                     <TextView
                         android:id="@+id/tvRating"
@@ -112,12 +112,12 @@
                         android:layout_marginStart="6dp"
                         android:layout_marginEnd="16dp" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@android:drawable/ic_menu_agenda"
-                        android:tint="#666666"
-                        android:contentDescription="Rides" />
+                        android:contentDescription="Rides"
+                        app:tint="#666666" />
 
                     <TextView
                         android:id="@+id/tvNoOfRides"
@@ -149,12 +149,12 @@
                     android:gravity="center_vertical"
                     android:layout_marginBottom="12dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@android:drawable/ic_menu_mylocation"
-                        android:tint="#666666"
-                        android:contentDescription="Location" />
+                        android:contentDescription="Location"
+                        app:tint="#666666" />
 
                     <TextView
                         android:id="@+id/tvLocation"
@@ -278,8 +278,8 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@android:drawable/checkbox_on_background"
-                        android:tint="#26C281"
-                        android:contentDescription="Available" />
+                        android:contentDescription="Available"
+                        app:tint="#26C281" />
 
                     <TextView
                         android:id="@+id/tvAvailabilityMessage"

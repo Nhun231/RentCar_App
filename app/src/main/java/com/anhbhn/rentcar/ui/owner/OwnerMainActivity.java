@@ -83,7 +83,17 @@ public class OwnerMainActivity extends AppCompatActivity {
             return false;
         });
     }
-
+    private void loadInitialFragment() {
+        // Chỉ tải Fragment nếu FragmentManager chưa có bất kỳ Fragment nào
+        if (fragmentManager.findFragmentByTag(TAG_MY_CARS) == null) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(R.id.nav_host_fragment_owner, new MyCarsFragment(), TAG_MY_CARS);
+            transaction.commitNow();
+            currentTag = TAG_MY_CARS;
+            bottomNavigation.setSelectedItemId(NAV_MY_CARS_ID);
+            updateToolbarTitle(TAG_MY_CARS);
+        }
+    }
     private void loadFragment(Fragment fragment, String tag) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
@@ -101,7 +111,7 @@ public class OwnerMainActivity extends AppCompatActivity {
         }
 
         currentTag = tag;
-        transaction.commit();
+        transaction.commitNow();
         updateToolbarTitle(tag);
     }
 

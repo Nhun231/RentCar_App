@@ -5,16 +5,18 @@
     android:id="@+id/nav_owner_main"
     app:startDestination="@id/nav_my_cars">
 
-    <activity
+    <fragment
         android:id="@+id/nav_my_cars"
-        android:name="com.anhbhn.rentcar.ui.car.myCar.MyCarsActivity"
-        android:label="@string/title_my_cars"
-        tools:layout="@layout/activity_my_cars" />
+        android:name="com.anhbhn.rentcar.ui.owner.MyCarsFragment"
+        android:label="@string/title_my_cars" />
 
-    <activity
+    <fragment
         android:id="@+id/nav_my_rentals"
-        android:name="com.anhbhn.rentcar.ui.booking.myRentals.MyRentalsActivity"
-        android:label="@string/title_my_rentals"
-        tools:layout="@layout/activity_my_rentals" />
+        android:name="com.anhbhn.rentcar.ui.owner.MyRentalsFragment"
+        android:label="@string/title_my_rentals" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.anhbhn.rentcar.ui.main.SettingsFragment"
+        android:label="Settings" />
 
 </navigation>

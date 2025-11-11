@@ -34,6 +34,7 @@
         <activity android:name=".ui.auth.LoginActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity android:name=".ui.car.carDetail.CarDetailActivity" android:exported="true" android:label="Car Details" android:theme="@style/Theme.RentCar" />
+        <activity android:name=".ui.car.detail.CarDetailActivity" android:exported="true" android:label="Car Details" android:theme="@style/Theme.RentCar" />
         <activity android:name=".ui.car.addCar.AddCarActivity" android:exported="true" android:label="Add new car" android:theme="@style/Theme.RentCar" />
         <activity android:name=".ui.car.myCar.MyCarsActivity" android:exported="true" android:label="My Cars" android:theme="@style/Theme.RentCar" />
 
