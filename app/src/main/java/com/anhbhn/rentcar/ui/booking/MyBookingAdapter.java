@@ -72,7 +72,7 @@ public class MyBookingAdapter extends RecyclerView.Adapter<MyBookingAdapter.Book
         private TextView tvDeposit;
         private TextView tvBookingNumber;
         private TextView tvStatus;
-        private Button btnViewDetails;
+//        private Button btnViewDetails;
         private Button btnAction1;
         private Button btnAction2;
         private LinearLayout layoutActionButtons;
@@ -89,7 +89,7 @@ public class MyBookingAdapter extends RecyclerView.Adapter<MyBookingAdapter.Book
             tvDeposit = itemView.findViewById(R.id.tvDeposit);
             tvBookingNumber = itemView.findViewById(R.id.tvBookingNumber);
             tvStatus = itemView.findViewById(R.id.tvStatus);
-            btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
+//            btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
             btnAction1 = itemView.findViewById(R.id.btnAction1);
             btnAction2 = itemView.findViewById(R.id.btnAction2);
             layoutActionButtons = itemView.findViewById(R.id.layoutActionButtons);
@@ -169,11 +169,11 @@ public class MyBookingAdapter extends RecyclerView.Adapter<MyBookingAdapter.Book
             setupActionButtons(booking);
             
             // View Details button
-            btnViewDetails.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onViewDetailsClick(booking);
-                }
-            });
+//            btnViewDetails.setOnClickListener(v -> {
+//                if (listener != null) {
+//                    listener.onViewDetailsClick(booking);
+//                }
+//            });
         }
         
         private void setStatusColor(String status) {

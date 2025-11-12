@@ -152,19 +152,19 @@
             android:layout_marginTop="8dp">
 
             <!-- View Details Button -->
-            <Button
-                android:id="@+id/btnViewDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View Details"
-                android:textSize="12sp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="#1976d2"
-                android:textColor="@android:color/white" />
+<!--            <Button-->
+<!--                android:id="@+id/btnViewDetails"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="View Details"-->
+<!--                android:textSize="12sp"-->
+<!--                android:paddingStart="16dp"-->
+<!--                android:paddingEnd="16dp"-->
+<!--                android:paddingTop="8dp"-->
+<!--                android:paddingBottom="8dp"-->
+<!--                android:layout_marginEnd="8dp"-->
+<!--                android:backgroundTint="#1976d2"-->
+<!--                android:textColor="@android:color/white" />-->
 
             <!-- Action Button 1 (Pick-up, Cancel, Return Car, etc.) -->
             <Button
