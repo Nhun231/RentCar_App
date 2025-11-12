@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     RadioButton rbCustomer, rbCarOwner;
     CheckBox cbTerms;
     Button btnRegister;
+    TextView linkLogin;
     AuthRepository authRepository;
 
     private boolean isPasswordVisible = false;
@@ -46,8 +48,17 @@ public class RegisterActivity extends AppCompatActivity {
         initializeViews();
         setupPasswordToggle();
         setupRegisterButton();
+        setupLoginLink();
 
         authRepository = new AuthRepository(this);
+    }
+
+    private void setupLoginLink() {
+        linkLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void initializeViews() {
@@ -63,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
         rbCarOwner = findViewById(R.id.rbCarOwner);
         cbTerms = findViewById(R.id.cbTerms);
         btnRegister = findViewById(R.id.btnRegister);
+        linkLogin = findViewById(R.id.linkLogin);
     }
 
     private void setupPasswordToggle() {

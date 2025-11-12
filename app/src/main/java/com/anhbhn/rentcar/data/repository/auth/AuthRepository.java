@@ -34,4 +34,7 @@ public class AuthRepository {
     public Call<ApiResponse<String>> logout() {
         return apiService.logout();
     }
+    public Call<ApiResponse<String>> sendForgotPasswordEmail(String email) {
+        return apiService.sendForgotPasswordEmail(email);
+    }
 }

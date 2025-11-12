@@ -216,4 +216,21 @@
     <string name="label_no_of_seats">No of seats</string>
     <string name="title_car_owner_dashboard">car owner main</string>
     <string name="title_settings">Settings</string>
+    <string name="already_have_account_login">Already have an account? Log in now!</string>
+    <string name="forgot_password_title">Forgot password?</string>
+    <string name="forgot_password_instruction">Enter your email address. We will send you a link to reset your password.</string>
+    <string name="email_hint">Email Address</string>
+    <string name="send_reset_link">Send Reset Link</string>
+    <string name="back_to_login">Back to Login</string>
+    <string name="change_password_title">Change Password</string>
+    <string name="old_password">Old Password *</string>
+    <string name="enter_old_password">Enter your current password</string>
+    <string name="new_password">New Password *</string>
+    <string name="enter_new_password">Enter new password (min. 9 characters)</string>
+    <string name="confirm_new_password">Confirm Password *</string>
+    <string name="confirm_new_password_hint">Re-enter new password</string>
+    <string name="save_changes">SAVE CHANGES</string>
+    <string name="view_full_history">View Full Transaction History →</string>
+    <string name="wallet_web_hint">Top-up and withdrawal features are available on the web page.</string>
+    <string name="wallet_history_url">http://10.0.2.2:3000/#/my-wallet</string>
 </resources>

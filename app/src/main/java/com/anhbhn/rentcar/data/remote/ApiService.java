@@ -3,6 +3,7 @@ package com.anhbhn.rentcar.data.remote;
 import com.anhbhn.rentcar.data.dto.helper.PageResponse;
 import com.anhbhn.rentcar.data.dto.request.auth.LoginRequest;
 import com.anhbhn.rentcar.data.dto.request.auth.RegisterRequest;
+import com.anhbhn.rentcar.data.dto.request.user.EditPasswordRequest;
 import com.anhbhn.rentcar.data.dto.response.ApiResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.LoginResponse;
 import com.anhbhn.rentcar.data.dto.response.auth.RefreshTokenResponse;
@@ -17,6 +18,8 @@ import com.anhbhn.rentcar.data.dto.response.car.CarResponse;
 import com.anhbhn.rentcar.data.dto.response.car.CarThumbnailResponse;
 import com.anhbhn.rentcar.data.dto.response.car.MyCarsPageResponse;
 import com.anhbhn.rentcar.data.dto.response.car.SearchCarResponse;
+import com.anhbhn.rentcar.data.dto.response.transaction.ListTransactionResponse;
+import com.anhbhn.rentcar.data.dto.response.user.EditProfileResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -37,17 +40,17 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     //Auth
-    @GET("logout")
+    @GET("auth/logout")
     Call<ApiResponse<String>> logout();
     @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest request);
     @GET("auth/refresh-token")
     Call<RefreshTokenResponse> refreshToken();
-
+    @GET("auth/forgot-password/{email}")
+    Call<ApiResponse<String>> sendForgotPasswordEmail(@Path("email") String email);
     //User
     @POST("user/register")
     Call<RegisterResponse> register(@Body RegisterRequest request);
-
     //Car
     @Multipart
     @POST("car/car-owner/add-car")
@@ -160,6 +163,8 @@ public interface ApiService {
     //User Profile
     @GET("user/edit-profile")
     Call<com.anhbhn.rentcar.data.dto.response.ApiResponse<com.anhbhn.rentcar.data.dto.response.user.EditProfileResponse>> getUserProfile();
+    @PUT("user/edit-password")
+    Call<ApiResponse<String>> changePassword(@Body EditPasswordRequest request);
 
     @Multipart
     @PUT("user/edit-profile")
@@ -167,4 +172,7 @@ public interface ApiService {
             @PartMap Map<String, RequestBody> fields,
             @Part MultipartBody.Part drivingLicense
     );
+    //Wallet
+    @GET("transaction/transaction-list")
+    Call<ApiResponse<ListTransactionResponse>> getAllTransactionList(@Query("all") boolean all);
 }

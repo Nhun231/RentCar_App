@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anhbhn.rentcar.R;
@@ -28,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText inputEmail, inputPassword;
     Button btnLogin;
+    TextView linkRegister;
+    TextView linkForgotPassword;
     AuthRepository authRepository;
 
     @Override
@@ -38,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        linkRegister = findViewById(R.id.linkRegister);
+        linkForgotPassword = findViewById(R.id.linkForgotPassword);
 
         authRepository = new AuthRepository(this);
 
@@ -98,6 +103,14 @@ public class LoginActivity extends AppCompatActivity {
                     showToast("Network error: " + t.getMessage(), false);
                 }
             });
+        });
+        linkRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+        linkForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
     }
     private void extractAndSaveCookies(Response<LoginResponse> response) {

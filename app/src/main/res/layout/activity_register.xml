@@ -234,8 +234,20 @@
         android:textSize="16sp"
         android:textColor="@android:color/white"
         android:textStyle="bold"
-        android:background="@drawable/button_register_background"
+        android:backgroundTint="@color/primary_green"
         android:gravity="center"
         android:stateListAnimator="@null" />
+    <TextView
+        android:id="@+id/linkLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/already_have_account_login"
+        android:textColor="@color/primary_green"
+        android:textSize="14sp"
+        android:clickable="true"
+        android:focusable="true"/>
 
 </LinearLayout>

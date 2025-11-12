@@ -32,6 +32,12 @@
 
         <activity android:name=".ui.auth.RegisterActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ui.auth.LoginActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.auth.ForgotPasswordActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity android:name=".ui.profile.EditProfileActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.profile.ChangePasswordActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity android:name=".ui.wallet.MyWalletActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity android:name=".ui.car.carDetail.CarDetailActivity" android:exported="true" android:label="Car Details" android:theme="@style/Theme.RentCar" />
         <activity android:name=".ui.car.detail.CarDetailActivity" android:exported="true" android:label="Car Details" android:theme="@style/Theme.RentCar" />

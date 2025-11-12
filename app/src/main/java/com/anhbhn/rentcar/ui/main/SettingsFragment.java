@@ -19,6 +19,10 @@ import com.anhbhn.rentcar.R;
 import com.anhbhn.rentcar.data.dto.response.ApiResponse;
 import com.anhbhn.rentcar.data.repository.auth.AuthRepository;
 import com.anhbhn.rentcar.ui.auth.LoginActivity;
+import com.anhbhn.rentcar.ui.auth.RegisterActivity;
+import com.anhbhn.rentcar.ui.profile.ChangePasswordActivity;
+import com.anhbhn.rentcar.ui.profile.EditProfileActivity;
+import com.anhbhn.rentcar.ui.wallet.MyWalletActivity;
 import com.anhbhn.rentcar.utils.TokenManager;
 
 import es.dmoral.toasty.Toasty;
@@ -29,9 +33,8 @@ import retrofit2.Response;
 public class SettingsFragment extends Fragment {
     
     private LinearLayout layoutProfile;
+    private LinearLayout layoutChangePassword;
     private LinearLayout layoutWallet;
-    private LinearLayout layoutAbout;
-    private LinearLayout layoutHelp;
     private Button btnLogout;
     private AuthRepository authRepository;
 
@@ -57,33 +60,26 @@ public class SettingsFragment extends Fragment {
     
     private void initializeViews(View view) {
         layoutProfile = view.findViewById(R.id.layoutProfile);
+        layoutChangePassword = view.findViewById(R.id.layoutChangePassword);
         layoutWallet = view.findViewById(R.id.layoutWallet);
-        layoutAbout = view.findViewById(R.id.layoutAbout);
-        layoutHelp = view.findViewById(R.id.layoutHelp);
         btnLogout = view.findViewById(R.id.btnLogout);
     }
     
     private void setupClickListeners() {
         layoutProfile.setOnClickListener(v -> {
-            // TODO: Navigate to edit profile
-            Toasty.info(requireContext(), "Edit Profile - Coming soon", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getContext(), EditProfileActivity.class);
+            startActivity(intent);
+        });
+        layoutChangePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
+            startActivity(intent);
         });
         
         layoutWallet.setOnClickListener(v -> {
-            // TODO: Navigate to wallet
-            Toasty.info(requireContext(), "My Wallet - Coming soon", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getContext(), MyWalletActivity.class);
+            startActivity(intent);
         });
-        
-        layoutAbout.setOnClickListener(v -> {
-            // TODO: Show about dialog
-            Toasty.info(requireContext(), "About - Coming soon", Toast.LENGTH_SHORT).show();
-        });
-        
-        layoutHelp.setOnClickListener(v -> {
-            // TODO: Navigate to help
-            Toasty.info(requireContext(), "Help & Support - Coming soon", Toast.LENGTH_SHORT).show();
-        });
-        
+
         btnLogout.setOnClickListener(v -> {
             showLogoutDialog();
         });
